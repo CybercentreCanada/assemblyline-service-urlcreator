@@ -1,0 +1,16 @@
+{
+    "tags": [
+        {
+            "type": "network.static.uri",
+            "short_type": "URI",
+            "value": "https://site1.com",
+            "score": 100
+        },
+        {
+            "type": "network.static.uri",
+            "short_type": "URI",
+            "value": "https://site2.com",
+            "score": 200
+        }
+    ]
+}

@@ -1,0 +1,6 @@
+# Assemblyline URI file
+uri: https://site2.com
+data: query=get_info&hash=52307f9ce784496218f2165be83c2486ad809da98026166b871dc279d40a4d1f
+headers:
+  Content-Type: application/json
+verb: POST

@@ -1,0 +1,58 @@
+{
+  "extra": {
+    "drop_file": false,
+    "score": 0,
+    "sections": [
+      {
+        "auto_collapse": false,
+        "body": "[{\"URL\": \"https://site2.com\", \"Score\": 1000}]",
+        "body_config": {
+          "column_order": [
+            "URL",
+            "Score"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 0,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "uri": [
+                "https://site2.com"
+              ]
+            }
+          }
+        },
+        "title_text": "Extracted URI",
+        "zeroize_on_tag_safe": false
+      }
+    ]
+  },
+  "files": {
+    "extracted": [
+      {
+        "name": "b2b79c758523e8cc41028b7fb91df03203290786cfe297a8eda2ff6780dabe06",
+        "sha256": "b2b79c758523e8cc41028b7fb91df03203290786cfe297a8eda2ff6780dabe06"
+      }
+    ],
+    "supplementary": []
+  },
+  "results": {
+    "heuristics": [],
+    "tags": {
+      "network.static.uri": [
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://site2.com"
+        }
+      ]
+    },
+    "temp_submission_data": {
+      "uri_metadata_c534fcb0dcf8088234b4ad9af4a84004": null
+    }
+  }
+}

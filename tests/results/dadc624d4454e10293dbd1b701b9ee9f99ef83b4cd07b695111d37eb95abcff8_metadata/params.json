@@ -1,0 +1,25 @@
+{
+    "tags": [
+        {
+            "type": "network.static.uri",
+            "short_type": "URI",
+            "value": "https://site1.com",
+            "score": 100
+        },
+        {
+            "type": "network.static.uri",
+            "short_type": "URI",
+            "value": "https://site2.com",
+            "score": 1000
+        }
+    ],
+    "temp_submission_data": {
+        "uri_metadata_c534fcb0dcf8088234b4ad9af4a84004": {
+            "data": "query=get_info&hash=52307f9ce784496218f2165be83c2486ad809da98026166b871dc279d40a4d1f",
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "verb": "POST"
+        }
+    }
+}

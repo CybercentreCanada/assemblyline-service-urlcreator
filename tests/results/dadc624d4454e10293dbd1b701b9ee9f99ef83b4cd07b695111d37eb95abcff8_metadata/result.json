@@ -1,0 +1,64 @@
+{
+  "extra": {
+    "drop_file": false,
+    "score": 0,
+    "sections": [
+      {
+        "auto_collapse": false,
+        "body": "[{\"URL\": \"https://site2.com\", \"Score\": 1000}]",
+        "body_config": {
+          "column_order": [
+            "URL",
+            "Score"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 0,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "uri": [
+                "https://site2.com"
+              ]
+            }
+          }
+        },
+        "title_text": "Extracted URI",
+        "zeroize_on_tag_safe": false
+      }
+    ]
+  },
+  "files": {
+    "extracted": [
+      {
+        "name": "3fbe02d10e720a5778f36a35fc5286aaac22b38a7f4759d3b573ae79e4b0939c",
+        "sha256": "3fbe02d10e720a5778f36a35fc5286aaac22b38a7f4759d3b573ae79e4b0939c"
+      }
+    ],
+    "supplementary": []
+  },
+  "results": {
+    "heuristics": [],
+    "tags": {
+      "network.static.uri": [
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://site2.com"
+        }
+      ]
+    },
+    "temp_submission_data": {
+      "uri_metadata_c534fcb0dcf8088234b4ad9af4a84004": {
+        "data": "query=get_info&hash=52307f9ce784496218f2165be83c2486ad809da98026166b871dc279d40a4d1f",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "verb": "POST"
+      }
+    }
+  }
+}
