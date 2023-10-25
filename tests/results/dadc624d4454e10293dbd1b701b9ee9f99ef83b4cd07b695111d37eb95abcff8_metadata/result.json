@@ -26,7 +26,7 @@
             }
           }
         },
-        "title_text": "Extracted URI",
+        "title_text": "High scoring URI",
         "zeroize_on_tag_safe": false
       }
     ]
@@ -34,7 +34,7 @@
   "files": {
     "extracted": [
       {
-        "name": "3fbe02d10e720a5778f36a35fc5286aaac22b38a7f4759d3b573ae79e4b0939c",
+        "name": "https://site2.com",
         "sha256": "3fbe02d10e720a5778f36a35fc5286aaac22b38a7f4759d3b573ae79e4b0939c"
       }
     ],

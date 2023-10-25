@@ -1,0 +1,68 @@
+{
+  "extra": {
+    "drop_file": false,
+    "score": 0,
+    "sections": [
+      {
+        "auto_collapse": false,
+        "body": "[{\"URI\": \"https://site2.com/path/armitage\", \"HOST\": \"site2.com\", \"TOOL\": \"armitage\"}, {\"URI\": \"https://site3.com/path/uname\", \"HOST\": \"site3.com\", \"TOOL\": \"uname\"}, {\"URI\": \"https://site4.com/path/ip/other\", \"HOST\": \"site4.com\", \"TOOL\": \"ip\"}]",
+        "body_config": {
+          "column_order": [
+            "URI",
+            "HOST",
+            "TOOL"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 0,
+        "heuristic": {
+          "attack_ids": [],
+          "frequency": 1,
+          "heur_id": 3,
+          "score": 0,
+          "score_map": {},
+          "signatures": {
+            "linux": 2,
+            "recon": 2
+          }
+        },
+        "promote_to": null,
+        "tags": {},
+        "title_text": "Discovery Tool Found in URI Path",
+        "zeroize_on_tag_safe": false
+      }
+    ]
+  },
+  "files": {
+    "extracted": [
+      {
+        "name": "https://site3.com/path/uname",
+        "sha256": "3885cef7e407b88c09ee57b865631eb72507a0597a719d8dc74a37e9353cfb8c"
+      },
+      {
+        "name": "https://site2.com/path/armitage",
+        "sha256": "4224b7358a7cecc2ee87e40629b2c4dea0d47af438c42521ffdd22402ea9c5ec"
+      },
+      {
+        "name": "https://site4.com/path/ip/other",
+        "sha256": "a725f859b3a25bceaddcc795f0bc13e4efc37a445fd559c39968da9be5214e22"
+      }
+    ],
+    "supplementary": []
+  },
+  "results": {
+    "heuristics": [
+      {
+        "attack_ids": [],
+        "heur_id": 3,
+        "signatures": [
+          "recon",
+          "linux"
+        ]
+      }
+    ],
+    "tags": {},
+    "temp_submission_data": {}
+  }
+}

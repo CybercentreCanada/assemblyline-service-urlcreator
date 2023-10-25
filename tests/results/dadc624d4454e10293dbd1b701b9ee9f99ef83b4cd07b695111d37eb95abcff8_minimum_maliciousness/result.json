@@ -27,7 +27,7 @@
             }
           }
         },
-        "title_text": "Extracted URI",
+        "title_text": "High scoring URI",
         "zeroize_on_tag_safe": false
       }
     ]
@@ -35,11 +35,11 @@
   "files": {
     "extracted": [
       {
-        "name": "b2b79c758523e8cc41028b7fb91df03203290786cfe297a8eda2ff6780dabe06",
+        "name": "https://site2.com",
         "sha256": "b2b79c758523e8cc41028b7fb91df03203290786cfe297a8eda2ff6780dabe06"
       },
       {
-        "name": "e8952d0bf9597a141c86d148b0dd87c700ebcb0c3eb43495e066f66a9a033580",
+        "name": "https://site1.com",
         "sha256": "e8952d0bf9597a141c86d148b0dd87c700ebcb0c3eb43495e066f66a9a033580"
       }
     ],
@@ -61,9 +61,6 @@
         }
       ]
     },
-    "temp_submission_data": {
-      "uri_metadata_8f54a7958539be450af0ce93689fd948": null,
-      "uri_metadata_c534fcb0dcf8088234b4ad9af4a84004": null
-    }
+    "temp_submission_data": {}
   }
 }

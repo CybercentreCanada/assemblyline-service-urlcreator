@@ -1,0 +1,64 @@
+{
+  "extra": {
+    "drop_file": false,
+    "score": 0,
+    "sections": [
+      {
+        "auto_collapse": false,
+        "body": "[{\"URI\": \"https://site2.com:5555/path\", \"HOST\": \"site2.com\", \"PORT\": 5555}, {\"URI\": \"https://1.1.1.1:7777/path\", \"HOST\": \"1.1.1.1\", \"PORT\": 7777}]",
+        "body_config": {
+          "column_order": [
+            "URI",
+            "HOST",
+            "PORT"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 0,
+        "heuristic": {
+          "attack_ids": [],
+          "frequency": 1,
+          "heur_id": 2,
+          "score": 0,
+          "score_map": {},
+          "signatures": {
+            "domain": 1,
+            "ip": 1
+          }
+        },
+        "promote_to": null,
+        "tags": {},
+        "title_text": "High Port Usage",
+        "zeroize_on_tag_safe": false
+      }
+    ]
+  },
+  "files": {
+    "extracted": [
+      {
+        "name": "https://site2.com:5555/path",
+        "sha256": "669714a5c46e63e46faff96fd09bbd11331d9ba90e908abfcf20477816b564b9"
+      },
+      {
+        "name": "https://1.1.1.1:7777/path",
+        "sha256": "e8ca141ce4052efee130523d8d41ec3d011c1ee47a86026ba94bef35161fb9d4"
+      }
+    ],
+    "supplementary": []
+  },
+  "results": {
+    "heuristics": [
+      {
+        "attack_ids": [],
+        "heur_id": 2,
+        "signatures": [
+          "domain",
+          "ip"
+        ]
+      }
+    ],
+    "tags": {},
+    "temp_submission_data": {}
+  }
+}
