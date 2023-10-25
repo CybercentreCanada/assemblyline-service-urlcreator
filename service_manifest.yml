@@ -10,13 +10,12 @@ category: Static Analysis
 
 file_required: false
 timeout: 300
-disable_cache: false
 
 enabled: true
-licence_count: 0
 uses_tag_scores: true
 uses_metadata: true
 uses_temp_submission_data: true
+privileged: true
 
 submission_params:
   - default: 300
