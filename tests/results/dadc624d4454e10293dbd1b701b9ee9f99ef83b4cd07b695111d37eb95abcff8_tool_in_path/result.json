@@ -5,7 +5,7 @@
     "sections": [
       {
         "auto_collapse": false,
-        "body": "[{\"URI\": \"https://site2.com/path/armitage\", \"HOST\": \"site2.com\", \"TOOL\": \"armitage\"}, {\"URI\": \"https://site3.com/path/uname\", \"HOST\": \"site3.com\", \"TOOL\": \"uname\"}, {\"URI\": \"https://site4.com/path/ip/other\", \"HOST\": \"site4.com\", \"TOOL\": \"ip\"}]",
+        "body": "[{\"URI\": \"https://site2.com/path/armitage\", \"HOST\": \"site2.com\", \"TOOL\": \"armitage\"}, {\"URI\": \"https://site3.com/path/uname\", \"HOST\": \"site3.com\", \"TOOL\": \"uname\"}, {\"URI\": \"https://site4.com/path/uname/other\", \"HOST\": \"site4.com\", \"TOOL\": \"uname\"}]",
         "body_config": {
           "column_order": [
             "URI",
@@ -24,7 +24,7 @@
           "score_map": {},
           "signatures": {
             "linux": 2,
-            "recon": 2
+            "recon": 1
           }
         },
         "promote_to": null,
@@ -45,8 +45,8 @@
         "sha256": "4224b7358a7cecc2ee87e40629b2c4dea0d47af438c42521ffdd22402ea9c5ec"
       },
       {
-        "name": "https://site4.com/path/ip/other",
-        "sha256": "a725f859b3a25bceaddcc795f0bc13e4efc37a445fd559c39968da9be5214e22"
+        "name": "https://site4.com/path/uname/other",
+        "sha256": "a7cb7cd67b4dee81abfa9201c3c1f99b19a4c07e66fe94a3caa89b1e1526aff4"
       }
     ],
     "supplementary": []

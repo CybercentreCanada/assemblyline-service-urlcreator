@@ -24,13 +24,13 @@
         {
             "type": "network.static.uri",
             "short_type": "URI",
-            "value": "https://site4.com/path/ip/other",
+            "value": "https://site4.com/path/uname/other",
             "score": 0
         },
         {
             "type": "network.static.uri",
             "short_type": "URI",
-            "value": "https://site5.com/path/principal/other",
+            "value": "https://site5.com/path/tunameat/other",
             "score": 0
         }
     ]
