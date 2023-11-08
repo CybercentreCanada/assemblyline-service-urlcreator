@@ -5,7 +5,8 @@ from urllib.parse import urlparse
 from assemblyline.odm.base import IP_ONLY_REGEX, IPV4_ONLY_REGEX
 from assemblyline_v4_service.common.base import ServiceBase
 from assemblyline_v4_service.common.request import ServiceRequest
-from assemblyline_v4_service.common.result import Heuristic, Result, ResultTableSection, TableRow
+from assemblyline_v4_service.common.result import Heuristic, Result, ResultTableSection, ResultTextSection, TableRow
+from assemblyline_v4_service.common.task import MaxExtractedExceeded
 
 # Threshold to trigger heuristic regarding high port usage in URI
 HIGH_PORT_MINIMUM = 1024
@@ -53,6 +54,7 @@ class URLCreator(ServiceBase):
         )
         high_port_table = ResultTableSection("High Port Usage", heuristic=Heuristic(2))
         tool_table = ResultTableSection("Discovery Tool Found in URI Path", heuristic=Heuristic(3))
+        max_extracted_section = ResultTextSection("Too many URI files to be created")
 
         for tag_value, tag_score in urls:
             # Analyse the URL for the possibility of it being a something we should download
@@ -111,11 +113,14 @@ class URLCreator(ServiceBase):
                         interesting_features.append("Tool in path")
 
             if interesting_features:
-                request.add_extracted_uri(
-                    f"Feature{'s' if len(interesting_features)>1 else ''}: {', '.join(interesting_features)}",
-                    tag_value,
-                    request.get_uri_metadata(tag_value),
-                )
+                try:
+                    request.add_extracted_uri(
+                        f"Feature{'s' if len(interesting_features)>1 else ''}: {', '.join(interesting_features)}",
+                        tag_value,
+                        request.get_uri_metadata(tag_value),
+                    )
+                except MaxExtractedExceeded:
+                    max_extracted_section.add_line(f"{tag_value}: {', '.join(interesting_features)}")
 
         if scoring_uri.body:
             request.result.add_section(scoring_uri)
@@ -125,3 +130,5 @@ class URLCreator(ServiceBase):
             request.result.add_section(high_port_table)
         if tool_table.body:
             request.result.add_section(tool_table)
+        if max_extracted_section.body:
+            request.result.add_section(max_extracted_section)
