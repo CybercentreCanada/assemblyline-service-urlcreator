@@ -13,7 +13,7 @@ HIGH_PORT_MINIMUM = 1024
 
 # Common tools native to the platform that can be used for recon
 WINDOWS_TOOLS = ["dir", "hostname", "ipconfig", "netsh", "pwd", "route", "schtasks", "ver", "whoami"]
-LINUX_TOOLS = ["cat", "crontab", "hostname", "ip", "iptables", "ls", "pwd", "route", "uname", "whoami"]
+LINUX_TOOLS = ["cat", "crontab", "hostname", "iptables", "pwd", "route", "uname", "whoami"]
 
 # Tools used for recon, sourced from https://github.com/ail-project/ail-framework/blob/master/bin/modules/Tools.py
 # fmt: off
@@ -21,8 +21,8 @@ RECON_TOOLS = [
     "amap", "arachni", "armitage", "arpscan", "automater", "backdoorfactory", "beef", "braa", "cdpsnarf", "cge",
     "ciscotorch", "dig", "dirb", "dmytry", "dnmap", "dnscan", "dnsdict6", "dnsenum", "dnsmap", "dnsrecon", "dnstracer",
     "dotdotpwn", "dsfs", "dsjs", "dsss", "dsxs", "enum4linux", "fierce", "fimap", "firewalk", "fragroute",
-    "fragrouter", "golismero", "goofile", "grabber", "hping3", "hydra", "identywaf", "intrace", "inurlbr", "ip",
-    "ismtp", "jbossautopwn", "john", "joomscan", "keimpx", "knock", "lbd", "ls", "maskprocessor", "masscan", "miranda",
+    "fragrouter", "golismero", "goofile", "grabber", "hping3", "hydra", "identywaf", "intrace", "inurlbr",
+    "ismtp", "jbossautopwn", "john", "joomscan", "keimpx", "knock", "lbd", "maskprocessor", "masscan", "miranda",
     "msfconsole", "ncat", "ncrack", "nessus", "netcat", "nikto", "nmap", "nslookup", "ohrwurm", "openvas", "oscanner",
     "p0f", "patator", "phrasendrescher", "polenum", "rainbowcrack", "rcracki_mt", "reconng", "rhawk", "searchsploit",
     "sfuzz", "sidguess", "skipfish", "smbmap", "sqlmap", "sqlninja", "sqlsus", "sslcaudit", "sslstrip", "sslyze",
