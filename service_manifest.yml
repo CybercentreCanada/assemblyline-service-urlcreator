@@ -3,7 +3,7 @@ version: $SERVICE_TAG
 description: This service create URI files for potentially malicious URLs.
 
 accepts: .*
-rejects: empty|metadata/.*
+rejects: empty|metadata/.*|uri/.*
 
 stage: POST
 category: Static Analysis
