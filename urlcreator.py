@@ -5,7 +5,14 @@ from urllib.parse import urlparse
 from assemblyline.odm.base import IP_ONLY_REGEX, IPV4_ONLY_REGEX
 from assemblyline_v4_service.common.base import ServiceBase
 from assemblyline_v4_service.common.request import ServiceRequest
-from assemblyline_v4_service.common.result import Heuristic, Result, ResultSection, ResultTableSection, ResultTextSection, TableRow
+from assemblyline_v4_service.common.result import (
+    Heuristic,
+    Result,
+    ResultSection,
+    ResultTableSection,
+    ResultTextSection,
+    TableRow,
+)
 from assemblyline_v4_service.common.task import MaxExtractedExceeded
 
 from utils.network import url_analysis
@@ -140,5 +147,5 @@ class URLCreator(ServiceBase):
             request.result.add_section(tool_table)
         if max_extracted_section.body:
             request.result.add_section(max_extracted_section)
-        if url_analysis_section.body:
+        if url_analysis_section.subsections:
             request.result.add_section(url_analysis_section)
