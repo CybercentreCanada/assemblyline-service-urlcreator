@@ -56,6 +56,12 @@ heuristics:
       linux: 0
       recon: 0
 
+  - heur_id: 4
+    name: Phishing
+    score: 500
+    filetype: .*
+    description: This IOC seems to be phishing-related
+
 docker_config:
   image: ${REGISTRY}cccs/assemblyline-service-urlcreator:$SERVICE_TAG
   cpu_cores: 1

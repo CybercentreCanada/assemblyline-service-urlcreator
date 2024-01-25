@@ -5,8 +5,10 @@ from urllib.parse import urlparse
 from assemblyline.odm.base import IP_ONLY_REGEX, IPV4_ONLY_REGEX
 from assemblyline_v4_service.common.base import ServiceBase
 from assemblyline_v4_service.common.request import ServiceRequest
-from assemblyline_v4_service.common.result import Heuristic, Result, ResultTableSection, ResultTextSection, TableRow
+from assemblyline_v4_service.common.result import Heuristic, Result, ResultSection, ResultTableSection, ResultTextSection, TableRow
 from assemblyline_v4_service.common.task import MaxExtractedExceeded
+
+from utils.network import url_analysis
 
 # Threshold to trigger heuristic regarding high port usage in URI
 HIGH_PORT_MINIMUM = 1024
@@ -55,11 +57,17 @@ class URLCreator(ServiceBase):
         high_port_table = ResultTableSection("High Port Usage", heuristic=Heuristic(2))
         tool_table = ResultTableSection("Discovery Tool Found in URI Path", heuristic=Heuristic(3))
         max_extracted_section = ResultTextSection("Too many URI files to be created")
+        url_analysis_section = ResultSection("URL Analysis")
 
         for tag_value, tag_score in urls:
             # Analyse the URL for the possibility of it being a something we should download
             parsed_url = urlparse(tag_value)
             interesting_features = []
+
+            # Look for data that might be embedded in URLs
+            analysis_table, _ = url_analysis(tag_value)
+            if analysis_table.body:
+                url_analysis_section.add_subsection(analysis_table)
 
             if tag_score >= minimum_maliciousness:
                 scoring_uri.add_row(TableRow(dict(URL=tag_value, Score=tag_score)))
@@ -132,3 +140,5 @@ class URLCreator(ServiceBase):
             request.result.add_section(tool_table)
         if max_extracted_section.body:
             request.result.add_section(max_extracted_section)
+        if url_analysis_section.body:
+            request.result.add_section(url_analysis_section)
