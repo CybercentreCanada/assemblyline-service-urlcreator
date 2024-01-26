@@ -64,7 +64,7 @@ class URLCreator(ServiceBase):
         high_port_table = ResultTableSection("High Port Usage", heuristic=Heuristic(2))
         tool_table = ResultTableSection("Discovery Tool Found in URI Path", heuristic=Heuristic(3))
         max_extracted_section = ResultTextSection("Too many URI files to be created")
-        url_analysis_section = ResultSection("URL Analysis")
+        url_analysis_section = ResultSection("MultiDecoder Analysis")
 
         for tag_value, tag_score in urls:
             # Analyse the URL for the possibility of it being a something we should download
