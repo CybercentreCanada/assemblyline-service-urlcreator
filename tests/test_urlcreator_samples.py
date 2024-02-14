@@ -11,7 +11,7 @@ os.environ["SERVICE_MANIFEST_PATH"] = os.path.join(os.path.dirname(__file__), ".
 RESULTS_FOLDER = os.path.join(os.path.dirname(__file__), "results")
 
 # Initialize test helper
-service_class = load_module_by_path("urlcreator.URLCreator", os.path.join(os.path.dirname(__file__), ".."))
+service_class = load_module_by_path("urlcreator.urlcreator.URLCreator", os.path.join(os.path.dirname(__file__), ".."))
 th = TestHelper(service_class, RESULTS_FOLDER)
 
 

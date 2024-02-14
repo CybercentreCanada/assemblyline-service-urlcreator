@@ -1,7 +1,7 @@
 ARG branch=latest
 FROM cccs/assemblyline-v4-service-base:$branch
 
-ENV SERVICE_PATH urlcreator.URLCreator
+ENV SERVICE_PATH urlcreator.urlcreator.URLCreator
 
 # Install python dependencies
 COPY requirements.txt requirements.txt

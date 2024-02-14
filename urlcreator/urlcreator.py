@@ -1,5 +1,6 @@
 import os
 import re
+from collections import Counter, defaultdict
 from urllib.parse import urlparse
 
 from assemblyline.odm.base import IP_ONLY_REGEX, IPV4_ONLY_REGEX
@@ -15,7 +16,7 @@ from assemblyline_v4_service.common.result import (
 )
 from assemblyline_v4_service.common.task import MaxExtractedExceeded
 
-from utils.network import url_analysis
+import urlcreator.network
 
 # Threshold to trigger heuristic regarding high port usage in URI
 HIGH_PORT_MINIMUM = 1024
@@ -65,6 +66,7 @@ class URLCreator(ServiceBase):
         tool_table = ResultTableSection("Discovery Tool Found in URI Path", heuristic=Heuristic(3))
         max_extracted_section = ResultTextSection("Too many URI files to be created")
         url_analysis_section = ResultSection("MultiDecoder Analysis")
+        url_analysis_network_iocs = defaultdict(Counter)
 
         for tag_value, tag_score in urls:
             # Analyse the URL for the possibility of it being a something we should download
@@ -72,7 +74,9 @@ class URLCreator(ServiceBase):
             interesting_features = []
 
             # Look for data that might be embedded in URLs
-            analysis_table, _ = url_analysis(tag_value)
+            analysis_table, network_iocs = urlcreator.network.url_analysis(tag_value)
+            for k, v in network_iocs.items():
+                url_analysis_network_iocs[k].update(v)
             if analysis_table.body:
                 url_analysis_section.add_subsection(analysis_table)
 
@@ -147,5 +151,26 @@ class URLCreator(ServiceBase):
             request.result.add_section(tool_table)
         if max_extracted_section.body:
             request.result.add_section(max_extracted_section)
+
+        # Try to find redirector abuse. If there are multiple tags that are all
+        # containing the same inner URL, that may be the final URI worth investigating
+        if url_analysis_network_iocs:
+            identical_sub_ioc = ResultSection("Identical sub IOC")
+            for ioc, counter in url_analysis_network_iocs.items():
+                sub_identical_sub_ioc = ResultTableSection(ioc)
+                for elem, cnt in counter.items():
+                    if cnt >= 5:
+                        sub_identical_sub_ioc.add_row(TableRow({"IOC": elem, "Count": cnt}))
+                        if ioc == "uri":
+                            request.add_extracted_uri(
+                                "Possible redirector abuse",
+                                elem,
+                                request.get_uri_metadata(elem),
+                            )
+                if sub_identical_sub_ioc.body:
+                    identical_sub_ioc.add_subsection(sub_identical_sub_ioc)
+            if identical_sub_ioc.subsections:
+                url_analysis_section.add_subsection(identical_sub_ioc)
+
         if url_analysis_section.subsections:
             request.result.add_section(url_analysis_section)
