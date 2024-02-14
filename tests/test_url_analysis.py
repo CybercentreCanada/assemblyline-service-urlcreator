@@ -1,4 +1,4 @@
-from utils.network import url_analysis
+from urlcreator.network import url_analysis
 
 
 def test_unicode_characters():
