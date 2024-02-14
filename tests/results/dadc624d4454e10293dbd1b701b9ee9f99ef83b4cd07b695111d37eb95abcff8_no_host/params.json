@@ -1,0 +1,25 @@
+{
+    "submission_params": {
+        "minimum_maliciousness": 50
+    },
+    "tags": [
+        {
+            "type": "network.static.uri",
+            "short_type": "URI",
+            "value": "https://site.com/?url=http%3A%2F%2FBCTEA%40gov.bc.xn--ca-02t%2F&data=data",
+            "score": 0
+        },
+        {
+            "type": "network.static.uri",
+            "short_type": "URI",
+            "value": "https://site.com/?url=http%3A%2F%2FBCTEA%40gov.bc.xn--ca-02t%2F&amp;data=data",
+            "score": 0
+        },
+        {
+            "type": "network.static.uri",
+            "short_type": "URI",
+            "value": "https://site.com/track/redirect?type=campaign&amp;lid=1&amp;tracking_id=%5BtrackingId%5D&amp;redirect_url=http%3A%2F%2Fbroken.U.pc%40https://site.com/",
+            "score": 0
+        }
+    ]
+}
