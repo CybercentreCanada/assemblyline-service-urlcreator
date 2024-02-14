@@ -5,7 +5,23 @@
     "sections": [
       {
         "auto_collapse": false,
-        "body": "[{\"URI\": \"https://site2.com/path/armitage\", \"HOST\": \"site2.com\", \"TOOL\": \"armitage\"}, {\"URI\": \"https://site3.com/path/uname\", \"HOST\": \"site3.com\", \"TOOL\": \"uname\"}, {\"URI\": \"https://site4.com/path/uname/other\", \"HOST\": \"site4.com\", \"TOOL\": \"uname\"}]",
+        "body": [
+          {
+            "HOST": "site2.com",
+            "TOOL": "armitage",
+            "URI": "https://site2.com/path/armitage"
+          },
+          {
+            "HOST": "site3.com",
+            "TOOL": "uname",
+            "URI": "https://site3.com/path/uname"
+          },
+          {
+            "HOST": "site4.com",
+            "TOOL": "uname",
+            "URI": "https://site4.com/path/uname/other"
+          }
+        ],
         "body_config": {
           "column_order": [
             "URI",
