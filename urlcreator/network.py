@@ -127,7 +127,7 @@ def url_analysis(url: str) -> Tuple[ResultTableSection, Dict[str, List[str]]]:
     fragment: Node = ([node for node in parsed_url if node.type == "network.url.fragment"] + [None])[0]
 
     # Check to see if there's anything "phishy" about the URL
-    if username and host.type == "network.domain":
+    if username and host and host.type == "network.domain":
         scheme = "http" if not scheme else scheme.value.decode()
         domain = host.value.decode()
         target_url = f"{scheme}://{url[url.index(domain):]}"

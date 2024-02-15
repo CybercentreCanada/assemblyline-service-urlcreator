@@ -5,7 +5,12 @@
     "sections": [
       {
         "auto_collapse": false,
-        "body": "[{\"URL\": \"https://site2.com\", \"Score\": 1000}]",
+        "body": [
+          {
+            "Score": 1000,
+            "URL": "https://site2.com"
+          }
+        ],
         "body_config": {
           "column_order": [
             "URL",

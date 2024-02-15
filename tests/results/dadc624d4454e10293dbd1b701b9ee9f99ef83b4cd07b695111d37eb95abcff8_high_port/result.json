@@ -5,7 +5,18 @@
     "sections": [
       {
         "auto_collapse": false,
-        "body": "[{\"URI\": \"https://site2.com:5555/path\", \"HOST\": \"site2.com\", \"PORT\": 5555}, {\"URI\": \"https://1.1.1.1:7777/path\", \"HOST\": \"1.1.1.1\", \"PORT\": 7777}]",
+        "body": [
+          {
+            "HOST": "site2.com",
+            "PORT": 5555,
+            "URI": "https://site2.com:5555/path"
+          },
+          {
+            "HOST": "1.1.1.1",
+            "PORT": 7777,
+            "URI": "https://1.1.1.1:7777/path"
+          }
+        ],
         "body_config": {
           "column_order": [
             "URI",

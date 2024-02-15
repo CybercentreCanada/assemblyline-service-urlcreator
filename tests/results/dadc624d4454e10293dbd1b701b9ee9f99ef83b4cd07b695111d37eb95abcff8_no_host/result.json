@@ -1,0 +1,153 @@
+{
+  "extra": {
+    "drop_file": false,
+    "score": 0,
+    "sections": [
+      {
+        "auto_collapse": false,
+        "body": null,
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 0,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {},
+        "title_text": "MultiDecoder Analysis",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "QUERY",
+            "DECODED STRING": "http://BCTEA@gov.bc.xn--ca-02t/&data=data",
+            "ENCODED STRING": "url=http://BCTEA@gov.bc.xn--ca-02t/&data=data",
+            "OBFUSCATION": "encoding.url"
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "uri": [
+                "http://BCTEA@gov.bc.xn--ca-02t/&data=data"
+              ]
+            }
+          }
+        },
+        "title_text": "https://site.com/?url=http%3A%2F%2FBCTEA%40gov.bc.xn--ca-02t%2F&data=data",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "QUERY",
+            "DECODED STRING": "http://BCTEA@gov.bc.xn--ca-02t/&amp;data=data",
+            "ENCODED STRING": "url=http://BCTEA@gov.bc.xn--ca-02t/&amp;data=data",
+            "OBFUSCATION": "encoding.url"
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "uri": [
+                "http://BCTEA@gov.bc.xn--ca-02t/&amp;data=data"
+              ]
+            }
+          }
+        },
+        "title_text": "https://site.com/?url=http%3A%2F%2FBCTEA%40gov.bc.xn--ca-02t%2F&amp;data=data",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "QUERY",
+            "DECODED STRING": "http://broken.U.pc@https://site.com/",
+            "ENCODED STRING": "type=campaign&amp;lid=1&amp;tracking_id=[trackingId]&amp;redirect_url=http://broken.U.pc@https://site.com/",
+            "OBFUSCATION": "encoding.url"
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "uri": [
+                "http://broken.U.pc@https://site.com/"
+              ]
+            }
+          }
+        },
+        "title_text": "https://site.com/track/redirect?type=campaign&amp;lid=1&amp;tracking_id=%5BtrackingId%5D&amp;redirect_url=http%3A%2F%2Fbroken.U....",
+        "zeroize_on_tag_safe": false
+      }
+    ]
+  },
+  "files": {
+    "extracted": [],
+    "supplementary": []
+  },
+  "results": {
+    "heuristics": [],
+    "tags": {
+      "network.static.uri": [
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "http://BCTEA@gov.bc.xn--ca-02t/&amp;data=data"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "http://BCTEA@gov.bc.xn--ca-02t/&data=data"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "http://broken.U.pc@https://site.com/"
+        }
+      ]
+    },
+    "temp_submission_data": {}
+  }
+}

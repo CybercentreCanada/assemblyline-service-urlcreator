@@ -5,7 +5,14 @@
     "sections": [
       {
         "auto_collapse": false,
-        "body": "[{\"URL\": \"https://1.1.1.1/path.exe\", \"HOSTNAME\": \"1.1.1.1\", \"IP_VERSION\": \"4\", \"PATH\": \"/path.exe\"}]",
+        "body": [
+          {
+            "HOSTNAME": "1.1.1.1",
+            "IP_VERSION": "4",
+            "PATH": "/path.exe",
+            "URL": "https://1.1.1.1/path.exe"
+          }
+        ],
         "body_config": {
           "column_order": [
             "URL",
