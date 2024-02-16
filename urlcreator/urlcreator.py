@@ -105,14 +105,21 @@ class URLCreator(ServiceBase):
                 potential_ip_download.heuristic.add_signature_id(f"ipv{ip_version}")
                 interesting_features.append("IP as hostname")
 
-            if parsed_url.port and parsed_url.port > HIGH_PORT_MINIMUM:
+            url_port = None
+            try:
+                url_port = parsed_url.port
+            except ValueError as e:
+                if str(e) == "Port out of range 0-65535":
+                    # Port is out of range, probably an invalid URI
+                    continue
+                raise
+
+            if url_port and url_port > HIGH_PORT_MINIMUM:
                 # High port usage associated to host
                 high_port_table.heuristic.add_signature_id(
                     "ip" if re.match(IP_ONLY_REGEX, parsed_url.hostname) else "domain"
                 )
-                high_port_table.add_row(
-                    TableRow({"URI": tag_value, "HOST": parsed_url.hostname, "PORT": parsed_url.port})
-                )
+                high_port_table.add_row(TableRow({"URI": tag_value, "HOST": parsed_url.hostname, "PORT": url_port}))
                 interesting_features.append("High port")
 
             # Check if URI path is greater than the smallest tool we can look for (ie. '/ls')

@@ -20,6 +20,12 @@
             "short_type": "URI",
             "value": "https://1.1.1.1:7777/path",
             "score": 0
+        },
+        {
+            "type": "network.static.uri",
+            "short_type": "URI",
+            "value": "https://1.1.1.1:88888/path",
+            "score": 0
         }
     ]
 }
