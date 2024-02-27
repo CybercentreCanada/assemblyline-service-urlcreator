@@ -1,0 +1,55 @@
+{
+    "submission_params": {
+        "minimum_maliciousness": 50
+    },
+    "tags": [
+        {
+            "type": "network.static.uri",
+            "short_type": "URI",
+            "value": "https://user1@site.com",
+            "score": 0
+        },
+        {
+            "type": "network.static.uri",
+            "short_type": "URI",
+            "value": "https://user2@site.com",
+            "score": 0
+        },
+        {
+            "type": "network.static.uri",
+            "short_type": "URI",
+            "value": "https://user3@site.com",
+            "score": 0
+        },
+        {
+            "type": "network.static.uri",
+            "short_type": "URI",
+            "value": "https://user4@site.com",
+            "score": 0
+        },
+        {
+            "type": "network.static.uri",
+            "short_type": "URI",
+            "value": "https://user5@site.com",
+            "score": 0
+        },
+        {
+            "type": "network.static.uri",
+            "short_type": "URI",
+            "value": "https://user6@site.com",
+            "score": 0
+        },
+        {
+            "type": "network.static.uri",
+            "short_type": "URI",
+            "value": "https://user7@site.com",
+            "score": 0
+        },
+        {
+            "type": "network.static.uri",
+            "short_type": "URI",
+            "value": "https://user8@site.com",
+            "score": 0
+        }
+    ]
+}

@@ -74,7 +74,7 @@ class URLCreator(ServiceBase):
             interesting_features = []
 
             # Look for data that might be embedded in URLs
-            analysis_table, network_iocs = urlcreator.network.url_analysis(tag_value)
+            analysis_table, network_iocs = urlcreator.network.url_analysis(tag_value, root=True)
             for k, v in network_iocs.items():
                 url_analysis_network_iocs[k].update(v)
             if analysis_table.body:
