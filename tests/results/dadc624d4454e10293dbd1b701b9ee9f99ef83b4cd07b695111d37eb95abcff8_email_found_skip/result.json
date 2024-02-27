@@ -1,0 +1,232 @@
+{
+  "extra": {
+    "drop_file": false,
+    "score": 1500,
+    "sections": [
+      {
+        "auto_collapse": false,
+        "body": null,
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 0,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {},
+        "title_text": "MultiDecoder Analysis",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "URL",
+            "DECODED STRING": "http://site.com/asdgasdf?u=234234&data=34234",
+            "ENCODED STRING": "http://user1@site.com/asdgasdf?u=234234&data=34234",
+            "OBFUSCATION": "Embedded credentials"
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": {
+          "attack_ids": [],
+          "frequency": 1,
+          "heur_id": 4,
+          "score": 500,
+          "score_map": {},
+          "signatures": {
+            "embedded_credentials": 1
+          }
+        },
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "uri": [
+                "http://user1@site.com/asdgasdf?u=234234&data=34234",
+                "http://site.com/asdgasdf?u=234234&data=34234"
+              ]
+            }
+          }
+        },
+        "title_text": "http://user1@site.com/asdgasdf?u=234234&data=34234",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "URL",
+            "DECODED STRING": "http://site.com/",
+            "ENCODED STRING": "http://user2@site.com/",
+            "OBFUSCATION": "Embedded credentials"
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": {
+          "attack_ids": [],
+          "frequency": 1,
+          "heur_id": 4,
+          "score": 500,
+          "score_map": {},
+          "signatures": {
+            "embedded_credentials": 1
+          }
+        },
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "uri": [
+                "http://user2@site.com/",
+                "http://site.com/"
+              ]
+            }
+          }
+        },
+        "title_text": "http://user2@site.com/",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "URL",
+            "DECODED STRING": "http://site.com",
+            "ENCODED STRING": "http://user2@site.com",
+            "OBFUSCATION": "Embedded credentials"
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": {
+          "attack_ids": [],
+          "frequency": 1,
+          "heur_id": 4,
+          "score": 500,
+          "score_map": {},
+          "signatures": {
+            "embedded_credentials": 1
+          }
+        },
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "uri": [
+                "http://user2@site.com",
+                "http://site.com"
+              ]
+            }
+          }
+        },
+        "title_text": "http://user2@site.com",
+        "zeroize_on_tag_safe": false
+      }
+    ]
+  },
+  "files": {
+    "extracted": [],
+    "supplementary": []
+  },
+  "results": {
+    "heuristics": [
+      {
+        "attack_ids": [],
+        "heur_id": 4,
+        "signatures": [
+          "embedded_credentials"
+        ]
+      },
+      {
+        "attack_ids": [],
+        "heur_id": 4,
+        "signatures": [
+          "embedded_credentials"
+        ]
+      },
+      {
+        "attack_ids": [],
+        "heur_id": 4,
+        "signatures": [
+          "embedded_credentials"
+        ]
+      }
+    ],
+    "tags": {
+      "network.static.uri": [
+        {
+          "heur_id": 4,
+          "signatures": [
+            "embedded_credentials"
+          ],
+          "value": "http://site.com"
+        },
+        {
+          "heur_id": 4,
+          "signatures": [
+            "embedded_credentials"
+          ],
+          "value": "http://site.com/"
+        },
+        {
+          "heur_id": 4,
+          "signatures": [
+            "embedded_credentials"
+          ],
+          "value": "http://site.com/asdgasdf?u=234234&data=34234"
+        },
+        {
+          "heur_id": 4,
+          "signatures": [
+            "embedded_credentials"
+          ],
+          "value": "http://user1@site.com/asdgasdf?u=234234&data=34234"
+        },
+        {
+          "heur_id": 4,
+          "signatures": [
+            "embedded_credentials"
+          ],
+          "value": "http://user2@site.com"
+        },
+        {
+          "heur_id": 4,
+          "signatures": [
+            "embedded_credentials"
+          ],
+          "value": "http://user2@site.com/"
+        }
+      ]
+    },
+    "temp_submission_data": {}
+  }
+}

@@ -1,7 +1,7 @@
 {
   "extra": {
     "drop_file": false,
-    "score": 4000,
+    "score": 3500,
     "sections": [
       {
         "auto_collapse": false,
@@ -20,10 +20,10 @@
         "auto_collapse": false,
         "body": [
           {
-            "COMPONENT": "URL",
-            "DECODED STRING": "https://site.com",
-            "ENCODED STRING": "https://user1@site.com",
-            "OBFUSCATION": "Embedded credentials"
+            "COMPONENT": "QUERY",
+            "DECODED STRING": "https://user1@bad.com/&data=data",
+            "ENCODED STRING": "url=https://user1@bad.com/&data=data",
+            "OBFUSCATION": "encoding.url"
           }
         ],
         "body_config": {
@@ -37,28 +37,21 @@
         "body_format": "TABLE",
         "classification": "TLP:C",
         "depth": 1,
-        "heuristic": {
-          "attack_ids": [],
-          "frequency": 1,
-          "heur_id": 4,
-          "score": 500,
-          "score_map": {},
-          "signatures": {
-            "embedded_credentials": 1
-          }
-        },
+        "heuristic": null,
         "promote_to": null,
         "tags": {
           "network": {
             "static": {
+              "domain": [
+                "bad.com"
+              ],
               "uri": [
-                "https://user1@site.com",
-                "https://site.com"
+                "https://user1@bad.com/&data=data"
               ]
             }
           }
         },
-        "title_text": "https://user1@site.com",
+        "title_text": "https://site1.com/?url=https://user1@bad.com/&data=data",
         "zeroize_on_tag_safe": false
       },
       {
@@ -66,8 +59,8 @@
         "body": [
           {
             "COMPONENT": "URL",
-            "DECODED STRING": "https://site.com",
-            "ENCODED STRING": "https://user2@site.com",
+            "DECODED STRING": "https://bad.com/&data=data",
+            "ENCODED STRING": "https://user1@bad.com/&data=data",
             "OBFUSCATION": "Embedded credentials"
           }
         ],
@@ -81,7 +74,7 @@
         },
         "body_format": "TABLE",
         "classification": "TLP:C",
-        "depth": 1,
+        "depth": 2,
         "heuristic": {
           "attack_ids": [],
           "frequency": 1,
@@ -97,13 +90,51 @@
           "network": {
             "static": {
               "uri": [
-                "https://user2@site.com",
-                "https://site.com"
+                "https://user1@bad.com/&data=data",
+                "https://bad.com/&data=data"
               ]
             }
           }
         },
-        "title_text": "https://user2@site.com",
+        "title_text": "https://user1@bad.com/&data=data",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "QUERY",
+            "DECODED STRING": "https://user2@bad.com/",
+            "ENCODED STRING": "url=https://user2@bad.com/",
+            "OBFUSCATION": "encoding.url"
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "domain": [
+                "bad.com"
+              ],
+              "uri": [
+                "https://user2@bad.com/"
+              ]
+            }
+          }
+        },
+        "title_text": "https://site2.com/?url=https://user2@bad.com/",
         "zeroize_on_tag_safe": false
       },
       {
@@ -111,8 +142,8 @@
         "body": [
           {
             "COMPONENT": "URL",
-            "DECODED STRING": "https://site.com",
-            "ENCODED STRING": "https://user3@site.com",
+            "DECODED STRING": "https://bad.com/",
+            "ENCODED STRING": "https://user2@bad.com/",
             "OBFUSCATION": "Embedded credentials"
           }
         ],
@@ -126,7 +157,7 @@
         },
         "body_format": "TABLE",
         "classification": "TLP:C",
-        "depth": 1,
+        "depth": 2,
         "heuristic": {
           "attack_ids": [],
           "frequency": 1,
@@ -142,13 +173,51 @@
           "network": {
             "static": {
               "uri": [
-                "https://user3@site.com",
-                "https://site.com"
+                "https://user2@bad.com/",
+                "https://bad.com/"
               ]
             }
           }
         },
-        "title_text": "https://user3@site.com",
+        "title_text": "https://user2@bad.com/",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "QUERY",
+            "DECODED STRING": "https://user3@bad.com/",
+            "ENCODED STRING": "url=https://user3@bad.com/",
+            "OBFUSCATION": "encoding.url"
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "domain": [
+                "bad.com"
+              ],
+              "uri": [
+                "https://user3@bad.com/"
+              ]
+            }
+          }
+        },
+        "title_text": "https://sub.site3.com/go.php?url=https://user3@bad.com/",
         "zeroize_on_tag_safe": false
       },
       {
@@ -156,8 +225,8 @@
         "body": [
           {
             "COMPONENT": "URL",
-            "DECODED STRING": "https://site.com",
-            "ENCODED STRING": "https://user4@site.com",
+            "DECODED STRING": "https://bad.com/",
+            "ENCODED STRING": "https://user3@bad.com/",
             "OBFUSCATION": "Embedded credentials"
           }
         ],
@@ -171,7 +240,7 @@
         },
         "body_format": "TABLE",
         "classification": "TLP:C",
-        "depth": 1,
+        "depth": 2,
         "heuristic": {
           "attack_ids": [],
           "frequency": 1,
@@ -187,13 +256,51 @@
           "network": {
             "static": {
               "uri": [
-                "https://user4@site.com",
-                "https://site.com"
+                "https://user3@bad.com/",
+                "https://bad.com/"
               ]
             }
           }
         },
-        "title_text": "https://user4@site.com",
+        "title_text": "https://user3@bad.com/",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "QUERY",
+            "DECODED STRING": "https://user4@bad.com/",
+            "ENCODED STRING": "url=https://user4@bad.com/",
+            "OBFUSCATION": "encoding.url"
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "domain": [
+                "bad.com"
+              ],
+              "uri": [
+                "https://user4@bad.com/"
+              ]
+            }
+          }
+        },
+        "title_text": "https://site4.com/viewHelp.php?url=https://user4@bad.com/",
         "zeroize_on_tag_safe": false
       },
       {
@@ -201,8 +308,8 @@
         "body": [
           {
             "COMPONENT": "URL",
-            "DECODED STRING": "https://site.com",
-            "ENCODED STRING": "https://user5@site.com",
+            "DECODED STRING": "https://bad.com/",
+            "ENCODED STRING": "https://user4@bad.com/",
             "OBFUSCATION": "Embedded credentials"
           }
         ],
@@ -216,7 +323,7 @@
         },
         "body_format": "TABLE",
         "classification": "TLP:C",
-        "depth": 1,
+        "depth": 2,
         "heuristic": {
           "attack_ids": [],
           "frequency": 1,
@@ -232,13 +339,51 @@
           "network": {
             "static": {
               "uri": [
-                "https://user5@site.com",
-                "https://site.com"
+                "https://user4@bad.com/",
+                "https://bad.com/"
               ]
             }
           }
         },
-        "title_text": "https://user5@site.com",
+        "title_text": "https://user4@bad.com/",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "QUERY",
+            "DECODED STRING": "https://user5@bad.com/",
+            "ENCODED STRING": "ref=aaaaaaaaaaaaaa=&url=https://user5@bad.com/",
+            "OBFUSCATION": "encoding.url"
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "domain": [
+                "bad.com"
+              ],
+              "uri": [
+                "https://user5@bad.com/"
+              ]
+            }
+          }
+        },
+        "title_text": "http://site5.com/event/search_jump?ref=aaaaaaaaaaaaaa=&url=https://user5@bad.com/",
         "zeroize_on_tag_safe": false
       },
       {
@@ -246,8 +391,8 @@
         "body": [
           {
             "COMPONENT": "URL",
-            "DECODED STRING": "https://site.com",
-            "ENCODED STRING": "https://user6@site.com",
+            "DECODED STRING": "https://bad.com/",
+            "ENCODED STRING": "https://user5@bad.com/",
             "OBFUSCATION": "Embedded credentials"
           }
         ],
@@ -261,7 +406,7 @@
         },
         "body_format": "TABLE",
         "classification": "TLP:C",
-        "depth": 1,
+        "depth": 2,
         "heuristic": {
           "attack_ids": [],
           "frequency": 1,
@@ -277,13 +422,51 @@
           "network": {
             "static": {
               "uri": [
-                "https://user6@site.com",
-                "https://site.com"
+                "https://user5@bad.com/",
+                "https://bad.com/"
               ]
             }
           }
         },
-        "title_text": "https://user6@site.com",
+        "title_text": "https://user5@bad.com/",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "QUERY",
+            "DECODED STRING": "https://user6@bad.com/",
+            "ENCODED STRING": "event1=&event2=&event3=&goto=https://user6@bad.com/",
+            "OBFUSCATION": "encoding.url"
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "domain": [
+                "bad.com"
+              ],
+              "uri": [
+                "https://user6@bad.com/"
+              ]
+            }
+          }
+        },
+        "title_text": "http://site6.com/aaaa/redirect.php?event1=&event2=&event3=&goto=https://user6@bad.com/",
         "zeroize_on_tag_safe": false
       },
       {
@@ -291,8 +474,8 @@
         "body": [
           {
             "COMPONENT": "URL",
-            "DECODED STRING": "https://site.com",
-            "ENCODED STRING": "https://user7@site.com",
+            "DECODED STRING": "https://bad.com/",
+            "ENCODED STRING": "https://user6@bad.com/",
             "OBFUSCATION": "Embedded credentials"
           }
         ],
@@ -306,7 +489,7 @@
         },
         "body_format": "TABLE",
         "classification": "TLP:C",
-        "depth": 1,
+        "depth": 2,
         "heuristic": {
           "attack_ids": [],
           "frequency": 1,
@@ -322,13 +505,51 @@
           "network": {
             "static": {
               "uri": [
-                "https://user7@site.com",
-                "https://site.com"
+                "https://user6@bad.com/",
+                "https://bad.com/"
               ]
             }
           }
         },
-        "title_text": "https://user7@site.com",
+        "title_text": "https://user6@bad.com/",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "QUERY",
+            "DECODED STRING": "https://user7@bad.com/",
+            "ENCODED STRING": "SURL=https://user7@bad.com/",
+            "OBFUSCATION": "encoding.url"
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "domain": [
+                "bad.com"
+              ],
+              "uri": [
+                "https://user7@bad.com/"
+              ]
+            }
+          }
+        },
+        "title_text": "https://site7.com/AAAAAAA/ns/tl_ex.cgi?SURL=https://user7@bad.com/",
         "zeroize_on_tag_safe": false
       },
       {
@@ -336,8 +557,8 @@
         "body": [
           {
             "COMPONENT": "URL",
-            "DECODED STRING": "https://site.com",
-            "ENCODED STRING": "https://user8@site.com",
+            "DECODED STRING": "https://bad.com/",
+            "ENCODED STRING": "https://user7@bad.com/",
             "OBFUSCATION": "Embedded credentials"
           }
         ],
@@ -351,7 +572,7 @@
         },
         "body_format": "TABLE",
         "classification": "TLP:C",
-        "depth": 1,
+        "depth": 2,
         "heuristic": {
           "attack_ids": [],
           "frequency": 1,
@@ -367,13 +588,13 @@
           "network": {
             "static": {
               "uri": [
-                "https://user8@site.com",
-                "https://site.com"
+                "https://user7@bad.com/",
+                "https://bad.com/"
               ]
             }
           }
         },
-        "title_text": "https://user8@site.com",
+        "title_text": "https://user7@bad.com/",
         "zeroize_on_tag_safe": false
       },
       {
@@ -393,8 +614,8 @@
         "auto_collapse": false,
         "body": [
           {
-            "Count": 8,
-            "IOC": "site.com"
+            "Count": 7,
+            "IOC": "bad.com"
           }
         ],
         "body_config": {
@@ -416,8 +637,8 @@
         "auto_collapse": false,
         "body": [
           {
-            "Count": 8,
-            "IOC": "https://site.com"
+            "Count": 6,
+            "IOC": "https://bad.com/"
           }
         ],
         "body_config": {
@@ -440,8 +661,8 @@
   "files": {
     "extracted": [
       {
-        "name": "https://site.com",
-        "sha256": "d327957ad00efb90362233e6f0d7145d79dacca042a1f90be9ca6368b8cd843f"
+        "name": "https://bad.com/",
+        "sha256": "6f1c9a9d567ff391c76389a167be37a0bd2fc0820dd5de508ac44af8fba0cb1c"
       }
     ],
     "supplementary": []
@@ -496,128 +717,179 @@
         "signatures": [
           "embedded_credentials"
         ]
-      },
-      {
-        "attack_ids": [],
-        "heur_id": 4,
-        "signatures": [
-          "embedded_credentials"
-        ]
       }
     ],
     "tags": {
+      "network.static.domain": [
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "bad.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "bad.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "bad.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "bad.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "bad.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "bad.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "bad.com"
+        }
+      ],
       "network.static.uri": [
         {
           "heur_id": 4,
           "signatures": [
             "embedded_credentials"
           ],
-          "value": "https://site.com"
+          "value": "https://bad.com/"
         },
         {
           "heur_id": 4,
           "signatures": [
             "embedded_credentials"
           ],
-          "value": "https://site.com"
+          "value": "https://bad.com/"
         },
         {
           "heur_id": 4,
           "signatures": [
             "embedded_credentials"
           ],
-          "value": "https://site.com"
+          "value": "https://bad.com/"
         },
         {
           "heur_id": 4,
           "signatures": [
             "embedded_credentials"
           ],
-          "value": "https://site.com"
+          "value": "https://bad.com/"
         },
         {
           "heur_id": 4,
           "signatures": [
             "embedded_credentials"
           ],
-          "value": "https://site.com"
+          "value": "https://bad.com/"
         },
         {
           "heur_id": 4,
           "signatures": [
             "embedded_credentials"
           ],
-          "value": "https://site.com"
+          "value": "https://bad.com/"
         },
         {
           "heur_id": 4,
           "signatures": [
             "embedded_credentials"
           ],
-          "value": "https://site.com"
+          "value": "https://bad.com/&data=data"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://user1@bad.com/&data=data"
         },
         {
           "heur_id": 4,
           "signatures": [
             "embedded_credentials"
           ],
-          "value": "https://site.com"
+          "value": "https://user1@bad.com/&data=data"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://user2@bad.com/"
         },
         {
           "heur_id": 4,
           "signatures": [
             "embedded_credentials"
           ],
-          "value": "https://user1@site.com"
+          "value": "https://user2@bad.com/"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://user3@bad.com/"
         },
         {
           "heur_id": 4,
           "signatures": [
             "embedded_credentials"
           ],
-          "value": "https://user2@site.com"
+          "value": "https://user3@bad.com/"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://user4@bad.com/"
         },
         {
           "heur_id": 4,
           "signatures": [
             "embedded_credentials"
           ],
-          "value": "https://user3@site.com"
+          "value": "https://user4@bad.com/"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://user5@bad.com/"
         },
         {
           "heur_id": 4,
           "signatures": [
             "embedded_credentials"
           ],
-          "value": "https://user4@site.com"
+          "value": "https://user5@bad.com/"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://user6@bad.com/"
         },
         {
           "heur_id": 4,
           "signatures": [
             "embedded_credentials"
           ],
-          "value": "https://user5@site.com"
+          "value": "https://user6@bad.com/"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://user7@bad.com/"
         },
         {
           "heur_id": 4,
           "signatures": [
             "embedded_credentials"
           ],
-          "value": "https://user6@site.com"
-        },
-        {
-          "heur_id": 4,
-          "signatures": [
-            "embedded_credentials"
-          ],
-          "value": "https://user7@site.com"
-        },
-        {
-          "heur_id": 4,
-          "signatures": [
-            "embedded_credentials"
-          ],
-          "value": "https://user8@site.com"
+          "value": "https://user7@bad.com/"
         }
       ]
     },
