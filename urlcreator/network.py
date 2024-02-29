@@ -19,7 +19,7 @@ def url_analysis(url: str) -> Tuple[ResultTableSection, Dict[str, List[str]]]:
     md = Multidecoder()
 
     analysis_table = ResultTableSection(url[:128] + "..." if len(url) > 128 else url)
-    network_iocs = {"uri": [], "domain": [], "ip": []}
+    network_iocs = {ioc_type: [] for ioc_type in NETWORK_IOC_TYPES}
 
     def add_MD_results_to_table(result: Node):
         if result.obfuscation:
@@ -157,6 +157,7 @@ def url_analysis(url: str) -> Tuple[ResultTableSection, Dict[str, List[str]]]:
                 )
             )
             analysis_table.set_heuristic(4, signature="embedded_credentials")
+            analysis_table.zeroize_on_tag_safe = True
         analysis_table.add_tag("network.static.uri", url)
         analysis_table.add_tag("network.static.uri", target_url)
         network_iocs["uri"].append(target_url)

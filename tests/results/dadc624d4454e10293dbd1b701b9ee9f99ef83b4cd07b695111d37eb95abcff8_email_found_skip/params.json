@@ -1,0 +1,43 @@
+{
+    "submission_params": {
+        "minimum_maliciousness": 50
+    },
+    "tags": [
+        {
+            "type": "network.email.address",
+            "short_type": "URI",
+            "value": "user1@site.com",
+            "score": 0
+        },
+        {
+            "type": "network.static.uri",
+            "short_type": "URI",
+            "value": "http://user1@site.com/",
+            "score": 0
+        },
+        {
+            "type": "network.static.uri",
+            "short_type": "URI",
+            "value": "http://user1@site.com",
+            "score": 0
+        },
+        {
+            "type": "network.static.uri",
+            "short_type": "URI",
+            "value": "http://user1@site.com/asdgasdf?u=234234&data=34234",
+            "score": 0
+        },
+        {
+            "type": "network.static.uri",
+            "short_type": "URI",
+            "value": "http://user2@site.com/",
+            "score": 0
+        },
+        {
+            "type": "network.static.uri",
+            "short_type": "URI",
+            "value": "http://user2@site.com",
+            "score": 0
+        }
+    ]
+}

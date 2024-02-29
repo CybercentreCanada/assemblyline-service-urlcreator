@@ -1,0 +1,626 @@
+{
+  "extra": {
+    "drop_file": false,
+    "score": 4000,
+    "sections": [
+      {
+        "auto_collapse": false,
+        "body": null,
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 0,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {},
+        "title_text": "MultiDecoder Analysis",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "URL",
+            "DECODED STRING": "https://site.com",
+            "ENCODED STRING": "https://user1@site.com",
+            "OBFUSCATION": "Embedded credentials"
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": {
+          "attack_ids": [],
+          "frequency": 1,
+          "heur_id": 4,
+          "score": 500,
+          "score_map": {},
+          "signatures": {
+            "embedded_credentials": 1
+          }
+        },
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "uri": [
+                "https://user1@site.com",
+                "https://site.com"
+              ]
+            }
+          }
+        },
+        "title_text": "https://user1@site.com",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "URL",
+            "DECODED STRING": "https://site.com",
+            "ENCODED STRING": "https://user2@site.com",
+            "OBFUSCATION": "Embedded credentials"
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": {
+          "attack_ids": [],
+          "frequency": 1,
+          "heur_id": 4,
+          "score": 500,
+          "score_map": {},
+          "signatures": {
+            "embedded_credentials": 1
+          }
+        },
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "uri": [
+                "https://user2@site.com",
+                "https://site.com"
+              ]
+            }
+          }
+        },
+        "title_text": "https://user2@site.com",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "URL",
+            "DECODED STRING": "https://site.com",
+            "ENCODED STRING": "https://user3@site.com",
+            "OBFUSCATION": "Embedded credentials"
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": {
+          "attack_ids": [],
+          "frequency": 1,
+          "heur_id": 4,
+          "score": 500,
+          "score_map": {},
+          "signatures": {
+            "embedded_credentials": 1
+          }
+        },
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "uri": [
+                "https://user3@site.com",
+                "https://site.com"
+              ]
+            }
+          }
+        },
+        "title_text": "https://user3@site.com",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "URL",
+            "DECODED STRING": "https://site.com",
+            "ENCODED STRING": "https://user4@site.com",
+            "OBFUSCATION": "Embedded credentials"
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": {
+          "attack_ids": [],
+          "frequency": 1,
+          "heur_id": 4,
+          "score": 500,
+          "score_map": {},
+          "signatures": {
+            "embedded_credentials": 1
+          }
+        },
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "uri": [
+                "https://user4@site.com",
+                "https://site.com"
+              ]
+            }
+          }
+        },
+        "title_text": "https://user4@site.com",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "URL",
+            "DECODED STRING": "https://site.com",
+            "ENCODED STRING": "https://user5@site.com",
+            "OBFUSCATION": "Embedded credentials"
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": {
+          "attack_ids": [],
+          "frequency": 1,
+          "heur_id": 4,
+          "score": 500,
+          "score_map": {},
+          "signatures": {
+            "embedded_credentials": 1
+          }
+        },
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "uri": [
+                "https://user5@site.com",
+                "https://site.com"
+              ]
+            }
+          }
+        },
+        "title_text": "https://user5@site.com",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "URL",
+            "DECODED STRING": "https://site.com",
+            "ENCODED STRING": "https://user6@site.com",
+            "OBFUSCATION": "Embedded credentials"
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": {
+          "attack_ids": [],
+          "frequency": 1,
+          "heur_id": 4,
+          "score": 500,
+          "score_map": {},
+          "signatures": {
+            "embedded_credentials": 1
+          }
+        },
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "uri": [
+                "https://user6@site.com",
+                "https://site.com"
+              ]
+            }
+          }
+        },
+        "title_text": "https://user6@site.com",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "URL",
+            "DECODED STRING": "https://site.com",
+            "ENCODED STRING": "https://user7@site.com",
+            "OBFUSCATION": "Embedded credentials"
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": {
+          "attack_ids": [],
+          "frequency": 1,
+          "heur_id": 4,
+          "score": 500,
+          "score_map": {},
+          "signatures": {
+            "embedded_credentials": 1
+          }
+        },
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "uri": [
+                "https://user7@site.com",
+                "https://site.com"
+              ]
+            }
+          }
+        },
+        "title_text": "https://user7@site.com",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "URL",
+            "DECODED STRING": "https://site.com",
+            "ENCODED STRING": "https://user8@site.com",
+            "OBFUSCATION": "Embedded credentials"
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": {
+          "attack_ids": [],
+          "frequency": 1,
+          "heur_id": 4,
+          "score": 500,
+          "score_map": {},
+          "signatures": {
+            "embedded_credentials": 1
+          }
+        },
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "uri": [
+                "https://user8@site.com",
+                "https://site.com"
+              ]
+            }
+          }
+        },
+        "title_text": "https://user8@site.com",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": null,
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {},
+        "title_text": "Identical sub IOC",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "Count": 8,
+            "IOC": "site.com"
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "IOC",
+            "Count"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 2,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {},
+        "title_text": "domain",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "Count": 8,
+            "IOC": "https://site.com"
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "IOC",
+            "Count"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 2,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {},
+        "title_text": "uri",
+        "zeroize_on_tag_safe": false
+      }
+    ]
+  },
+  "files": {
+    "extracted": [
+      {
+        "name": "https://site.com",
+        "sha256": "d327957ad00efb90362233e6f0d7145d79dacca042a1f90be9ca6368b8cd843f"
+      }
+    ],
+    "supplementary": []
+  },
+  "results": {
+    "heuristics": [
+      {
+        "attack_ids": [],
+        "heur_id": 4,
+        "signatures": [
+          "embedded_credentials"
+        ]
+      },
+      {
+        "attack_ids": [],
+        "heur_id": 4,
+        "signatures": [
+          "embedded_credentials"
+        ]
+      },
+      {
+        "attack_ids": [],
+        "heur_id": 4,
+        "signatures": [
+          "embedded_credentials"
+        ]
+      },
+      {
+        "attack_ids": [],
+        "heur_id": 4,
+        "signatures": [
+          "embedded_credentials"
+        ]
+      },
+      {
+        "attack_ids": [],
+        "heur_id": 4,
+        "signatures": [
+          "embedded_credentials"
+        ]
+      },
+      {
+        "attack_ids": [],
+        "heur_id": 4,
+        "signatures": [
+          "embedded_credentials"
+        ]
+      },
+      {
+        "attack_ids": [],
+        "heur_id": 4,
+        "signatures": [
+          "embedded_credentials"
+        ]
+      },
+      {
+        "attack_ids": [],
+        "heur_id": 4,
+        "signatures": [
+          "embedded_credentials"
+        ]
+      }
+    ],
+    "tags": {
+      "network.static.uri": [
+        {
+          "heur_id": 4,
+          "signatures": [
+            "embedded_credentials"
+          ],
+          "value": "https://site.com"
+        },
+        {
+          "heur_id": 4,
+          "signatures": [
+            "embedded_credentials"
+          ],
+          "value": "https://site.com"
+        },
+        {
+          "heur_id": 4,
+          "signatures": [
+            "embedded_credentials"
+          ],
+          "value": "https://site.com"
+        },
+        {
+          "heur_id": 4,
+          "signatures": [
+            "embedded_credentials"
+          ],
+          "value": "https://site.com"
+        },
+        {
+          "heur_id": 4,
+          "signatures": [
+            "embedded_credentials"
+          ],
+          "value": "https://site.com"
+        },
+        {
+          "heur_id": 4,
+          "signatures": [
+            "embedded_credentials"
+          ],
+          "value": "https://site.com"
+        },
+        {
+          "heur_id": 4,
+          "signatures": [
+            "embedded_credentials"
+          ],
+          "value": "https://site.com"
+        },
+        {
+          "heur_id": 4,
+          "signatures": [
+            "embedded_credentials"
+          ],
+          "value": "https://site.com"
+        },
+        {
+          "heur_id": 4,
+          "signatures": [
+            "embedded_credentials"
+          ],
+          "value": "https://user1@site.com"
+        },
+        {
+          "heur_id": 4,
+          "signatures": [
+            "embedded_credentials"
+          ],
+          "value": "https://user2@site.com"
+        },
+        {
+          "heur_id": 4,
+          "signatures": [
+            "embedded_credentials"
+          ],
+          "value": "https://user3@site.com"
+        },
+        {
+          "heur_id": 4,
+          "signatures": [
+            "embedded_credentials"
+          ],
+          "value": "https://user4@site.com"
+        },
+        {
+          "heur_id": 4,
+          "signatures": [
+            "embedded_credentials"
+          ],
+          "value": "https://user5@site.com"
+        },
+        {
+          "heur_id": 4,
+          "signatures": [
+            "embedded_credentials"
+          ],
+          "value": "https://user6@site.com"
+        },
+        {
+          "heur_id": 4,
+          "signatures": [
+            "embedded_credentials"
+          ],
+          "value": "https://user7@site.com"
+        },
+        {
+          "heur_id": 4,
+          "signatures": [
+            "embedded_credentials"
+          ],
+          "value": "https://user8@site.com"
+        }
+      ]
+    },
+    "temp_submission_data": {}
+  }
+}

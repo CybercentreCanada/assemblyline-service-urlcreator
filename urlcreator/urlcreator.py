@@ -57,6 +57,7 @@ class URLCreator(ServiceBase):
 
         # Only concerned with static/dynamic URIs found by prior services
         urls = tags.get("network.static.uri", []) + tags.get("network.dynamic.uri", [])
+        emails = [x[0].lower() for x in tags.get("network.email.address", [])]
 
         scoring_uri = ResultTableSection(title_text="High scoring URI")
         potential_ip_download = ResultTableSection(
@@ -71,6 +72,8 @@ class URLCreator(ServiceBase):
         for tag_value, tag_score in urls:
             # Analyse the URL for the possibility of it being a something we should download
             parsed_url = urlparse(tag_value)
+            if tag_value[len(parsed_url.scheme) + 3 :].rstrip("/").lower() in emails:
+                continue
             interesting_features = []
 
             # Look for data that might be embedded in URLs
