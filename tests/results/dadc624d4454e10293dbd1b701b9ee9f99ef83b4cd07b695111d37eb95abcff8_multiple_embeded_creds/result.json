@@ -1,7 +1,7 @@
 {
   "extra": {
     "drop_file": false,
-    "score": 4000,
+    "score": 0,
     "sections": [
       {
         "auto_collapse": false,
@@ -41,8 +41,10 @@
           "attack_ids": [],
           "frequency": 1,
           "heur_id": 4,
-          "score": 500,
-          "score_map": {},
+          "score": 0,
+          "score_map": {
+            "embedded_credentials": 0
+          },
           "signatures": {
             "embedded_credentials": 1
           }
@@ -86,8 +88,10 @@
           "attack_ids": [],
           "frequency": 1,
           "heur_id": 4,
-          "score": 500,
-          "score_map": {},
+          "score": 0,
+          "score_map": {
+            "embedded_credentials": 0
+          },
           "signatures": {
             "embedded_credentials": 1
           }
@@ -131,8 +135,10 @@
           "attack_ids": [],
           "frequency": 1,
           "heur_id": 4,
-          "score": 500,
-          "score_map": {},
+          "score": 0,
+          "score_map": {
+            "embedded_credentials": 0
+          },
           "signatures": {
             "embedded_credentials": 1
           }
@@ -176,8 +182,10 @@
           "attack_ids": [],
           "frequency": 1,
           "heur_id": 4,
-          "score": 500,
-          "score_map": {},
+          "score": 0,
+          "score_map": {
+            "embedded_credentials": 0
+          },
           "signatures": {
             "embedded_credentials": 1
           }
@@ -221,8 +229,10 @@
           "attack_ids": [],
           "frequency": 1,
           "heur_id": 4,
-          "score": 500,
-          "score_map": {},
+          "score": 0,
+          "score_map": {
+            "embedded_credentials": 0
+          },
           "signatures": {
             "embedded_credentials": 1
           }
@@ -266,8 +276,10 @@
           "attack_ids": [],
           "frequency": 1,
           "heur_id": 4,
-          "score": 500,
-          "score_map": {},
+          "score": 0,
+          "score_map": {
+            "embedded_credentials": 0
+          },
           "signatures": {
             "embedded_credentials": 1
           }
@@ -311,8 +323,10 @@
           "attack_ids": [],
           "frequency": 1,
           "heur_id": 4,
-          "score": 500,
-          "score_map": {},
+          "score": 0,
+          "score_map": {
+            "embedded_credentials": 0
+          },
           "signatures": {
             "embedded_credentials": 1
           }
@@ -356,8 +370,10 @@
           "attack_ids": [],
           "frequency": 1,
           "heur_id": 4,
-          "score": 500,
-          "score_map": {},
+          "score": 0,
+          "score_map": {
+            "embedded_credentials": 0
+          },
           "signatures": {
             "embedded_credentials": 1
           }

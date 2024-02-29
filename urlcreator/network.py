@@ -5,7 +5,7 @@ from typing import Dict, List, Tuple
 from urllib.parse import urlparse
 
 from assemblyline.odm.base import IP_ONLY_REGEX
-from assemblyline_v4_service.common.result import ResultTableSection, TableRow
+from assemblyline_v4_service.common.result import Heuristic, ResultTableSection, TableRow
 from multidecoder.decoders.base64 import BASE64_RE
 from multidecoder.decoders.network import DOMAIN_TYPE, EMAIL_TYPE, IP_TYPE, URL_TYPE, parse_url
 from multidecoder.multidecoder import Multidecoder
@@ -156,8 +156,9 @@ def url_analysis(url: str) -> Tuple[ResultTableSection, Dict[str, List[str]]]:
                     }
                 )
             )
-            analysis_table.set_heuristic(4, signature="embedded_credentials")
-            analysis_table.zeroize_on_tag_safe = True
+            heur = Heuristic(4)
+            heur.add_signature_id("embedded_credentials", score=0)
+            analysis_table.set_heuristic(heur)
         analysis_table.add_tag("network.static.uri", url)
         analysis_table.add_tag("network.static.uri", target_url)
         network_iocs["uri"].append(target_url)
