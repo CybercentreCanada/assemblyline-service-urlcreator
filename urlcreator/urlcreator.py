@@ -74,6 +74,10 @@ class URLCreator(ServiceBase):
             parsed_url = urlparse(tag_value)
             if tag_value[len(parsed_url.scheme) + 3 :].rstrip("/").lower() in emails:
                 continue
+            if not parsed_url.hostname and not parsed_url.scheme:
+                # Probably a corrupted tag
+                continue
+
             interesting_features = []
 
             # Look for data that might be embedded in URLs
