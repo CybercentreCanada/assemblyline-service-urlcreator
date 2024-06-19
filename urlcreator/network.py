@@ -132,8 +132,16 @@ def url_analysis(url: str) -> Tuple[ResultTableSection, Dict[str, List[str]]]:
         scheme = "http" if not scheme else scheme.value.decode()
         domain = host.value.decode()
         target_url = f"{scheme}://{url[url.index(domain):]}"
-        username_as_url = parse_url(make_bytes(scheme) + b"://" + username.value)
-        if ([node for node in username_as_url if node.type in ["network.ip", "network.domain"]] + [None])[0]:
+        try:
+            username_url = make_bytes(scheme) + b"://" + username.value
+            username_as_url = parse_url(username_url)
+            username_host = (
+                [node for node in username_as_url if node.type in ["network.ip", "network.domain"]] + [None]
+            )[0]
+        except Exception:
+            username_host = None
+
+        if username_host:
             # Looks like URL might be masking the actual target
             analysis_table.add_row(
                 TableRow(

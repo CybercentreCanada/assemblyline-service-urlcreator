@@ -72,6 +72,13 @@ def test_phishing():
     assert network_iocs["domain"] == ["bad.com"]
     assert '"OBFUSCATION": "URL masquerade"' in res_section.body
 
+    url = "https://adobe.com@bad.com/malicious.zip"
+    res_section, network_iocs = url_analysis(url)
+    # Should reveal the true target URL for reputation checking
+    assert network_iocs["uri"] == ["https://bad.com/malicious.zip"]
+    assert network_iocs["domain"] == ["bad.com"]
+    assert '"OBFUSCATION": "URL masquerade"' in res_section.body
+
     url = "https://something@not-a-url-with-tld@bad.com/malicious.zip"
     res_section, network_iocs = url_analysis(url)
     # Should reveal the true target URL for reputation checking
@@ -90,3 +97,11 @@ def test_phishing():
     assert network_iocs["uri"] == ["https://bad.com/"]
     assert network_iocs["domain"] == ["bad.com"]
     assert '"OBFUSCATION": "Embedded credentials"' in res_section.body
+
+
+def test_ascii_decode_handling():
+    url = "https://site1.com/?url=http%3A%2F%2FData%25C2%25A0%3ASomething%40site2.com&data=other"
+    res_section, network_iocs = url_analysis(url)
+    assert sorted(network_iocs["uri"]) == ["http://Data%C2%A0:Something@site2.com", "http://site2.com"]
+    assert network_iocs["domain"] == ["site2.com"]
+    assert '"OBFUSCATION": "encoding.url"' in res_section.body
