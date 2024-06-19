@@ -6,49 +6,49 @@
         {
             "type": "network.static.uri",
             "short_type": "URI",
-            "value": "https://user1:pass1@site.com",
+            "value": "https://user1@site.com",
             "score": 0
         },
         {
             "type": "network.static.uri",
             "short_type": "URI",
-            "value": "https://user2:pass2@site.com",
+            "value": "https://user2@site.com",
             "score": 0
         },
         {
             "type": "network.static.uri",
             "short_type": "URI",
-            "value": "https://user3:pass3@site.com",
+            "value": "https://user3@site.com",
             "score": 0
         },
         {
             "type": "network.static.uri",
             "short_type": "URI",
-            "value": "https://user4:pass4@site.com",
+            "value": "https://user4@site.com",
             "score": 0
         },
         {
             "type": "network.static.uri",
             "short_type": "URI",
-            "value": "https://user5:pass5@site.com",
+            "value": "https://user5@site.com",
             "score": 0
         },
         {
             "type": "network.static.uri",
             "short_type": "URI",
-            "value": "https://user6:pass6@site.com",
+            "value": "https://user6@site.com",
             "score": 0
         },
         {
             "type": "network.static.uri",
             "short_type": "URI",
-            "value": "https://user7:pass7@site.com",
+            "value": "https://user7@site.com",
             "score": 0
         },
         {
             "type": "network.static.uri",
             "short_type": "URI",
-            "value": "https://user8:pass8@site.com",
+            "value": "https://user8@site.com",
             "score": 0
         }
     ]

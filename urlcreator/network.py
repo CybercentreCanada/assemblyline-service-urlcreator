@@ -123,6 +123,7 @@ def url_analysis(url: str) -> Tuple[ResultTableSection, Dict[str, List[str]]]:
     scheme: Node = ([node for node in parsed_url if node.type == "network.url.scheme"] + [None])[0]
     host: Node = ([node for node in parsed_url if node.type in ["network.ip", "network.domain"]] + [None])[0]
     username: Node = ([node for node in parsed_url if node.type == "network.url.username"] + [None])[0]
+    password: Node = ([node for node in parsed_url if node.type == "network.url.password"] + [None])[0]
     query: Node = ([node for node in parsed_url if node.type == "network.url.query"] + [None])[0]
     fragment: Node = ([node for node in parsed_url if node.type == "network.url.fragment"] + [None])[0]
 
@@ -131,7 +132,8 @@ def url_analysis(url: str) -> Tuple[ResultTableSection, Dict[str, List[str]]]:
         scheme = "http" if not scheme else scheme.value.decode()
         domain = host.value.decode()
         target_url = f"{scheme}://{url[url.index(domain):]}"
-        if b"@" in username.value:
+        username_as_url = parse_url(make_bytes(scheme) + b"://" + username.value)
+        if ([node for node in username_as_url if node.type in ["network.ip", "network.domain"]] + [None])[0]:
             # Looks like URL might be masking the actual target
             analysis_table.add_row(
                 TableRow(
@@ -144,7 +146,7 @@ def url_analysis(url: str) -> Tuple[ResultTableSection, Dict[str, List[str]]]:
                 )
             )
             analysis_table.set_heuristic(4, signature="url_masquerade")
-        else:
+        elif password:
             # This URL has auth details embedded in the URL, weird
             analysis_table.add_row(
                 TableRow(
@@ -159,6 +161,21 @@ def url_analysis(url: str) -> Tuple[ResultTableSection, Dict[str, List[str]]]:
             heur = Heuristic(4)
             heur.add_signature_id("embedded_credentials", score=0)
             analysis_table.set_heuristic(heur)
+        else:
+            analysis_table.add_row(
+                TableRow(
+                    {
+                        "COMPONENT": "URL",
+                        "ENCODED STRING": url,
+                        "OBFUSCATION": "Embedded username",
+                        "DECODED STRING": target_url,
+                    }
+                )
+            )
+            heur = Heuristic(4)
+            heur.add_signature_id("embedded_username", score=0)
+            analysis_table.set_heuristic(heur)
+
         analysis_table.add_tag("network.static.uri", url)
         analysis_table.add_tag("network.static.uri", target_url)
         network_iocs["uri"].append(target_url)

@@ -61,7 +61,7 @@
             "COMPONENT": "URL",
             "DECODED STRING": "https://bad.com/&data=data",
             "ENCODED STRING": "https://user1@bad.com/&data=data",
-            "OBFUSCATION": "Embedded credentials"
+            "OBFUSCATION": "Embedded username"
           }
         ],
         "body_config": {
@@ -81,10 +81,10 @@
           "heur_id": 4,
           "score": 0,
           "score_map": {
-            "embedded_credentials": 0
+            "embedded_username": 0
           },
           "signatures": {
-            "embedded_credentials": 1
+            "embedded_username": 1
           }
         },
         "promote_to": null,
@@ -146,7 +146,7 @@
             "COMPONENT": "URL",
             "DECODED STRING": "https://bad.com/",
             "ENCODED STRING": "https://user2@bad.com/",
-            "OBFUSCATION": "Embedded credentials"
+            "OBFUSCATION": "Embedded username"
           }
         ],
         "body_config": {
@@ -166,10 +166,10 @@
           "heur_id": 4,
           "score": 0,
           "score_map": {
-            "embedded_credentials": 0
+            "embedded_username": 0
           },
           "signatures": {
-            "embedded_credentials": 1
+            "embedded_username": 1
           }
         },
         "promote_to": null,
@@ -231,7 +231,7 @@
             "COMPONENT": "URL",
             "DECODED STRING": "https://bad.com/",
             "ENCODED STRING": "https://user3@bad.com/",
-            "OBFUSCATION": "Embedded credentials"
+            "OBFUSCATION": "Embedded username"
           }
         ],
         "body_config": {
@@ -251,10 +251,10 @@
           "heur_id": 4,
           "score": 0,
           "score_map": {
-            "embedded_credentials": 0
+            "embedded_username": 0
           },
           "signatures": {
-            "embedded_credentials": 1
+            "embedded_username": 1
           }
         },
         "promote_to": null,
@@ -316,7 +316,7 @@
             "COMPONENT": "URL",
             "DECODED STRING": "https://bad.com/",
             "ENCODED STRING": "https://user4@bad.com/",
-            "OBFUSCATION": "Embedded credentials"
+            "OBFUSCATION": "Embedded username"
           }
         ],
         "body_config": {
@@ -336,10 +336,10 @@
           "heur_id": 4,
           "score": 0,
           "score_map": {
-            "embedded_credentials": 0
+            "embedded_username": 0
           },
           "signatures": {
-            "embedded_credentials": 1
+            "embedded_username": 1
           }
         },
         "promote_to": null,
@@ -401,7 +401,7 @@
             "COMPONENT": "URL",
             "DECODED STRING": "https://bad.com/",
             "ENCODED STRING": "https://user5@bad.com/",
-            "OBFUSCATION": "Embedded credentials"
+            "OBFUSCATION": "Embedded username"
           }
         ],
         "body_config": {
@@ -421,10 +421,10 @@
           "heur_id": 4,
           "score": 0,
           "score_map": {
-            "embedded_credentials": 0
+            "embedded_username": 0
           },
           "signatures": {
-            "embedded_credentials": 1
+            "embedded_username": 1
           }
         },
         "promote_to": null,
@@ -486,7 +486,7 @@
             "COMPONENT": "URL",
             "DECODED STRING": "https://bad.com/",
             "ENCODED STRING": "https://user6@bad.com/",
-            "OBFUSCATION": "Embedded credentials"
+            "OBFUSCATION": "Embedded username"
           }
         ],
         "body_config": {
@@ -506,10 +506,10 @@
           "heur_id": 4,
           "score": 0,
           "score_map": {
-            "embedded_credentials": 0
+            "embedded_username": 0
           },
           "signatures": {
-            "embedded_credentials": 1
+            "embedded_username": 1
           }
         },
         "promote_to": null,
@@ -571,7 +571,7 @@
             "COMPONENT": "URL",
             "DECODED STRING": "https://bad.com/",
             "ENCODED STRING": "https://user7@bad.com/",
-            "OBFUSCATION": "Embedded credentials"
+            "OBFUSCATION": "Embedded username"
           }
         ],
         "body_config": {
@@ -591,10 +591,10 @@
           "heur_id": 4,
           "score": 0,
           "score_map": {
-            "embedded_credentials": 0
+            "embedded_username": 0
           },
           "signatures": {
-            "embedded_credentials": 1
+            "embedded_username": 1
           }
         },
         "promote_to": null,
@@ -687,49 +687,49 @@
         "attack_ids": [],
         "heur_id": 4,
         "signatures": [
-          "embedded_credentials"
+          "embedded_username"
         ]
       },
       {
         "attack_ids": [],
         "heur_id": 4,
         "signatures": [
-          "embedded_credentials"
+          "embedded_username"
         ]
       },
       {
         "attack_ids": [],
         "heur_id": 4,
         "signatures": [
-          "embedded_credentials"
+          "embedded_username"
         ]
       },
       {
         "attack_ids": [],
         "heur_id": 4,
         "signatures": [
-          "embedded_credentials"
+          "embedded_username"
         ]
       },
       {
         "attack_ids": [],
         "heur_id": 4,
         "signatures": [
-          "embedded_credentials"
+          "embedded_username"
         ]
       },
       {
         "attack_ids": [],
         "heur_id": 4,
         "signatures": [
-          "embedded_credentials"
+          "embedded_username"
         ]
       },
       {
         "attack_ids": [],
         "heur_id": 4,
         "signatures": [
-          "embedded_credentials"
+          "embedded_username"
         ]
       }
     ],
@@ -775,49 +775,49 @@
         {
           "heur_id": 4,
           "signatures": [
-            "embedded_credentials"
+            "embedded_username"
           ],
           "value": "https://bad.com/"
         },
         {
           "heur_id": 4,
           "signatures": [
-            "embedded_credentials"
+            "embedded_username"
           ],
           "value": "https://bad.com/"
         },
         {
           "heur_id": 4,
           "signatures": [
-            "embedded_credentials"
+            "embedded_username"
           ],
           "value": "https://bad.com/"
         },
         {
           "heur_id": 4,
           "signatures": [
-            "embedded_credentials"
+            "embedded_username"
           ],
           "value": "https://bad.com/"
         },
         {
           "heur_id": 4,
           "signatures": [
-            "embedded_credentials"
+            "embedded_username"
           ],
           "value": "https://bad.com/"
         },
         {
           "heur_id": 4,
           "signatures": [
-            "embedded_credentials"
+            "embedded_username"
           ],
           "value": "https://bad.com/"
         },
         {
           "heur_id": 4,
           "signatures": [
-            "embedded_credentials"
+            "embedded_username"
           ],
           "value": "https://bad.com/&data=data"
         },
@@ -829,7 +829,7 @@
         {
           "heur_id": 4,
           "signatures": [
-            "embedded_credentials"
+            "embedded_username"
           ],
           "value": "https://user1@bad.com/&data=data"
         },
@@ -841,7 +841,7 @@
         {
           "heur_id": 4,
           "signatures": [
-            "embedded_credentials"
+            "embedded_username"
           ],
           "value": "https://user2@bad.com/"
         },
@@ -853,7 +853,7 @@
         {
           "heur_id": 4,
           "signatures": [
-            "embedded_credentials"
+            "embedded_username"
           ],
           "value": "https://user3@bad.com/"
         },
@@ -865,7 +865,7 @@
         {
           "heur_id": 4,
           "signatures": [
-            "embedded_credentials"
+            "embedded_username"
           ],
           "value": "https://user4@bad.com/"
         },
@@ -877,7 +877,7 @@
         {
           "heur_id": 4,
           "signatures": [
-            "embedded_credentials"
+            "embedded_username"
           ],
           "value": "https://user5@bad.com/"
         },
@@ -889,7 +889,7 @@
         {
           "heur_id": 4,
           "signatures": [
-            "embedded_credentials"
+            "embedded_username"
           ],
           "value": "https://user6@bad.com/"
         },
@@ -901,7 +901,7 @@
         {
           "heur_id": 4,
           "signatures": [
-            "embedded_credentials"
+            "embedded_username"
           ],
           "value": "https://user7@bad.com/"
         }

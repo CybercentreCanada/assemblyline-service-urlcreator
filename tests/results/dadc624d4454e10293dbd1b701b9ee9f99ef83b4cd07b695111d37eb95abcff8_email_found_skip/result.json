@@ -23,7 +23,7 @@
             "COMPONENT": "URL",
             "DECODED STRING": "http://site.com/asdgasdf?u=234234&data=34234",
             "ENCODED STRING": "http://user1@site.com/asdgasdf?u=234234&data=34234",
-            "OBFUSCATION": "Embedded credentials"
+            "OBFUSCATION": "Embedded username"
           }
         ],
         "body_config": {
@@ -43,10 +43,10 @@
           "heur_id": 4,
           "score": 0,
           "score_map": {
-            "embedded_credentials": 0
+            "embedded_username": 0
           },
           "signatures": {
-            "embedded_credentials": 1
+            "embedded_username": 1
           }
         },
         "promote_to": null,
@@ -70,7 +70,7 @@
             "COMPONENT": "URL",
             "DECODED STRING": "http://site.com/",
             "ENCODED STRING": "http://user2@site.com/",
-            "OBFUSCATION": "Embedded credentials"
+            "OBFUSCATION": "Embedded username"
           }
         ],
         "body_config": {
@@ -90,10 +90,10 @@
           "heur_id": 4,
           "score": 0,
           "score_map": {
-            "embedded_credentials": 0
+            "embedded_username": 0
           },
           "signatures": {
-            "embedded_credentials": 1
+            "embedded_username": 1
           }
         },
         "promote_to": null,
@@ -117,7 +117,7 @@
             "COMPONENT": "URL",
             "DECODED STRING": "http://site.com",
             "ENCODED STRING": "http://user2@site.com",
-            "OBFUSCATION": "Embedded credentials"
+            "OBFUSCATION": "Embedded username"
           }
         ],
         "body_config": {
@@ -137,10 +137,10 @@
           "heur_id": 4,
           "score": 0,
           "score_map": {
-            "embedded_credentials": 0
+            "embedded_username": 0
           },
           "signatures": {
-            "embedded_credentials": 1
+            "embedded_username": 1
           }
         },
         "promote_to": null,
@@ -169,21 +169,21 @@
         "attack_ids": [],
         "heur_id": 4,
         "signatures": [
-          "embedded_credentials"
+          "embedded_username"
         ]
       },
       {
         "attack_ids": [],
         "heur_id": 4,
         "signatures": [
-          "embedded_credentials"
+          "embedded_username"
         ]
       },
       {
         "attack_ids": [],
         "heur_id": 4,
         "signatures": [
-          "embedded_credentials"
+          "embedded_username"
         ]
       }
     ],
@@ -192,42 +192,42 @@
         {
           "heur_id": 4,
           "signatures": [
-            "embedded_credentials"
+            "embedded_username"
           ],
           "value": "http://site.com"
         },
         {
           "heur_id": 4,
           "signatures": [
-            "embedded_credentials"
+            "embedded_username"
           ],
           "value": "http://site.com/"
         },
         {
           "heur_id": 4,
           "signatures": [
-            "embedded_credentials"
+            "embedded_username"
           ],
           "value": "http://site.com/asdgasdf?u=234234&data=34234"
         },
         {
           "heur_id": 4,
           "signatures": [
-            "embedded_credentials"
+            "embedded_username"
           ],
           "value": "http://user1@site.com/asdgasdf?u=234234&data=34234"
         },
         {
           "heur_id": 4,
           "signatures": [
-            "embedded_credentials"
+            "embedded_username"
           ],
           "value": "http://user2@site.com"
         },
         {
           "heur_id": 4,
           "signatures": [
-            "embedded_credentials"
+            "embedded_username"
           ],
           "value": "http://user2@site.com/"
         }

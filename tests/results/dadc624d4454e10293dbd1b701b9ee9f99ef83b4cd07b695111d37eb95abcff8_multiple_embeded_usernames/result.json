@@ -22,8 +22,8 @@
           {
             "COMPONENT": "URL",
             "DECODED STRING": "https://site.com",
-            "ENCODED STRING": "https://user1:pass1@site.com",
-            "OBFUSCATION": "Embedded credentials"
+            "ENCODED STRING": "https://user1@site.com",
+            "OBFUSCATION": "Embedded username"
           }
         ],
         "body_config": {
@@ -43,10 +43,10 @@
           "heur_id": 4,
           "score": 0,
           "score_map": {
-            "embedded_credentials": 0
+            "embedded_username": 0
           },
           "signatures": {
-            "embedded_credentials": 1
+            "embedded_username": 1
           }
         },
         "promote_to": null,
@@ -54,13 +54,13 @@
           "network": {
             "static": {
               "uri": [
-                "https://user1:pass1@site.com",
+                "https://user1@site.com",
                 "https://site.com"
               ]
             }
           }
         },
-        "title_text": "https://user1:pass1@site.com",
+        "title_text": "https://user1@site.com",
         "zeroize_on_tag_safe": false
       },
       {
@@ -69,8 +69,8 @@
           {
             "COMPONENT": "URL",
             "DECODED STRING": "https://site.com",
-            "ENCODED STRING": "https://user2:pass2@site.com",
-            "OBFUSCATION": "Embedded credentials"
+            "ENCODED STRING": "https://user2@site.com",
+            "OBFUSCATION": "Embedded username"
           }
         ],
         "body_config": {
@@ -90,10 +90,10 @@
           "heur_id": 4,
           "score": 0,
           "score_map": {
-            "embedded_credentials": 0
+            "embedded_username": 0
           },
           "signatures": {
-            "embedded_credentials": 1
+            "embedded_username": 1
           }
         },
         "promote_to": null,
@@ -101,13 +101,13 @@
           "network": {
             "static": {
               "uri": [
-                "https://user2:pass2@site.com",
+                "https://user2@site.com",
                 "https://site.com"
               ]
             }
           }
         },
-        "title_text": "https://user2:pass2@site.com",
+        "title_text": "https://user2@site.com",
         "zeroize_on_tag_safe": false
       },
       {
@@ -116,8 +116,8 @@
           {
             "COMPONENT": "URL",
             "DECODED STRING": "https://site.com",
-            "ENCODED STRING": "https://user3:pass3@site.com",
-            "OBFUSCATION": "Embedded credentials"
+            "ENCODED STRING": "https://user3@site.com",
+            "OBFUSCATION": "Embedded username"
           }
         ],
         "body_config": {
@@ -137,10 +137,10 @@
           "heur_id": 4,
           "score": 0,
           "score_map": {
-            "embedded_credentials": 0
+            "embedded_username": 0
           },
           "signatures": {
-            "embedded_credentials": 1
+            "embedded_username": 1
           }
         },
         "promote_to": null,
@@ -148,13 +148,13 @@
           "network": {
             "static": {
               "uri": [
-                "https://user3:pass3@site.com",
+                "https://user3@site.com",
                 "https://site.com"
               ]
             }
           }
         },
-        "title_text": "https://user3:pass3@site.com",
+        "title_text": "https://user3@site.com",
         "zeroize_on_tag_safe": false
       },
       {
@@ -163,8 +163,8 @@
           {
             "COMPONENT": "URL",
             "DECODED STRING": "https://site.com",
-            "ENCODED STRING": "https://user4:pass4@site.com",
-            "OBFUSCATION": "Embedded credentials"
+            "ENCODED STRING": "https://user4@site.com",
+            "OBFUSCATION": "Embedded username"
           }
         ],
         "body_config": {
@@ -184,10 +184,10 @@
           "heur_id": 4,
           "score": 0,
           "score_map": {
-            "embedded_credentials": 0
+            "embedded_username": 0
           },
           "signatures": {
-            "embedded_credentials": 1
+            "embedded_username": 1
           }
         },
         "promote_to": null,
@@ -195,13 +195,13 @@
           "network": {
             "static": {
               "uri": [
-                "https://user4:pass4@site.com",
+                "https://user4@site.com",
                 "https://site.com"
               ]
             }
           }
         },
-        "title_text": "https://user4:pass4@site.com",
+        "title_text": "https://user4@site.com",
         "zeroize_on_tag_safe": false
       },
       {
@@ -210,8 +210,8 @@
           {
             "COMPONENT": "URL",
             "DECODED STRING": "https://site.com",
-            "ENCODED STRING": "https://user5:pass5@site.com",
-            "OBFUSCATION": "Embedded credentials"
+            "ENCODED STRING": "https://user5@site.com",
+            "OBFUSCATION": "Embedded username"
           }
         ],
         "body_config": {
@@ -231,10 +231,10 @@
           "heur_id": 4,
           "score": 0,
           "score_map": {
-            "embedded_credentials": 0
+            "embedded_username": 0
           },
           "signatures": {
-            "embedded_credentials": 1
+            "embedded_username": 1
           }
         },
         "promote_to": null,
@@ -242,13 +242,13 @@
           "network": {
             "static": {
               "uri": [
-                "https://user5:pass5@site.com",
+                "https://user5@site.com",
                 "https://site.com"
               ]
             }
           }
         },
-        "title_text": "https://user5:pass5@site.com",
+        "title_text": "https://user5@site.com",
         "zeroize_on_tag_safe": false
       },
       {
@@ -257,8 +257,8 @@
           {
             "COMPONENT": "URL",
             "DECODED STRING": "https://site.com",
-            "ENCODED STRING": "https://user6:pass6@site.com",
-            "OBFUSCATION": "Embedded credentials"
+            "ENCODED STRING": "https://user6@site.com",
+            "OBFUSCATION": "Embedded username"
           }
         ],
         "body_config": {
@@ -278,10 +278,10 @@
           "heur_id": 4,
           "score": 0,
           "score_map": {
-            "embedded_credentials": 0
+            "embedded_username": 0
           },
           "signatures": {
-            "embedded_credentials": 1
+            "embedded_username": 1
           }
         },
         "promote_to": null,
@@ -289,13 +289,13 @@
           "network": {
             "static": {
               "uri": [
-                "https://user6:pass6@site.com",
+                "https://user6@site.com",
                 "https://site.com"
               ]
             }
           }
         },
-        "title_text": "https://user6:pass6@site.com",
+        "title_text": "https://user6@site.com",
         "zeroize_on_tag_safe": false
       },
       {
@@ -304,8 +304,8 @@
           {
             "COMPONENT": "URL",
             "DECODED STRING": "https://site.com",
-            "ENCODED STRING": "https://user7:pass7@site.com",
-            "OBFUSCATION": "Embedded credentials"
+            "ENCODED STRING": "https://user7@site.com",
+            "OBFUSCATION": "Embedded username"
           }
         ],
         "body_config": {
@@ -325,10 +325,10 @@
           "heur_id": 4,
           "score": 0,
           "score_map": {
-            "embedded_credentials": 0
+            "embedded_username": 0
           },
           "signatures": {
-            "embedded_credentials": 1
+            "embedded_username": 1
           }
         },
         "promote_to": null,
@@ -336,13 +336,13 @@
           "network": {
             "static": {
               "uri": [
-                "https://user7:pass7@site.com",
+                "https://user7@site.com",
                 "https://site.com"
               ]
             }
           }
         },
-        "title_text": "https://user7:pass7@site.com",
+        "title_text": "https://user7@site.com",
         "zeroize_on_tag_safe": false
       },
       {
@@ -351,8 +351,8 @@
           {
             "COMPONENT": "URL",
             "DECODED STRING": "https://site.com",
-            "ENCODED STRING": "https://user8:pass8@site.com",
-            "OBFUSCATION": "Embedded credentials"
+            "ENCODED STRING": "https://user8@site.com",
+            "OBFUSCATION": "Embedded username"
           }
         ],
         "body_config": {
@@ -372,10 +372,10 @@
           "heur_id": 4,
           "score": 0,
           "score_map": {
-            "embedded_credentials": 0
+            "embedded_username": 0
           },
           "signatures": {
-            "embedded_credentials": 1
+            "embedded_username": 1
           }
         },
         "promote_to": null,
@@ -383,13 +383,13 @@
           "network": {
             "static": {
               "uri": [
-                "https://user8:pass8@site.com",
+                "https://user8@site.com",
                 "https://site.com"
               ]
             }
           }
         },
-        "title_text": "https://user8:pass8@site.com",
+        "title_text": "https://user8@site.com",
         "zeroize_on_tag_safe": false
       },
       {
@@ -468,56 +468,56 @@
         "attack_ids": [],
         "heur_id": 4,
         "signatures": [
-          "embedded_credentials"
+          "embedded_username"
         ]
       },
       {
         "attack_ids": [],
         "heur_id": 4,
         "signatures": [
-          "embedded_credentials"
+          "embedded_username"
         ]
       },
       {
         "attack_ids": [],
         "heur_id": 4,
         "signatures": [
-          "embedded_credentials"
+          "embedded_username"
         ]
       },
       {
         "attack_ids": [],
         "heur_id": 4,
         "signatures": [
-          "embedded_credentials"
+          "embedded_username"
         ]
       },
       {
         "attack_ids": [],
         "heur_id": 4,
         "signatures": [
-          "embedded_credentials"
+          "embedded_username"
         ]
       },
       {
         "attack_ids": [],
         "heur_id": 4,
         "signatures": [
-          "embedded_credentials"
+          "embedded_username"
         ]
       },
       {
         "attack_ids": [],
         "heur_id": 4,
         "signatures": [
-          "embedded_credentials"
+          "embedded_username"
         ]
       },
       {
         "attack_ids": [],
         "heur_id": 4,
         "signatures": [
-          "embedded_credentials"
+          "embedded_username"
         ]
       }
     ],
@@ -526,114 +526,114 @@
         {
           "heur_id": 4,
           "signatures": [
-            "embedded_credentials"
+            "embedded_username"
           ],
           "value": "https://site.com"
         },
         {
           "heur_id": 4,
           "signatures": [
-            "embedded_credentials"
+            "embedded_username"
           ],
           "value": "https://site.com"
         },
         {
           "heur_id": 4,
           "signatures": [
-            "embedded_credentials"
+            "embedded_username"
           ],
           "value": "https://site.com"
         },
         {
           "heur_id": 4,
           "signatures": [
-            "embedded_credentials"
+            "embedded_username"
           ],
           "value": "https://site.com"
         },
         {
           "heur_id": 4,
           "signatures": [
-            "embedded_credentials"
+            "embedded_username"
           ],
           "value": "https://site.com"
         },
         {
           "heur_id": 4,
           "signatures": [
-            "embedded_credentials"
+            "embedded_username"
           ],
           "value": "https://site.com"
         },
         {
           "heur_id": 4,
           "signatures": [
-            "embedded_credentials"
+            "embedded_username"
           ],
           "value": "https://site.com"
         },
         {
           "heur_id": 4,
           "signatures": [
-            "embedded_credentials"
+            "embedded_username"
           ],
           "value": "https://site.com"
         },
         {
           "heur_id": 4,
           "signatures": [
-            "embedded_credentials"
+            "embedded_username"
           ],
-          "value": "https://user1:pass1@site.com"
+          "value": "https://user1@site.com"
         },
         {
           "heur_id": 4,
           "signatures": [
-            "embedded_credentials"
+            "embedded_username"
           ],
-          "value": "https://user2:pass2@site.com"
+          "value": "https://user2@site.com"
         },
         {
           "heur_id": 4,
           "signatures": [
-            "embedded_credentials"
+            "embedded_username"
           ],
-          "value": "https://user3:pass3@site.com"
+          "value": "https://user3@site.com"
         },
         {
           "heur_id": 4,
           "signatures": [
-            "embedded_credentials"
+            "embedded_username"
           ],
-          "value": "https://user4:pass4@site.com"
+          "value": "https://user4@site.com"
         },
         {
           "heur_id": 4,
           "signatures": [
-            "embedded_credentials"
+            "embedded_username"
           ],
-          "value": "https://user5:pass5@site.com"
+          "value": "https://user5@site.com"
         },
         {
           "heur_id": 4,
           "signatures": [
-            "embedded_credentials"
+            "embedded_username"
           ],
-          "value": "https://user6:pass6@site.com"
+          "value": "https://user6@site.com"
         },
         {
           "heur_id": 4,
           "signatures": [
-            "embedded_credentials"
+            "embedded_username"
           ],
-          "value": "https://user7:pass7@site.com"
+          "value": "https://user7@site.com"
         },
         {
           "heur_id": 4,
           "signatures": [
-            "embedded_credentials"
+            "embedded_username"
           ],
-          "value": "https://user8:pass8@site.com"
+          "value": "https://user8@site.com"
         }
       ]
     },

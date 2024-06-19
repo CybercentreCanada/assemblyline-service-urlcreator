@@ -65,7 +65,27 @@ def test_phishing():
     assert network_iocs["domain"] == ["bad.com"]
     assert '"OBFUSCATION": "URL masquerade"' in res_section.body
 
+    url = "https://username@adobe.com@bad.com/malicious.zip"
+    res_section, network_iocs = url_analysis(url)
+    # Should reveal the true target URL for reputation checking
+    assert network_iocs["uri"] == ["https://bad.com/malicious.zip"]
+    assert network_iocs["domain"] == ["bad.com"]
+    assert '"OBFUSCATION": "URL masquerade"' in res_section.body
+
+    url = "https://something@not-a-url-with-tld@bad.com/malicious.zip"
+    res_section, network_iocs = url_analysis(url)
+    # Should reveal the true target URL for reputation checking
+    assert network_iocs["uri"] == ["https://bad.com/malicious.zip"]
+    assert network_iocs["domain"] == ["bad.com"]
+    assert '"OBFUSCATION": "URL masquerade"' not in res_section.body
+
     url = "https://username@bad.com/"
+    res_section, network_iocs = url_analysis(url)
+    assert network_iocs["uri"] == ["https://bad.com/"]
+    assert network_iocs["domain"] == ["bad.com"]
+    assert '"OBFUSCATION": "Embedded username"' in res_section.body
+
+    url = "https://username:password@bad.com/"
     res_section, network_iocs = url_analysis(url)
     assert network_iocs["uri"] == ["https://bad.com/"]
     assert network_iocs["domain"] == ["bad.com"]
