@@ -3,6 +3,7 @@ import re
 from collections import Counter, defaultdict
 from urllib.parse import urlparse
 
+import urlcreator.network
 from assemblyline.odm.base import IP_ONLY_REGEX, IPV4_ONLY_REGEX
 from assemblyline_v4_service.common.base import ServiceBase
 from assemblyline_v4_service.common.request import ServiceRequest
@@ -15,8 +16,6 @@ from assemblyline_v4_service.common.result import (
     TableRow,
 )
 from assemblyline_v4_service.common.task import MaxExtractedExceeded
-
-import urlcreator.network
 
 # Threshold to trigger heuristic regarding high port usage in URI
 HIGH_PORT_MINIMUM = 1024
@@ -51,12 +50,16 @@ class URLCreator(ServiceBase):
 
     def execute(self, request: ServiceRequest) -> None:
         request.result = Result()
-
-        minimum_maliciousness = max(int(request.get_param("minimum_maliciousness")), self.minimum_maliciousness_limit)
         tags = request.task.tags
 
         # Only concerned with static/dynamic URIs found by prior services
         urls = tags.get("network.static.uri", []) + tags.get("network.dynamic.uri", [])
+
+        # No tags of interest? Exit fast!
+        if not urls:
+            return
+
+        minimum_maliciousness = max(int(request.get_param("minimum_maliciousness")), self.minimum_maliciousness_limit)
         emails = [x[0].lower() for x in tags.get("network.email.address", [])]
 
         scoring_uri = ResultTableSection(title_text="High scoring URI")
