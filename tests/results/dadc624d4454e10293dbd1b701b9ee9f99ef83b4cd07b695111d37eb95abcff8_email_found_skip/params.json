@@ -5,7 +5,7 @@
     "tags": [
         {
             "type": "network.email.address",
-            "short_type": "URI",
+            "short_type": "address",
             "value": "user1@site.com",
             "score": 0
         },
