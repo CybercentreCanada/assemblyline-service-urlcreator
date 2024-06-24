@@ -10,13 +10,16 @@ from multidecoder.decoders.base64 import BASE64_RE
 from multidecoder.decoders.network import DOMAIN_TYPE, EMAIL_TYPE, IP_TYPE, URL_TYPE, parse_url
 from multidecoder.multidecoder import Multidecoder
 from multidecoder.node import Node
+from multidecoder.registry import build_registry
 from multidecoder.string_helper import make_bytes, make_str
 
 NETWORK_IOC_TYPES = ["domain", "ip", "uri"]
 
 
 def url_analysis(url: str) -> Tuple[ResultTableSection, Dict[str, List[str]]]:
-    md = Multidecoder()
+    # There is no point in searching for keywords in a URL
+    md_registry = build_registry(exclude=["get_keywords"])
+    md = Multidecoder(decoders=md_registry)
 
     analysis_table = ResultTableSection(url[:128] + "..." if len(url) > 128 else url)
     network_iocs = {ioc_type: [] for ioc_type in NETWORK_IOC_TYPES}
