@@ -1,7 +1,8 @@
 import binascii
+import hashlib
 import re
 from base64 import b64decode
-from typing import Dict, List, Tuple
+from typing import Callable, Dict, List, Tuple
 from urllib.parse import urlparse
 
 from assemblyline.odm.base import IP_ONLY_REGEX
@@ -16,7 +17,7 @@ from multidecoder.string_helper import make_bytes, make_str
 NETWORK_IOC_TYPES = ["domain", "ip", "uri"]
 
 
-def url_analysis(url: str) -> Tuple[ResultTableSection, Dict[str, List[str]]]:
+def url_analysis(url: str, lookup_safelist: Callable) -> Tuple[ResultTableSection, Dict[str, List[str]]]:
     # There is no point in searching for keywords in a URL
     md_registry = get_analyzers()
     md = Multidecoder(decoders=md_registry)
@@ -61,7 +62,7 @@ def url_analysis(url: str) -> Tuple[ResultTableSection, Dict[str, List[str]]]:
                     }
                 )
             )
-            inner_analysis_section, inner_network_iocs = url_analysis(inner_url)
+            inner_analysis_section, inner_network_iocs = url_analysis(inner_url, lookup_safelist)
             if inner_analysis_section.body:
                 # If we were able to analyze anything of interest recursively, append to result
                 analysis_table.add_subsection(inner_analysis_section)
@@ -156,7 +157,19 @@ def url_analysis(url: str) -> Tuple[ResultTableSection, Dict[str, List[str]]]:
                     }
                 )
             )
-            analysis_table.set_heuristic(4, signature="url_masquerade")
+            heur = Heuristic(4)
+            domain_safelisted = False
+            for analytic_type in ["static", "dynamic"]:
+                qhash = hashlib.sha256(f"network.{analytic_type}.domain: {domain}".encode("utf8")).hexdigest()
+                data = lookup_safelist(qhash)
+                if data and data.get("enabled", False):
+                    domain_safelisted = True
+
+            if domain_safelisted:
+                heur.add_signature_id("url_masquerade", score=0)
+            else:
+                heur.add_signature_id("url_masquerade")
+            analysis_table.set_heuristic(heur)
         elif password:
             # This URL has auth details embedded in the URL, weird
             analysis_table.add_row(

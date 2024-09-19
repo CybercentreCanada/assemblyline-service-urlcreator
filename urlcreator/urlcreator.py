@@ -3,7 +3,6 @@ import re
 from collections import Counter, defaultdict
 from urllib.parse import urlparse
 
-import urlcreator.network
 from assemblyline.odm.base import IP_ONLY_REGEX, IPV4_ONLY_REGEX
 from assemblyline_v4_service.common.base import ServiceBase
 from assemblyline_v4_service.common.request import ServiceRequest
@@ -16,6 +15,8 @@ from assemblyline_v4_service.common.result import (
     TableRow,
 )
 from assemblyline_v4_service.common.task import MaxExtractedExceeded
+
+import urlcreator.network
 
 # Threshold to trigger heuristic regarding high port usage in URI
 HIGH_PORT_MINIMUM = 1024
@@ -84,7 +85,9 @@ class URLCreator(ServiceBase):
             interesting_features = []
 
             # Look for data that might be embedded in URLs
-            analysis_table, network_iocs = urlcreator.network.url_analysis(tag_value)
+            analysis_table, network_iocs = urlcreator.network.url_analysis(
+                tag_value, self.api_interface.lookup_safelist
+            )
             for k, v in network_iocs.items():
                 url_analysis_network_iocs[k].update(v)
             if analysis_table.body:
