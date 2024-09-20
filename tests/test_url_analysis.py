@@ -10,7 +10,7 @@ def test_unicode_characters():
     url = "https://hello:world@écoute.com/"
     res_section, network_iocs = url_analysis(url)
     assert network_iocs == {"uri": ["https://écoute.com/"], "domain": ["écoute.com"], "ip": []}
-    assert '"OBFUSCATION": "Embedded credentials"' in res_section.body
+    assert "embedded_credentials" in res_section.heuristic.signatures
 
 
 def test_embedded_base64():
@@ -67,40 +67,46 @@ def test_phishing():
     # Should reveal the true target URL for reputation checking
     assert network_iocs["uri"] == ["https://bad.com/malicious.zip?evil=true"]
     assert network_iocs["domain"] == ["bad.com"]
-    assert '"OBFUSCATION": "URL masquerade"' in res_section.body
+    assert "url_masquerade" in res_section.heuristic.signatures
 
     url = "https://username@adobe.com@bad.com/malicious.zip"
     res_section, network_iocs = url_analysis(url)
     # Should reveal the true target URL for reputation checking
     assert network_iocs["uri"] == ["https://bad.com/malicious.zip"]
     assert network_iocs["domain"] == ["bad.com"]
-    assert '"OBFUSCATION": "URL masquerade"' in res_section.body
+    assert "url_masquerade" in res_section.heuristic.signatures
 
     url = "https://adobe.com@bad.com/malicious.zip"
     res_section, network_iocs = url_analysis(url)
     # Should reveal the true target URL for reputation checking
     assert network_iocs["uri"] == ["https://bad.com/malicious.zip"]
     assert network_iocs["domain"] == ["bad.com"]
-    assert '"OBFUSCATION": "URL masquerade"' in res_section.body
+    assert "url_masquerade" in res_section.heuristic.signatures
 
     url = "https://something@not-a-url-with-tld@bad.com/malicious.zip"
     res_section, network_iocs = url_analysis(url)
     # Should reveal the true target URL for reputation checking
     assert network_iocs["uri"] == ["https://bad.com/malicious.zip"]
     assert network_iocs["domain"] == ["bad.com"]
-    assert '"OBFUSCATION": "URL masquerade"' not in res_section.body
+    assert "url_masquerade" not in res_section.heuristic.signatures
 
     url = "https://username@bad.com/"
     res_section, network_iocs = url_analysis(url)
     assert network_iocs["uri"] == ["https://bad.com/"]
     assert network_iocs["domain"] == ["bad.com"]
-    assert '"OBFUSCATION": "Embedded username"' in res_section.body
+    assert "embedded_username" in res_section.heuristic.signatures
 
     url = "https://username:password@bad.com/"
     res_section, network_iocs = url_analysis(url)
     assert network_iocs["uri"] == ["https://bad.com/"]
     assert network_iocs["domain"] == ["bad.com"]
-    assert '"OBFUSCATION": "Embedded credentials"' in res_section.body
+    assert "embedded_credentials" in res_section.heuristic.signatures
+
+    url = "https://123:xyz@example.com/"
+    res_section, network_iocs = url_analysis(url)
+    assert network_iocs["uri"] == ["https://example.com/"]
+    assert network_iocs["domain"] == ["example.com"]
+    assert "url_masquerade" not in res_section.heuristic.signatures
 
 
 def test_ascii_decode_handling():
@@ -126,7 +132,7 @@ def test_safelisted_domain():
     # Should reveal the true target URL for reputation checking
     assert network_iocs["uri"] == ["https://bad.com/malicious.zip"]
     assert network_iocs["domain"] == ["bad.com"]
-    assert '"OBFUSCATION": "URL masquerade"' in res_section.body
+    assert "url_masquerade" in res_section.heuristic.signatures
     assert res_section.heuristic.score == 500
 
     url = "https://adobe.com@safelistedenabled.com/malicious.zip"
@@ -134,7 +140,7 @@ def test_safelisted_domain():
     # Should reveal the true target URL for reputation checking
     assert network_iocs["uri"] == ["https://safelistedenabled.com/malicious.zip"]
     assert network_iocs["domain"] == ["safelistedenabled.com"]
-    assert '"OBFUSCATION": "URL masquerade"' in res_section.body
+    assert "url_masquerade" in res_section.heuristic.signatures
     assert res_section.heuristic.score == 0
 
     url = "https://adobe.com@safelisteddisabled.com/malicious.zip"
@@ -142,5 +148,5 @@ def test_safelisted_domain():
     # Should reveal the true target URL for reputation checking
     assert network_iocs["uri"] == ["https://safelisteddisabled.com/malicious.zip"]
     assert network_iocs["domain"] == ["safelisteddisabled.com"]
-    assert '"OBFUSCATION": "URL masquerade"' in res_section.body
+    assert "url_masquerade" in res_section.heuristic.signatures
     assert res_section.heuristic.score == 500

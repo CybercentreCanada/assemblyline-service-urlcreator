@@ -139,9 +139,10 @@ def url_analysis(url: str, lookup_safelist: Callable) -> Tuple[ResultTableSectio
         try:
             username_url = make_bytes(scheme) + b"://" + username.value
             username_as_url = parse_url(username_url)
-            username_host = (
-                [node for node in username_as_url if node.type in ["network.ip", "network.domain"]] + [None]
-            )[0]
+            # We usually look for 'network.ip' or 'network.domain' but we can assume that
+            # any URL masquerading would be done using a domain only.
+            # This also reduce false positives of having a number-only username being treated like an IP.
+            username_host = ([node for node in username_as_url if node.type == "network.domain"] + [None])[0]
         except Exception:
             username_host = None
 
