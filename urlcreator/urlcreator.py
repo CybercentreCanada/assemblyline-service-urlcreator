@@ -22,8 +22,8 @@ import urlcreator.network
 HIGH_PORT_MINIMUM = 1024
 
 # Common tools native to the platform that can be used for recon
-WINDOWS_TOOLS = ["dir", "hostname", "ipconfig", "netsh", "pwd", "route", "schtasks", "ver", "whoami"]
-LINUX_TOOLS = ["cat", "crontab", "hostname", "iptables", "pwd", "route", "uname", "whoami"]
+WINDOWS_TOOLS = ["dir", "hostname", "ipconfig", "netsh", "pwd", "route", "schtasks", "whoami"]
+LINUX_TOOLS = ["crontab", "hostname", "iptables", "pwd", "route", "uname", "whoami"]
 
 # Tools used for recon, sourced from https://github.com/ail-project/ail-framework/blob/master/bin/modules/Tools.py
 # fmt: off
