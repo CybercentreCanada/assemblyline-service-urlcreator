@@ -1,0 +1,13 @@
+{
+    "submission_params": {
+        "minimum_maliciousness": 50
+    },
+    "tags": [
+        {
+            "type": "network.static.unc_path",
+            "short_type": "unc_path",
+            "value": "\\\\1.1.1.1@5555\\DavWWWRoot\\files\\Erlianaw.exe",
+            "score": 0
+        }
+    ]
+}

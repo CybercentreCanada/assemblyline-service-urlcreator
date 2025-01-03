@@ -53,6 +53,21 @@ class URLCreator(ServiceBase):
         request.result = Result()
         tags = request.task.tags
 
+        unc_http_paths = []
+        for unc_path, _ in tags.get("network.static.unc_path", []):
+            unc_path = "http:" + unc_path.replace("\\", "/")
+            supposed_host = unc_path[5:].lstrip("/").split("/", 1)[0]
+            if "@" in supposed_host:
+                unc_path = unc_path.replace(supposed_host, supposed_host[::-1].replace("@", ":", 1)[::-1], 1)
+            unc_http_paths.append(unc_path)
+        if unc_http_paths:
+            unc_to_http = ResultTextSection(
+                title_text=f"UNC path{'s' if len(unc_http_paths) > 1 else ''} converted to HTTP", parent=request.result
+            )
+            for unc_http_path in unc_http_paths:
+                unc_to_http.add_line(unc_http_path)
+                unc_to_http.add_tag("network.static.uri", unc_http_path)
+
         # Only concerned with static/dynamic URIs found by prior services
         urls = tags.get("network.static.uri", []) + tags.get("network.dynamic.uri", [])
 

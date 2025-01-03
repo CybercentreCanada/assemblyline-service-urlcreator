@@ -1,0 +1,46 @@
+{
+  "extra": {
+    "drop_file": false,
+    "score": 0,
+    "sections": [
+      {
+        "auto_collapse": false,
+        "body": "http://1.1.1.1:5555/DavWWWRoot/files/Erlianaw.exe",
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 0,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "uri": [
+                "http://1.1.1.1:5555/DavWWWRoot/files/Erlianaw.exe"
+              ]
+            }
+          }
+        },
+        "title_text": "UNC path converted to HTTP",
+        "zeroize_on_tag_safe": false
+      }
+    ]
+  },
+  "files": {
+    "extracted": [],
+    "supplementary": []
+  },
+  "results": {
+    "heuristics": [],
+    "tags": {
+      "network.static.uri": [
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "http://1.1.1.1:5555/DavWWWRoot/files/Erlianaw.exe"
+        }
+      ]
+    },
+    "temp_submission_data": {}
+  }
+}
