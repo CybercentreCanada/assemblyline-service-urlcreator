@@ -5,15 +5,15 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "RunServiceOnce",
+            "name": "RunServiceOnce URLCreator",
             "type": "python",
             "request": "launch",
             "module": "assemblyline_v4_service.dev.run_service_once",
             "cwd": "${workspaceFolder}",
             "args": [
                 "-d",
-                "urlcreator.URLCreator",
-                "/path/to/sample"
+                "urlcreator.urlcreator.URLCreator",
+                "${file}"
             ],
             "justMyCode": false,
         },
@@ -25,7 +25,7 @@
             "env": {
                 "SERVICE_MANIFEST_PATH": "service_manifest.yml",
                 "PRIVILEGED": "true",
-                "SERVICE_PATH": "urlcreator.URLCreator",
+                "SERVICE_PATH": "urlcreator.urlcreator.URLCreator",
                 "TASKING_DIR": "/tmp/URLCreator"
             },
             "console": "internalConsole",

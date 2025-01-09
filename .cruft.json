@@ -1,0 +1,23 @@
+{
+  "template": "git@github.com:CybercentreCanada/assemblyline-service-template.git",
+  "commit": "44fff28eb9f9537cd9564d16dd95a85e88b174be",
+  "checkout": null,
+  "context": {
+    "cookiecutter": {
+      "service_name": "urlcreator",
+      "__svc_name": "urlcreator",
+      "__repository": "assemblyline-service-urlcreator",
+      "__pkg_name": "urlcreator",
+      "class_name": "URLCreator",
+      "short_description": "This Assemblyline service creates URI files for URIs that were extracted by other services with an associated score that is high enough, or if the URI fits a certain set of criteria.",
+      "short_description_fr": "Ce service d'Assemblyline crée des fichiers URI pour les URIs qui sont extrait par d'autres services associés à un score suffisament élevé, ou si le URI rencontre certains critères.",
+      "stage": "POST",
+      "category": "Static Analysis",
+      "org_name_full": "CybercentreCanada",
+      "org_name_short": "cccs",
+      "license": "mit",
+      "_template": "git@github.com:CybercentreCanada/assemblyline-service-template.git"
+    }
+  },
+  "directory": null
+}
