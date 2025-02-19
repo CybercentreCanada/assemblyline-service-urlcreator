@@ -5,6 +5,45 @@
     "sections": [
       {
         "auto_collapse": false,
+        "body": "https://user1@site.com\nhttps://user2@site.com\nhttps://user3@site.com\nhttps://user4@site.com\nhttps://user5@site.com\nhttps://user6@site.com\nhttps://user7@site.com\nhttps://user8@site.com",
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 0,
+        "heuristic": {
+          "attack_ids": [],
+          "frequency": 1,
+          "heur_id": 4,
+          "score": 0,
+          "score_map": {
+            "embedded_username": 0
+          },
+          "signatures": {
+            "embedded_username": 1
+          }
+        },
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "uri": [
+                "https://user1@site.com",
+                "https://user2@site.com",
+                "https://user3@site.com",
+                "https://user4@site.com",
+                "https://user5@site.com",
+                "https://user6@site.com",
+                "https://user7@site.com",
+                "https://user8@site.com"
+              ]
+            }
+          }
+        },
+        "title_text": "Behaviour embedded_username found",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
         "body": null,
         "body_config": {},
         "body_format": "TEXT",
@@ -37,18 +76,7 @@
         "body_format": "TABLE",
         "classification": "TLP:C",
         "depth": 1,
-        "heuristic": {
-          "attack_ids": [],
-          "frequency": 1,
-          "heur_id": 4,
-          "score": 0,
-          "score_map": {
-            "embedded_username": 0
-          },
-          "signatures": {
-            "embedded_username": 1
-          }
-        },
+        "heuristic": null,
         "promote_to": null,
         "tags": {
           "network": {
@@ -84,18 +112,7 @@
         "body_format": "TABLE",
         "classification": "TLP:C",
         "depth": 1,
-        "heuristic": {
-          "attack_ids": [],
-          "frequency": 1,
-          "heur_id": 4,
-          "score": 0,
-          "score_map": {
-            "embedded_username": 0
-          },
-          "signatures": {
-            "embedded_username": 1
-          }
-        },
+        "heuristic": null,
         "promote_to": null,
         "tags": {
           "network": {
@@ -131,18 +148,7 @@
         "body_format": "TABLE",
         "classification": "TLP:C",
         "depth": 1,
-        "heuristic": {
-          "attack_ids": [],
-          "frequency": 1,
-          "heur_id": 4,
-          "score": 0,
-          "score_map": {
-            "embedded_username": 0
-          },
-          "signatures": {
-            "embedded_username": 1
-          }
-        },
+        "heuristic": null,
         "promote_to": null,
         "tags": {
           "network": {
@@ -178,18 +184,7 @@
         "body_format": "TABLE",
         "classification": "TLP:C",
         "depth": 1,
-        "heuristic": {
-          "attack_ids": [],
-          "frequency": 1,
-          "heur_id": 4,
-          "score": 0,
-          "score_map": {
-            "embedded_username": 0
-          },
-          "signatures": {
-            "embedded_username": 1
-          }
-        },
+        "heuristic": null,
         "promote_to": null,
         "tags": {
           "network": {
@@ -225,18 +220,7 @@
         "body_format": "TABLE",
         "classification": "TLP:C",
         "depth": 1,
-        "heuristic": {
-          "attack_ids": [],
-          "frequency": 1,
-          "heur_id": 4,
-          "score": 0,
-          "score_map": {
-            "embedded_username": 0
-          },
-          "signatures": {
-            "embedded_username": 1
-          }
-        },
+        "heuristic": null,
         "promote_to": null,
         "tags": {
           "network": {
@@ -272,18 +256,7 @@
         "body_format": "TABLE",
         "classification": "TLP:C",
         "depth": 1,
-        "heuristic": {
-          "attack_ids": [],
-          "frequency": 1,
-          "heur_id": 4,
-          "score": 0,
-          "score_map": {
-            "embedded_username": 0
-          },
-          "signatures": {
-            "embedded_username": 1
-          }
-        },
+        "heuristic": null,
         "promote_to": null,
         "tags": {
           "network": {
@@ -319,18 +292,7 @@
         "body_format": "TABLE",
         "classification": "TLP:C",
         "depth": 1,
-        "heuristic": {
-          "attack_ids": [],
-          "frequency": 1,
-          "heur_id": 4,
-          "score": 0,
-          "score_map": {
-            "embedded_username": 0
-          },
-          "signatures": {
-            "embedded_username": 1
-          }
-        },
+        "heuristic": null,
         "promote_to": null,
         "tags": {
           "network": {
@@ -366,18 +328,7 @@
         "body_format": "TABLE",
         "classification": "TLP:C",
         "depth": 1,
-        "heuristic": {
-          "attack_ids": [],
-          "frequency": 1,
-          "heur_id": 4,
-          "score": 0,
-          "score_map": {
-            "embedded_username": 0
-          },
-          "signatures": {
-            "embedded_username": 1
-          }
-        },
+        "heuristic": null,
         "promote_to": null,
         "tags": {
           "network": {
@@ -470,113 +421,48 @@
         "signatures": [
           "embedded_username"
         ]
-      },
-      {
-        "attack_ids": [],
-        "heur_id": 4,
-        "signatures": [
-          "embedded_username"
-        ]
-      },
-      {
-        "attack_ids": [],
-        "heur_id": 4,
-        "signatures": [
-          "embedded_username"
-        ]
-      },
-      {
-        "attack_ids": [],
-        "heur_id": 4,
-        "signatures": [
-          "embedded_username"
-        ]
-      },
-      {
-        "attack_ids": [],
-        "heur_id": 4,
-        "signatures": [
-          "embedded_username"
-        ]
-      },
-      {
-        "attack_ids": [],
-        "heur_id": 4,
-        "signatures": [
-          "embedded_username"
-        ]
-      },
-      {
-        "attack_ids": [],
-        "heur_id": 4,
-        "signatures": [
-          "embedded_username"
-        ]
-      },
-      {
-        "attack_ids": [],
-        "heur_id": 4,
-        "signatures": [
-          "embedded_username"
-        ]
       }
     ],
     "tags": {
       "network.static.uri": [
         {
-          "heur_id": 4,
-          "signatures": [
-            "embedded_username"
-          ],
+          "heur_id": null,
+          "signatures": [],
           "value": "https://site.com"
         },
         {
-          "heur_id": 4,
-          "signatures": [
-            "embedded_username"
-          ],
+          "heur_id": null,
+          "signatures": [],
           "value": "https://site.com"
         },
         {
-          "heur_id": 4,
-          "signatures": [
-            "embedded_username"
-          ],
+          "heur_id": null,
+          "signatures": [],
           "value": "https://site.com"
         },
         {
-          "heur_id": 4,
-          "signatures": [
-            "embedded_username"
-          ],
+          "heur_id": null,
+          "signatures": [],
           "value": "https://site.com"
         },
         {
-          "heur_id": 4,
-          "signatures": [
-            "embedded_username"
-          ],
+          "heur_id": null,
+          "signatures": [],
           "value": "https://site.com"
         },
         {
-          "heur_id": 4,
-          "signatures": [
-            "embedded_username"
-          ],
+          "heur_id": null,
+          "signatures": [],
           "value": "https://site.com"
         },
         {
-          "heur_id": 4,
-          "signatures": [
-            "embedded_username"
-          ],
+          "heur_id": null,
+          "signatures": [],
           "value": "https://site.com"
         },
         {
-          "heur_id": 4,
-          "signatures": [
-            "embedded_username"
-          ],
+          "heur_id": null,
+          "signatures": [],
           "value": "https://site.com"
         },
         {
@@ -587,10 +473,20 @@
           "value": "https://user1@site.com"
         },
         {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://user1@site.com"
+        },
+        {
           "heur_id": 4,
           "signatures": [
             "embedded_username"
           ],
+          "value": "https://user2@site.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
           "value": "https://user2@site.com"
         },
         {
@@ -601,10 +497,20 @@
           "value": "https://user3@site.com"
         },
         {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://user3@site.com"
+        },
+        {
           "heur_id": 4,
           "signatures": [
             "embedded_username"
           ],
+          "value": "https://user4@site.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
           "value": "https://user4@site.com"
         },
         {
@@ -615,10 +521,20 @@
           "value": "https://user5@site.com"
         },
         {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://user5@site.com"
+        },
+        {
           "heur_id": 4,
           "signatures": [
             "embedded_username"
           ],
+          "value": "https://user6@site.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
           "value": "https://user6@site.com"
         },
         {
@@ -629,10 +545,20 @@
           "value": "https://user7@site.com"
         },
         {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://user7@site.com"
+        },
+        {
           "heur_id": 4,
           "signatures": [
             "embedded_username"
           ],
+          "value": "https://user8@site.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
           "value": "https://user8@site.com"
         }
       ]

@@ -87,6 +87,7 @@ class URLCreator(ServiceBase):
         max_extracted_section = ResultTextSection("Too many URI files to be created")
         url_analysis_section = ResultSection("MultiDecoder Analysis")
         url_analysis_network_iocs = defaultdict(Counter)
+        flagged_behaviours = defaultdict(set)
 
         for tag_value, tag_score in urls:
             # Analyse the URL for the possibility of it being a something we should download
@@ -100,11 +101,13 @@ class URLCreator(ServiceBase):
             interesting_features = []
 
             # Look for data that might be embedded in URLs
-            analysis_table, network_iocs = urlcreator.network.url_analysis(
+            analysis_table, network_iocs, tag_flagged_behaviours = urlcreator.network.url_analysis(
                 tag_value, self.api_interface.lookup_safelist
             )
             for k, v in network_iocs.items():
                 url_analysis_network_iocs[k].update(v)
+            for k, v in tag_flagged_behaviours.items():
+                flagged_behaviours[k].update(v)
             if analysis_table.body:
                 url_analysis_section.add_subsection(analysis_table)
 
@@ -186,6 +189,16 @@ class URLCreator(ServiceBase):
             request.result.add_section(tool_table)
         if max_extracted_section.body:
             request.result.add_section(max_extracted_section)
+
+        if flagged_behaviours:
+            for behaviour, uris in flagged_behaviours.items():
+                behaviour_section = ResultSection(f"Behaviour {behaviour} found", parent=request.result)
+                heur = Heuristic(4)
+                heur.add_signature_id(behaviour, urlcreator.network.BEHAVIOUR_SCORES[behaviour])
+                behaviour_section.set_heuristic(heur)
+                for uri in sorted(uris):
+                    behaviour_section.add_line(uri)
+                    behaviour_section.add_tag("network.static.uri", uri)
 
         # Try to find redirector abuse. If there are multiple tags that are all
         # containing the same inner URL, that may be the final URI worth investigating

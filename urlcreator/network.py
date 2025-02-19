@@ -2,11 +2,12 @@ import binascii
 import hashlib
 import re
 from base64 import b64decode
+from collections import defaultdict
 from typing import Callable, Dict, List, Tuple
 from urllib.parse import urlparse
 
 from assemblyline.odm.base import IP_ONLY_REGEX
-from assemblyline_v4_service.common.result import Heuristic, ResultTableSection, TableRow
+from assemblyline_v4_service.common.result import ResultTableSection, TableRow
 from multidecoder.decoders.base64 import BASE64_RE
 from multidecoder.decoders.network import DOMAIN_TYPE, EMAIL_TYPE, IP_TYPE, URL_TYPE, parse_url
 from multidecoder.multidecoder import Multidecoder
@@ -15,15 +16,24 @@ from multidecoder.registry import get_analyzers
 from multidecoder.string_helper import make_bytes, make_str
 
 NETWORK_IOC_TYPES = ["domain", "ip", "uri"]
+BEHAVIOUR_SCORES = {
+    "safelisted_url_masquerade": 0,
+    "url_masquerade": 500,
+    "embedded_credentials": 0,
+    "embedded_username": 0,
+}
 
 
-def url_analysis(url: str, lookup_safelist: Callable) -> Tuple[ResultTableSection, Dict[str, List[str]]]:
+def url_analysis(
+    url: str, lookup_safelist: Callable
+) -> Tuple[ResultTableSection, Dict[str, List[str]], Dict[str, List[str]]]:
     # There is no point in searching for keywords in a URL
     md_registry = get_analyzers()
     md = Multidecoder(decoders=md_registry)
 
     analysis_table = ResultTableSection(url[:128] + "..." if len(url) > 128 else url)
     network_iocs = {ioc_type: [] for ioc_type in NETWORK_IOC_TYPES}
+    flagged_behaviours = defaultdict(set)
 
     def add_MD_results_to_table(result: Node):
         if result.obfuscation:
@@ -62,13 +72,17 @@ def url_analysis(url: str, lookup_safelist: Callable) -> Tuple[ResultTableSectio
                     }
                 )
             )
-            inner_analysis_section, inner_network_iocs = url_analysis(inner_url, lookup_safelist)
+            inner_analysis_section, inner_network_iocs, inner_flagged_behaviours = url_analysis(
+                inner_url, lookup_safelist
+            )
             if inner_analysis_section.body:
                 # If we were able to analyze anything of interest recursively, append to result
                 analysis_table.add_subsection(inner_analysis_section)
                 # Merge found IOCs
                 for ioc_type in NETWORK_IOC_TYPES:
                     network_iocs[ioc_type] = network_iocs[ioc_type] + inner_network_iocs[ioc_type]
+                for k, v in inner_flagged_behaviours.items():
+                    flagged_behaviours[k].update(v)
 
         if result.parent.type == result.type:
             # This value is derived from the parent which has the "correct" component value
@@ -158,7 +172,6 @@ def url_analysis(url: str, lookup_safelist: Callable) -> Tuple[ResultTableSectio
                     }
                 )
             )
-            heur = Heuristic(4)
             domain_safelisted = False
             for analytic_type in ["static", "dynamic"]:
                 qhash = hashlib.sha256(f"network.{analytic_type}.domain: {domain}".encode("utf8")).hexdigest()
@@ -167,10 +180,9 @@ def url_analysis(url: str, lookup_safelist: Callable) -> Tuple[ResultTableSectio
                     domain_safelisted = True
 
             if domain_safelisted:
-                heur.add_signature_id("url_masquerade", score=0)
+                flagged_behaviours["safelisted_url_masquerade"].add(url)
             else:
-                heur.add_signature_id("url_masquerade")
-            analysis_table.set_heuristic(heur)
+                flagged_behaviours["url_masquerade"].add(url)
         elif password:
             # This URL has auth details embedded in the URL, weird
             analysis_table.add_row(
@@ -183,9 +195,7 @@ def url_analysis(url: str, lookup_safelist: Callable) -> Tuple[ResultTableSectio
                     }
                 )
             )
-            heur = Heuristic(4)
-            heur.add_signature_id("embedded_credentials", score=0)
-            analysis_table.set_heuristic(heur)
+            flagged_behaviours["embedded_credentials"].add(url)
         else:
             analysis_table.add_row(
                 TableRow(
@@ -197,9 +207,7 @@ def url_analysis(url: str, lookup_safelist: Callable) -> Tuple[ResultTableSectio
                     }
                 )
             )
-            heur = Heuristic(4)
-            heur.add_signature_id("embedded_username", score=0)
-            analysis_table.set_heuristic(heur)
+            flagged_behaviours["embedded_username"].add(url)
 
         analysis_table.add_tag("network.static.uri", url)
         analysis_table.add_tag("network.static.uri", target_url)
@@ -273,4 +281,4 @@ def url_analysis(url: str, lookup_safelist: Callable) -> Tuple[ResultTableSectio
                                 add_MD_results_to_table(scan_result.children[0])
                             except binascii.Error:
                                 pass
-    return analysis_table, {k: list(set(v)) for k, v in network_iocs.items()}
+    return analysis_table, {k: list(set(v)) for k, v in network_iocs.items()}, flagged_behaviours

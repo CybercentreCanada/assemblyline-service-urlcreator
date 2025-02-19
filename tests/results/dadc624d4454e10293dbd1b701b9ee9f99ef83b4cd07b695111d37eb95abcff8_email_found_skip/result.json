@@ -5,6 +5,40 @@
     "sections": [
       {
         "auto_collapse": false,
+        "body": "http://user1@site.com/asdgasdf?u=234234&data=34234\nhttp://user2@site.com\nhttp://user2@site.com/",
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 0,
+        "heuristic": {
+          "attack_ids": [],
+          "frequency": 1,
+          "heur_id": 4,
+          "score": 0,
+          "score_map": {
+            "embedded_username": 0
+          },
+          "signatures": {
+            "embedded_username": 1
+          }
+        },
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "uri": [
+                "http://user1@site.com/asdgasdf?u=234234&data=34234",
+                "http://user2@site.com",
+                "http://user2@site.com/"
+              ]
+            }
+          }
+        },
+        "title_text": "Behaviour embedded_username found",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
         "body": null,
         "body_config": {},
         "body_format": "TEXT",
@@ -37,18 +71,7 @@
         "body_format": "TABLE",
         "classification": "TLP:C",
         "depth": 1,
-        "heuristic": {
-          "attack_ids": [],
-          "frequency": 1,
-          "heur_id": 4,
-          "score": 0,
-          "score_map": {
-            "embedded_username": 0
-          },
-          "signatures": {
-            "embedded_username": 1
-          }
-        },
+        "heuristic": null,
         "promote_to": null,
         "tags": {
           "network": {
@@ -84,18 +107,7 @@
         "body_format": "TABLE",
         "classification": "TLP:C",
         "depth": 1,
-        "heuristic": {
-          "attack_ids": [],
-          "frequency": 1,
-          "heur_id": 4,
-          "score": 0,
-          "score_map": {
-            "embedded_username": 0
-          },
-          "signatures": {
-            "embedded_username": 1
-          }
-        },
+        "heuristic": null,
         "promote_to": null,
         "tags": {
           "network": {
@@ -131,18 +143,7 @@
         "body_format": "TABLE",
         "classification": "TLP:C",
         "depth": 1,
-        "heuristic": {
-          "attack_ids": [],
-          "frequency": 1,
-          "heur_id": 4,
-          "score": 0,
-          "score_map": {
-            "embedded_username": 0
-          },
-          "signatures": {
-            "embedded_username": 1
-          }
-        },
+        "heuristic": null,
         "promote_to": null,
         "tags": {
           "network": {
@@ -171,43 +172,23 @@
         "signatures": [
           "embedded_username"
         ]
-      },
-      {
-        "attack_ids": [],
-        "heur_id": 4,
-        "signatures": [
-          "embedded_username"
-        ]
-      },
-      {
-        "attack_ids": [],
-        "heur_id": 4,
-        "signatures": [
-          "embedded_username"
-        ]
       }
     ],
     "tags": {
       "network.static.uri": [
         {
-          "heur_id": 4,
-          "signatures": [
-            "embedded_username"
-          ],
+          "heur_id": null,
+          "signatures": [],
           "value": "http://site.com"
         },
         {
-          "heur_id": 4,
-          "signatures": [
-            "embedded_username"
-          ],
+          "heur_id": null,
+          "signatures": [],
           "value": "http://site.com/"
         },
         {
-          "heur_id": 4,
-          "signatures": [
-            "embedded_username"
-          ],
+          "heur_id": null,
+          "signatures": [],
           "value": "http://site.com/asdgasdf?u=234234&data=34234"
         },
         {
@@ -218,6 +199,11 @@
           "value": "http://user1@site.com/asdgasdf?u=234234&data=34234"
         },
         {
+          "heur_id": null,
+          "signatures": [],
+          "value": "http://user1@site.com/asdgasdf?u=234234&data=34234"
+        },
+        {
           "heur_id": 4,
           "signatures": [
             "embedded_username"
@@ -225,10 +211,20 @@
           "value": "http://user2@site.com"
         },
         {
+          "heur_id": null,
+          "signatures": [],
+          "value": "http://user2@site.com"
+        },
+        {
           "heur_id": 4,
           "signatures": [
             "embedded_username"
           ],
+          "value": "http://user2@site.com/"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
           "value": "http://user2@site.com/"
         }
       ]

@@ -27,4 +27,4 @@ if os.path.exists(SAMPLES_FOLDER):
 else:
     th = TestHelper(service_class, RESULTS_FOLDER)
 
-th.regenerate_results(save_files=False)
+th.regenerate_results(save_files=True)

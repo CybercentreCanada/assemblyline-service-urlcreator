@@ -5,6 +5,44 @@
     "sections": [
       {
         "auto_collapse": false,
+        "body": "https://user1@bad.com/&data=data\nhttps://user2@bad.com/\nhttps://user3@bad.com/\nhttps://user4@bad.com/\nhttps://user5@bad.com/\nhttps://user6@bad.com/\nhttps://user7@bad.com/",
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 0,
+        "heuristic": {
+          "attack_ids": [],
+          "frequency": 1,
+          "heur_id": 4,
+          "score": 0,
+          "score_map": {
+            "embedded_username": 0
+          },
+          "signatures": {
+            "embedded_username": 1
+          }
+        },
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "uri": [
+                "https://user1@bad.com/&data=data",
+                "https://user2@bad.com/",
+                "https://user3@bad.com/",
+                "https://user4@bad.com/",
+                "https://user5@bad.com/",
+                "https://user6@bad.com/",
+                "https://user7@bad.com/"
+              ]
+            }
+          }
+        },
+        "title_text": "Behaviour embedded_username found",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
         "body": null,
         "body_config": {},
         "body_format": "TEXT",
@@ -75,18 +113,7 @@
         "body_format": "TABLE",
         "classification": "TLP:C",
         "depth": 2,
-        "heuristic": {
-          "attack_ids": [],
-          "frequency": 1,
-          "heur_id": 4,
-          "score": 0,
-          "score_map": {
-            "embedded_username": 0
-          },
-          "signatures": {
-            "embedded_username": 1
-          }
-        },
+        "heuristic": null,
         "promote_to": null,
         "tags": {
           "network": {
@@ -160,18 +187,7 @@
         "body_format": "TABLE",
         "classification": "TLP:C",
         "depth": 2,
-        "heuristic": {
-          "attack_ids": [],
-          "frequency": 1,
-          "heur_id": 4,
-          "score": 0,
-          "score_map": {
-            "embedded_username": 0
-          },
-          "signatures": {
-            "embedded_username": 1
-          }
-        },
+        "heuristic": null,
         "promote_to": null,
         "tags": {
           "network": {
@@ -245,18 +261,7 @@
         "body_format": "TABLE",
         "classification": "TLP:C",
         "depth": 2,
-        "heuristic": {
-          "attack_ids": [],
-          "frequency": 1,
-          "heur_id": 4,
-          "score": 0,
-          "score_map": {
-            "embedded_username": 0
-          },
-          "signatures": {
-            "embedded_username": 1
-          }
-        },
+        "heuristic": null,
         "promote_to": null,
         "tags": {
           "network": {
@@ -330,18 +335,7 @@
         "body_format": "TABLE",
         "classification": "TLP:C",
         "depth": 2,
-        "heuristic": {
-          "attack_ids": [],
-          "frequency": 1,
-          "heur_id": 4,
-          "score": 0,
-          "score_map": {
-            "embedded_username": 0
-          },
-          "signatures": {
-            "embedded_username": 1
-          }
-        },
+        "heuristic": null,
         "promote_to": null,
         "tags": {
           "network": {
@@ -415,18 +409,7 @@
         "body_format": "TABLE",
         "classification": "TLP:C",
         "depth": 2,
-        "heuristic": {
-          "attack_ids": [],
-          "frequency": 1,
-          "heur_id": 4,
-          "score": 0,
-          "score_map": {
-            "embedded_username": 0
-          },
-          "signatures": {
-            "embedded_username": 1
-          }
-        },
+        "heuristic": null,
         "promote_to": null,
         "tags": {
           "network": {
@@ -500,18 +483,7 @@
         "body_format": "TABLE",
         "classification": "TLP:C",
         "depth": 2,
-        "heuristic": {
-          "attack_ids": [],
-          "frequency": 1,
-          "heur_id": 4,
-          "score": 0,
-          "score_map": {
-            "embedded_username": 0
-          },
-          "signatures": {
-            "embedded_username": 1
-          }
-        },
+        "heuristic": null,
         "promote_to": null,
         "tags": {
           "network": {
@@ -585,18 +557,7 @@
         "body_format": "TABLE",
         "classification": "TLP:C",
         "depth": 2,
-        "heuristic": {
-          "attack_ids": [],
-          "frequency": 1,
-          "heur_id": 4,
-          "score": 0,
-          "score_map": {
-            "embedded_username": 0
-          },
-          "signatures": {
-            "embedded_username": 1
-          }
-        },
+        "heuristic": null,
         "promote_to": null,
         "tags": {
           "network": {
@@ -689,48 +650,6 @@
         "signatures": [
           "embedded_username"
         ]
-      },
-      {
-        "attack_ids": [],
-        "heur_id": 4,
-        "signatures": [
-          "embedded_username"
-        ]
-      },
-      {
-        "attack_ids": [],
-        "heur_id": 4,
-        "signatures": [
-          "embedded_username"
-        ]
-      },
-      {
-        "attack_ids": [],
-        "heur_id": 4,
-        "signatures": [
-          "embedded_username"
-        ]
-      },
-      {
-        "attack_ids": [],
-        "heur_id": 4,
-        "signatures": [
-          "embedded_username"
-        ]
-      },
-      {
-        "attack_ids": [],
-        "heur_id": 4,
-        "signatures": [
-          "embedded_username"
-        ]
-      },
-      {
-        "attack_ids": [],
-        "heur_id": 4,
-        "signatures": [
-          "embedded_username"
-        ]
       }
     ],
     "tags": {
@@ -773,55 +692,53 @@
       ],
       "network.static.uri": [
         {
-          "heur_id": 4,
-          "signatures": [
-            "embedded_username"
-          ],
+          "heur_id": null,
+          "signatures": [],
           "value": "https://bad.com/"
         },
         {
-          "heur_id": 4,
-          "signatures": [
-            "embedded_username"
-          ],
+          "heur_id": null,
+          "signatures": [],
           "value": "https://bad.com/"
         },
         {
-          "heur_id": 4,
-          "signatures": [
-            "embedded_username"
-          ],
+          "heur_id": null,
+          "signatures": [],
           "value": "https://bad.com/"
         },
         {
-          "heur_id": 4,
-          "signatures": [
-            "embedded_username"
-          ],
+          "heur_id": null,
+          "signatures": [],
           "value": "https://bad.com/"
         },
         {
-          "heur_id": 4,
-          "signatures": [
-            "embedded_username"
-          ],
+          "heur_id": null,
+          "signatures": [],
           "value": "https://bad.com/"
         },
         {
-          "heur_id": 4,
-          "signatures": [
-            "embedded_username"
-          ],
+          "heur_id": null,
+          "signatures": [],
           "value": "https://bad.com/"
         },
         {
-          "heur_id": 4,
-          "signatures": [
-            "embedded_username"
-          ],
+          "heur_id": null,
+          "signatures": [],
           "value": "https://bad.com/&data=data"
         },
         {
+          "heur_id": 4,
+          "signatures": [
+            "embedded_username"
+          ],
+          "value": "https://user1@bad.com/&data=data"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://user1@bad.com/&data=data"
+        },
+        {
           "heur_id": null,
           "signatures": [],
           "value": "https://user1@bad.com/&data=data"
@@ -831,7 +748,12 @@
           "signatures": [
             "embedded_username"
           ],
-          "value": "https://user1@bad.com/&data=data"
+          "value": "https://user2@bad.com/"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://user2@bad.com/"
         },
         {
           "heur_id": null,
@@ -843,7 +765,12 @@
           "signatures": [
             "embedded_username"
           ],
-          "value": "https://user2@bad.com/"
+          "value": "https://user3@bad.com/"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://user3@bad.com/"
         },
         {
           "heur_id": null,
@@ -855,7 +782,12 @@
           "signatures": [
             "embedded_username"
           ],
-          "value": "https://user3@bad.com/"
+          "value": "https://user4@bad.com/"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://user4@bad.com/"
         },
         {
           "heur_id": null,
@@ -867,7 +799,12 @@
           "signatures": [
             "embedded_username"
           ],
-          "value": "https://user4@bad.com/"
+          "value": "https://user5@bad.com/"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://user5@bad.com/"
         },
         {
           "heur_id": null,
@@ -879,7 +816,12 @@
           "signatures": [
             "embedded_username"
           ],
-          "value": "https://user5@bad.com/"
+          "value": "https://user6@bad.com/"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://user6@bad.com/"
         },
         {
           "heur_id": null,
@@ -891,7 +833,7 @@
           "signatures": [
             "embedded_username"
           ],
-          "value": "https://user6@bad.com/"
+          "value": "https://user7@bad.com/"
         },
         {
           "heur_id": null,
@@ -899,10 +841,8 @@
           "value": "https://user7@bad.com/"
         },
         {
-          "heur_id": 4,
-          "signatures": [
-            "embedded_username"
-          ],
+          "heur_id": null,
+          "signatures": [],
           "value": "https://user7@bad.com/"
         }
       ]
