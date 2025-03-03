@@ -152,7 +152,7 @@ def url_analysis(
         target_url = f"{scheme}://{url[url.index(domain):]}"
         try:
             username_url = make_bytes(scheme) + b"://" + username.value
-            username_as_url = parse_url(username_url)
+            username_as_url = parse_url(username_url.strip())
             # We usually look for 'network.ip' or 'network.domain' but we can assume that
             # any URL masquerading would be done using a domain only.
             # This also reduce false positives of having a number-only username being treated like an IP.

@@ -109,6 +109,20 @@ def test_phishing():
         ],
     }
 
+    # Some samples are hiding the true domain further with spaces
+    url = "https://adobe.com%20%20%20%20%20%20@bad.com/malicious.zip"
+    res_section, network_iocs, behaviours = url_analysis(url)
+    # Should reveal the true target URL for reputation checking
+    assert behaviours == {"url_masquerade": {url}}
+    assert network_iocs["uri"] == ["https://bad.com/malicious.zip"]
+    assert network_iocs["domain"] == ["bad.com"]
+    assert res_section.tags == {
+        "network.static.uri": [
+            url,
+            "https://bad.com/malicious.zip",
+        ],
+    }
+
     url = "https://something@not-a-url-with-tld@bad.com/malicious.zip"
     res_section, network_iocs, behaviours = url_analysis(url)
     # Should reveal the true target URL for reputation checking
