@@ -246,8 +246,8 @@ def url_analysis(
         elif host.value.endswith(b"google.com") and path.value.startswith(b"/amp/"):
             open_redirect = ResultSection("Open Redirect", parent=analysis_table)
             redirect = path.value[5:]
-            if redirect.startswith(b"/s/"):
-                redirect = redirect[3:]
+            if redirect.startswith(b"s/"):
+                redirect = redirect[2:]
             redirect = f"{scheme}://{unquote(redirect.decode())}"
             open_redirect.add_line(f"Possible abuse of Google AMP's open redirect to {redirect}")
             open_redirect.add_tag("network.static.uri", redirect)
