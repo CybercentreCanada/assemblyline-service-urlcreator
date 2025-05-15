@@ -4,12 +4,22 @@ import re
 from base64 import b64decode
 from collections import defaultdict
 from typing import Callable, Dict, List, Tuple
-from urllib.parse import urlparse
+from urllib.parse import parse_qs, unquote, urlparse
 
 from assemblyline.odm.base import IP_ONLY_REGEX
-from assemblyline_v4_service.common.result import ResultTableSection, TableRow
+from assemblyline_v4_service.common.result import (
+    ResultSection,
+    ResultTableSection,
+    TableRow,
+)
 from multidecoder.decoders.base64 import BASE64_RE
-from multidecoder.decoders.network import DOMAIN_TYPE, EMAIL_TYPE, IP_TYPE, URL_TYPE, parse_url
+from multidecoder.decoders.network import (
+    DOMAIN_TYPE,
+    EMAIL_TYPE,
+    IP_TYPE,
+    URL_TYPE,
+    parse_url,
+)
 from multidecoder.multidecoder import Multidecoder
 from multidecoder.node import Node
 from multidecoder.registry import get_analyzers
@@ -139,7 +149,9 @@ def url_analysis(
                 parsed_url.append(Node(f"network.url.{component}", make_bytes(value)))
 
     scheme: Node = ([node for node in parsed_url if node.type == "network.url.scheme"] + [None])[0]
+    scheme = "http" if not scheme else scheme.value.decode()
     host: Node = ([node for node in parsed_url if node.type in ["network.ip", "network.domain"]] + [None])[0]
+    path: Node = ([node for node in parsed_url if node.type == "network.url.path"] + [None])[0]
     username: Node = ([node for node in parsed_url if node.type == "network.url.username"] + [None])[0]
     password: Node = ([node for node in parsed_url if node.type == "network.url.password"] + [None])[0]
     query: Node = ([node for node in parsed_url if node.type == "network.url.query"] + [None])[0]
@@ -147,7 +159,6 @@ def url_analysis(
 
     # Check to see if there's anything "phishy" about the URL
     if username and host and host.type == "network.domain":
-        scheme = "http" if not scheme else scheme.value.decode()
         domain = host.value.decode()
         target_url = f"{scheme}://{url[url.index(domain):]}"
         try:
@@ -213,6 +224,55 @@ def url_analysis(
         analysis_table.add_tag("network.static.uri", target_url)
         network_iocs["uri"].append(target_url)
         network_iocs["domain"].append(domain)
+
+    # Check for open redirects
+    if host and path and host.type == "network.domain":
+        # Google Travel
+        if query and host.value.endswith(b"google.com") and path.value == b"/travel/clk":
+            open_redirect = ResultSection("Open Redirect", parent=analysis_table)
+            qs = parse_qs(query.value.decode())
+            if "pcurl" in qs and isinstance(qs["pcurl"], list) and len(qs["pcurl"]) == 1:
+                open_redirect.add_line(f"Possible abuse of Google travel/clk's open redirect to {qs['pcurl'][0]}")
+                open_redirect.add_tag("network.static.uri", qs["pcurl"][0])
+            # This shouldn't happen, but URI extraction is sometime flaky, so check for broken encoding in case
+            elif "amp;pcurl" in qs and isinstance(qs["amp;pcurl"], list) and len(qs["amp;pcurl"]) == 1:
+                open_redirect.add_line(f"Possible abuse of Google travel/clk's open redirect to {qs['amp;pcurl'][0]}")
+                open_redirect.add_tag("network.static.uri", qs["amp;pcurl"][0])
+            else:
+                open_redirect.add_line(
+                    "Possible abuse of Google travel/clk's open redirect but couldn't determine redirection target"
+                )
+        # Google AMP
+        elif host.value.endswith(b"google.com") and path.value.startswith(b"/amp/"):
+            open_redirect = ResultSection("Open Redirect", parent=analysis_table)
+            redirect = path.value[5:]
+            if redirect.startswith(b"/s/"):
+                redirect = redirect[3:]
+            redirect = f"{scheme}://{unquote(redirect.decode())}"
+            open_redirect.add_line(f"Possible abuse of Google AMP's open redirect to {redirect}")
+            open_redirect.add_tag("network.static.uri", redirect)
+        # Microsoft Login
+        # https://medium.com/@coyemerald/f96a8fc807b6
+        elif query and host.value == b"login.microsoftonline.com" and b"post_logout_redirect_uri" in query.value:
+            open_redirect = ResultSection("Open Redirect", parent=analysis_table)
+            qs = parse_qs(query.value.decode())
+            if (
+                "post_logout_redirect_uri" in qs
+                and isinstance(qs["post_logout_redirect_uri"], list)
+                and len(qs["post_logout_redirect_uri"]) == 1
+            ):
+                open_redirect.add_line(
+                    f"Possible abuse of Microsoft Logout's open redirect to {qs['post_logout_redirect_uri'][0]}"
+                )
+                open_redirect.add_tag("network.static.uri", qs["post_logout_redirect_uri"][0])
+        # Microsoft Medius
+        # https://www.bleepingcomputer.com/news/security/threat-actors-abuse-google-amp-for-evasive-phishing-attacks/
+        elif query and host.value == b"medius.microsoft.com" and path.value == b"/redirect":
+            open_redirect = ResultSection("Open Redirect", parent=analysis_table)
+            qs = parse_qs(query.value.decode())
+            if "targeturl" in qs and isinstance(qs["targeturl"], list) and len(qs["targeturl"]) == 1:
+                open_redirect.add_line(f"Possible abuse of Microsoft Medius' open redirect to {qs['targeturl'][0]}")
+                open_redirect.add_tag("network.static.uri", qs["targeturl"][0])
 
     # Analyze query/fragment
     for segment in [host, query, fragment]:

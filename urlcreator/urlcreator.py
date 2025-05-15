@@ -108,7 +108,7 @@ class URLCreator(ServiceBase):
                 url_analysis_network_iocs[k].update(v)
             for k, v in tag_flagged_behaviours.items():
                 flagged_behaviours[k].update(v)
-            if analysis_table.body:
+            if analysis_table.body or analysis_table.subsections:
                 url_analysis_section.add_subsection(analysis_table)
 
             if tag_score >= minimum_maliciousness:

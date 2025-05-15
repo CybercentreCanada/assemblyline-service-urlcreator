@@ -1,0 +1,336 @@
+{
+  "extra": {
+    "drop_file": false,
+    "score": 0,
+    "sections": [
+      {
+        "auto_collapse": false,
+        "body": null,
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 0,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {},
+        "title_text": "MultiDecoder Analysis",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "QUERY",
+            "DECODED STRING": "https://bad1.com/?param=phishing@victim.com",
+            "ENCODED STRING": "pc=DATADATADATADATADATADATA&amp;pcurl=https://bad1.com/?param=phishing@victim.com",
+            "OBFUSCATION": "encoding.url"
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "domain": [
+                "bad1.com"
+              ],
+              "uri": [
+                "https://bad1.com/?param=phishing@victim.com"
+              ]
+            }
+          }
+        },
+        "title_text": "https://www.google.com/travel/clk?pc=DATADATADATADATADATADATA&amp;pcurl=https://bad1.com/?param=phishing@victim.com",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": "Possible abuse of Google travel/clk's open redirect to https://bad1.com/?param=phishing@victim.com",
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 2,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "uri": [
+                "https://bad1.com/?param=phishing@victim.com"
+              ]
+            }
+          }
+        },
+        "title_text": "Open Redirect",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "QUERY",
+            "DECODED STRING": "https://www.realhotel.notreally/hotel/111",
+            "ENCODED STRING": "pc=DATADATADATADATADATADATA&pcurl=https://www.realhotel.notreally/hotel/111",
+            "OBFUSCATION": "encoding.url"
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "uri": [
+                "https://www.realhotel.notreally/hotel/111"
+              ]
+            }
+          }
+        },
+        "title_text": "https://www.google.com/travel/clk?pc=DATADATADATADATADATADATA&pcurl=https://www.realhotel.notreally/hotel/111",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": "Possible abuse of Google travel/clk's open redirect to https://www.realhotel.notreally/hotel/111",
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 2,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "uri": [
+                "https://www.realhotel.notreally/hotel/111"
+              ]
+            }
+          }
+        },
+        "title_text": "Open Redirect",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "QUERY",
+            "DECODED STRING": "https://www.google.com/travel/clk?pc=DATADATADATADATADATADATA&pcurl=https%3A%2F%2Fbad2.com%2F%3Fparam%3Dphishing%40victim.com",
+            "ENCODED STRING": "hl=en&amp;q=https://www.google.com/travel/clk?pc=DATADATADATADATADATADATA&pcurl=https%3A%2F%2Fbad2.com%2F%3Fparam%3Dphishing%40victim.com",
+            "OBFUSCATION": "encoding.url"
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "domain": [
+                "www.google.com"
+              ],
+              "uri": [
+                "https://www.google.com/travel/clk?pc=DATADATADATADATADATADATA&pcurl=https%3A%2F%2Fbad2.com%2F%3Fparam%3Dphishing%40victim.com"
+              ]
+            }
+          }
+        },
+        "title_text": "https://www.google.com/url?hl=en&amp;q=https://www.google.com/travel/clk?pc%3DDATADATADATADATADATADATA%26pcurl%3Dhttps%253A%252F...",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "QUERY",
+            "DECODED STRING": "https://bad2.com/?param=phishing@victim.com",
+            "ENCODED STRING": "pc=DATADATADATADATADATADATA&pcurl=https://bad2.com/?param=phishing@victim.com",
+            "OBFUSCATION": "encoding.url"
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 2,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "domain": [
+                "bad2.com"
+              ],
+              "uri": [
+                "https://bad2.com/?param=phishing@victim.com"
+              ]
+            }
+          }
+        },
+        "title_text": "https://www.google.com/travel/clk?pc=DATADATADATADATADATADATA&pcurl=https%3A%2F%2Fbad2.com%2F%3Fparam%3Dphishing%40victim.com",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": "Possible abuse of Google travel/clk's open redirect to https://bad2.com/?param=phishing@victim.com",
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 3,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "uri": [
+                "https://bad2.com/?param=phishing@victim.com"
+              ]
+            }
+          }
+        },
+        "title_text": "Open Redirect",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": null,
+        "body_config": {},
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {},
+        "title_text": "https://google.com/amp/bad.com%2Fs%2F639234b763d00",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": "Possible abuse of Google AMP's open redirect to https://bad.com/s/639234b763d00",
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 2,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "uri": [
+                "https://bad.com/s/639234b763d00"
+              ]
+            }
+          }
+        },
+        "title_text": "Open Redirect",
+        "zeroize_on_tag_safe": false
+      }
+    ]
+  },
+  "files": {
+    "extracted": [],
+    "supplementary": []
+  },
+  "results": {
+    "heuristics": [],
+    "tags": {
+      "network.static.domain": [
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "bad1.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "bad2.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "www.google.com"
+        }
+      ],
+      "network.static.uri": [
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://bad.com/s/639234b763d00"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://bad1.com/?param=phishing@victim.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://bad1.com/?param=phishing@victim.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://bad2.com/?param=phishing@victim.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://bad2.com/?param=phishing@victim.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://www.google.com/travel/clk?pc=DATADATADATADATADATADATA&pcurl=https%3A%2F%2Fbad2.com%2F%3Fparam%3Dphishing%40victim.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://www.realhotel.notreally/hotel/111"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://www.realhotel.notreally/hotel/111"
+        }
+      ]
+    },
+    "temp_submission_data": {}
+  }
+}
