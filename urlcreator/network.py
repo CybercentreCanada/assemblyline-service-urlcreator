@@ -358,4 +358,4 @@ def url_analysis(
                                 add_MD_results_to_table(scan_result.children[0])
                             except binascii.Error:
                                 pass
-    return analysis_table, {k: list(set(v)) for k, v in network_iocs.items()}, flagged_behaviours
+    return analysis_table, {k: sorted(list(set(v))) for k, v in network_iocs.items()}, flagged_behaviours

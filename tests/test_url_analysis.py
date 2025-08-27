@@ -69,8 +69,8 @@ def test_urldefense():
     assert network_iocs == {
         # URL to be redirected to
         "uri": [
-            "https://us-east-1.awstrack.me/L0/https:%2F%2Fsomething.com%2Fsome%2Fthing%2F%3Futm_source=SOURCE",
             url,
+            "https://us-east-1.awstrack.me/L0/https:%2F%2Fsomething.com%2Fsome%2Fthing%2F%3Futm_source=SOURCE",
         ],
         "domain": [],
         "ip": [],
