@@ -26,6 +26,18 @@
             "short_type": "URI",
             "value": "https://google.com/amp/bad.com%2Fs%2F639234b763d00",
             "score": 0
+        },
+        {
+            "type": "network.static.uri",
+            "short_type": "URI",
+            "value": "https://urldefense.com/v3/__https://us-east-1.awstrack.me/L0/https:*2F*2Fsomething.com*2Fsome*2Fthing*2F*3Futm_source=SOURCE__;JSUlJSUl!!...$",
+            "score": 0
+        },
+        {
+            "type": "network.static.uri",
+            "short_type": "URI",
+            "value": "https://abc.eu-west-1.awstrack.me/L0/https:%2F%2Fnamedrop.io%2Fabc/1/guid",
+            "score": 0
         }
     ]
 }

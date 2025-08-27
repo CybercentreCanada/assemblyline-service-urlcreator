@@ -25,6 +25,8 @@ from multidecoder.node import Node
 from multidecoder.registry import get_analyzers
 from multidecoder.string_helper import make_bytes, make_str
 
+from urlcreator.proofpoint import URLDefenseDecoder
+
 NETWORK_IOC_TYPES = ["domain", "ip", "uri"]
 BEHAVIOUR_SCORES = {
     "safelisted_url_masquerade": 0,
@@ -32,6 +34,7 @@ BEHAVIOUR_SCORES = {
     "embedded_credentials": 0,
     "embedded_username": 0,
 }
+URLDEFENSEDECODER = URLDefenseDecoder()
 
 
 def url_analysis(
@@ -273,6 +276,20 @@ def url_analysis(
             if "targeturl" in qs and isinstance(qs["targeturl"], list) and len(qs["targeturl"]) == 1:
                 open_redirect.add_line(f"Possible abuse of Microsoft Medius' open redirect to {qs['targeturl'][0]}")
                 open_redirect.add_tag("network.static.uri", qs["targeturl"][0])
+        elif host.value in (b"urldefense.proofpoint.com", b"urldefense.com"):
+            try:
+                decoded_url = URLDEFENSEDECODER.decode(url)
+                # Code is so spaghetti we need to have this segment declared before calling add_MD_results_to_table
+                segment = Node(URL_TYPE, url)
+                result = Node(URL_TYPE, decoded_url.encode(), obfuscation="", end=len(url), parent=segment)
+                add_MD_results_to_table(result)
+            except ValueError:
+                pass
+        elif host.value.endswith(b"awstrack.me") and path.value.startswith(b"/L0/"):
+            # Code is so spaghetti we need to have this segment declared before calling add_MD_results_to_table
+            segment = Node(URL_TYPE, url)
+            result = Node(URL_TYPE, unquote(path.value[4:]), obfuscation="", end=len(url), parent=segment)
+            add_MD_results_to_table(result)
 
     # Analyze query/fragment
     for segment in [host, query, fragment]:

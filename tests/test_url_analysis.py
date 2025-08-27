@@ -13,7 +13,7 @@ def test_unicode_characters():
     assert network_iocs == {"uri": ["https://écoute.com/"], "domain": ["écoute.com"], "ip": []}
     assert res_section.tags == {
         "network.static.domain": ["écoute.com"],
-        "network.static.uri": ["https://hello:world@écoute.com/", "https://écoute.com/"],
+        "network.static.uri": [url, "https://écoute.com/"],
     }
 
 
@@ -40,7 +40,7 @@ def test_embedded_base64():
 
 
 def test_safelinks():
-    # Ref: https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/safe-links-about?view=o365-worldwide
+    # Ref: https://learn.microsoft.com/en-us/defender-office-365/safe-links-about?view=o365-worldwide
     url = "https://safelinks.com/?url=https%3A%2F%2Fhelloworld%2Ecom%2Fbad%7C01%7Ctest%40example%2Ecom"
     res_section, network_iocs, behaviours = url_analysis(url)
     assert behaviours == {}
@@ -56,6 +56,28 @@ def test_safelinks():
         "network.static.domain": ["helloworld.com"],
         # Recipient email address
         "network.email.address": ["test@example.com"],
+    }
+
+
+def test_urldefense():
+    url = (
+        "https://urldefense.com/v3/__https://us-east-1.awstrack.me/L0/"
+        "https:*2F*2Fsomething.com*2Fsome*2Fthing*2F*3Futm_source=SOURCE__;JSUlJSUl!!...$"
+    )
+    res_section, network_iocs, behaviours = url_analysis(url)
+    assert behaviours == {}
+    assert network_iocs == {
+        # URL to be redirected to
+        "uri": [
+            "https://us-east-1.awstrack.me/L0/https:%2F%2Fsomething.com%2Fsome%2Fthing%2F%3Futm_source=SOURCE",
+            url,
+        ],
+        "domain": [],
+        "ip": [],
+    }
+    assert res_section.tags == {
+        # URL to be redirected to
+        "network.static.uri": [url],
     }
 
 
