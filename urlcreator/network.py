@@ -290,6 +290,16 @@ def url_analysis(
             segment = Node(URL_TYPE, url)
             result = Node(URL_TYPE, unquote(path.value[4:]), obfuscation="", end=len(url), parent=segment)
             add_MD_results_to_table(result)
+        elif host.value == b"loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo.ong" and path:
+            # Assumes the query starts with '/l' and ends with 'ng'
+            encoded = path.value.decode()[2:-2].replace("O", "1").replace("o", "0")
+            decoded = "".join(chr(int(encoded[i : i + 8], 2)) for i in range(0, len(encoded), 8))
+            if "\x00" in decoded:
+                decoded = decoded.replace("\x00", "")
+            # Code is so spaghetti we need to have this segment declared before calling add_MD_results_to_table
+            segment = Node(URL_TYPE, url)
+            result = Node(URL_TYPE, decoded, obfuscation="", end=len(url), parent=segment)
+            add_MD_results_to_table(result)
 
     # Analyze query/fragment
     for segment in [host, query, fragment]:

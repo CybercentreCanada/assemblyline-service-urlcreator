@@ -81,6 +81,27 @@ def test_urldefense():
     }
 
 
+def test_loooooong():
+    url = (
+        "https://loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo.ong/"
+        "loooooooooOOoOooooooooooooOOOoOoooooooooooOOOoOoooooooooooOOOoooooooooooooOOOooOOooooooooooOOOoOooooooo"
+        "ooooOoOOOOooooooooooOoOOOOoooooooooOOooOOOoooooooooOOoOOOOoooooooooOOoOOOOoooooooooOOooOOOoooooooooOOoO"
+        "OoooooooooooOOooOoOooooooooooOoOOOooooooooooOOoooOOoooooooooOOoOOOOoooooooooOOoOOoOooooooooooOoOOOOng"
+    )
+    res_section, network_iocs, behaviours = url_analysis(url)
+    assert behaviours == {}
+    assert network_iocs == {
+        # URL to be redirected to
+        "uri": [url],
+        "domain": [],
+        "ip": [],
+    }
+    assert res_section.tags == {
+        # URL to be redirected to
+        "network.static.uri": [url],
+    }
+
+
 def test_hexed_ip():
     # Ref: https://www.darkreading.com/cloud/shellbot-cracks-linux-ssh-servers-debuts-new-evasion-tactic
     url = "http://0x7f000001"
