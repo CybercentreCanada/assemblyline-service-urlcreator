@@ -1,0 +1,109 @@
+{
+  "extra": {
+    "drop_file": false,
+    "score": 0,
+    "sections": [
+      {
+        "auto_collapse": false,
+        "body": null,
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 0,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {},
+        "title_text": "MultiDecoder Analysis",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "QUERY",
+            "DECODED STRING": "https://bad1.com/?param=phishing@victim.com",
+            "ENCODED STRING": "pc=DATADATADATADATADATADATA&amp;pcurl=https://bad1.com/?param=phishing@victim.com",
+            "OBFUSCATION": "encoding.url"
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "domain": [
+                "bad1.com"
+              ],
+              "uri": [
+                "https://bad1.com/?param=phishing@victim.com"
+              ]
+            }
+          }
+        },
+        "title_text": "https://www.google.com/travel/clk?pc=DATADATADATADATADATADATA&amp;pcurl=https://bad1.com/?param=phishing@victim.com",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": "Possible abuse of Google travel/clk's open redirect to https://bad1.com/?param=phishing@victim.com",
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 2,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "uri": [
+                "https://bad1.com/?param=phishing@victim.com"
+              ]
+            }
+          }
+        },
+        "title_text": "Open Redirect",
+        "zeroize_on_tag_safe": false
+      }
+    ]
+  },
+  "files": {
+    "extracted": [],
+    "supplementary": []
+  },
+  "results": {
+    "heuristics": [],
+    "tags": {
+      "network.static.domain": [
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "bad1.com"
+        }
+      ],
+      "network.static.uri": [
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://bad1.com/?param=phishing@victim.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://bad1.com/?param=phishing@victim.com"
+        }
+      ]
+    },
+    "temp_submission_data": {}
+  }
+}

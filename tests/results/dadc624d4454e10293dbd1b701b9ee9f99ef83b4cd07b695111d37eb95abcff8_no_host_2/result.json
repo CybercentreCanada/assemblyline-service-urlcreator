@@ -21,8 +21,8 @@
         "body": [
           {
             "COMPONENT": "QUERY",
-            "DECODED STRING": "http://BCTEA@gov.bc.xn--ca-02t/&data=data",
-            "ENCODED STRING": "url=http://BCTEA@gov.bc.xn--ca-02t/&data=data",
+            "DECODED STRING": "http://BCTEA@gov.bc.xn--ca-02t/&amp;data=data",
+            "ENCODED STRING": "url=http://BCTEA@gov.bc.xn--ca-02t/&amp;data=data",
             "OBFUSCATION": "encoding.url"
           }
         ],
@@ -43,12 +43,12 @@
           "network": {
             "static": {
               "uri": [
-                "http://BCTEA@gov.bc.xn--ca-02t/&data=data"
+                "http://BCTEA@gov.bc.xn--ca-02t/&amp;data=data"
               ]
             }
           }
         },
-        "title_text": "https://site.com/?url=http%3A%2F%2FBCTEA%40gov.bc.xn--ca-02t%2F&data=data",
+        "title_text": "https://site.com/?url=http%3A%2F%2FBCTEA%40gov.bc.xn--ca-02t%2F&amp;data=data",
         "zeroize_on_tag_safe": false
       }
     ]
@@ -64,7 +64,7 @@
         {
           "heur_id": null,
           "signatures": [],
-          "value": "http://BCTEA@gov.bc.xn--ca-02t/&data=data"
+          "value": "http://BCTEA@gov.bc.xn--ca-02t/&amp;data=data"
         }
       ]
     },

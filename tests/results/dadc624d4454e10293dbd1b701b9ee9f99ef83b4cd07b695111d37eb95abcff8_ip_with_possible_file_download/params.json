@@ -12,6 +12,12 @@
         {
             "type": "network.static.uri",
             "short_type": "URI",
+            "value": "https://site1.com/path.exe",
+            "score": 0
+        },
+        {
+            "type": "network.static.uri",
+            "short_type": "URI",
             "value": "https://1.1.1.1/path",
             "score": 0
         },

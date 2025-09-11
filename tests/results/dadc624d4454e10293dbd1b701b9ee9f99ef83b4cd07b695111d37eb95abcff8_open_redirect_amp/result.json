@@ -18,37 +18,36 @@
       },
       {
         "auto_collapse": false,
-        "body": [
-          {
-            "COMPONENT": "QUERY",
-            "DECODED STRING": "http://BCTEA@gov.bc.xn--ca-02t/&data=data",
-            "ENCODED STRING": "url=http://BCTEA@gov.bc.xn--ca-02t/&data=data",
-            "OBFUSCATION": "encoding.url"
-          }
-        ],
-        "body_config": {
-          "column_order": [
-            "COMPONENT",
-            "ENCODED STRING",
-            "OBFUSCATION",
-            "DECODED STRING"
-          ]
-        },
+        "body": null,
+        "body_config": {},
         "body_format": "TABLE",
         "classification": "TLP:C",
         "depth": 1,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {},
+        "title_text": "https://google.com/amp/bad.com%2Fs%2F639234b763d00",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": "Possible abuse of Google AMP's open redirect to https://bad.com/s/639234b763d00",
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 2,
         "heuristic": null,
         "promote_to": null,
         "tags": {
           "network": {
             "static": {
               "uri": [
-                "http://BCTEA@gov.bc.xn--ca-02t/&data=data"
+                "https://bad.com/s/639234b763d00"
               ]
             }
           }
         },
-        "title_text": "https://site.com/?url=http%3A%2F%2FBCTEA%40gov.bc.xn--ca-02t%2F&data=data",
+        "title_text": "Open Redirect",
         "zeroize_on_tag_safe": false
       }
     ]
@@ -64,7 +63,7 @@
         {
           "heur_id": null,
           "signatures": [],
-          "value": "http://BCTEA@gov.bc.xn--ca-02t/&data=data"
+          "value": "https://bad.com/s/639234b763d00"
         }
       ]
     },

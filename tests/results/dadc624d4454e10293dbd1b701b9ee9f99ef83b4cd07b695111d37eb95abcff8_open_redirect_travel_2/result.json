@@ -21,8 +21,8 @@
         "body": [
           {
             "COMPONENT": "QUERY",
-            "DECODED STRING": "http://BCTEA@gov.bc.xn--ca-02t/&data=data",
-            "ENCODED STRING": "url=http://BCTEA@gov.bc.xn--ca-02t/&data=data",
+            "DECODED STRING": "https://www.realhotel.notreally/hotel/111",
+            "ENCODED STRING": "pc=DATADATADATADATADATADATA&pcurl=https://www.realhotel.notreally/hotel/111",
             "OBFUSCATION": "encoding.url"
           }
         ],
@@ -43,12 +43,33 @@
           "network": {
             "static": {
               "uri": [
-                "http://BCTEA@gov.bc.xn--ca-02t/&data=data"
+                "https://www.realhotel.notreally/hotel/111"
               ]
             }
           }
         },
-        "title_text": "https://site.com/?url=http%3A%2F%2FBCTEA%40gov.bc.xn--ca-02t%2F&data=data",
+        "title_text": "https://www.google.com/travel/clk?pc=DATADATADATADATADATADATA&pcurl=https://www.realhotel.notreally/hotel/111",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": "Possible abuse of Google travel/clk's open redirect to https://www.realhotel.notreally/hotel/111",
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 2,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "uri": [
+                "https://www.realhotel.notreally/hotel/111"
+              ]
+            }
+          }
+        },
+        "title_text": "Open Redirect",
         "zeroize_on_tag_safe": false
       }
     ]
@@ -64,7 +85,12 @@
         {
           "heur_id": null,
           "signatures": [],
-          "value": "http://BCTEA@gov.bc.xn--ca-02t/&data=data"
+          "value": "https://www.realhotel.notreally/hotel/111"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://www.realhotel.notreally/hotel/111"
         }
       ]
     },

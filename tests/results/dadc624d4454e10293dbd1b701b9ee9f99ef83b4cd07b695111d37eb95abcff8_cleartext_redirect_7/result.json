@@ -21,8 +21,8 @@
         "body": [
           {
             "COMPONENT": "QUERY",
-            "DECODED STRING": "http://BCTEA@gov.bc.xn--ca-02t/&data=data",
-            "ENCODED STRING": "url=http://BCTEA@gov.bc.xn--ca-02t/&data=data",
+            "DECODED STRING": "https://bad.com/",
+            "ENCODED STRING": "SURL=https://bad.com/",
             "OBFUSCATION": "encoding.url"
           }
         ],
@@ -42,13 +42,16 @@
         "tags": {
           "network": {
             "static": {
+              "domain": [
+                "bad.com"
+              ],
               "uri": [
-                "http://BCTEA@gov.bc.xn--ca-02t/&data=data"
+                "https://bad.com/"
               ]
             }
           }
         },
-        "title_text": "https://site.com/?url=http%3A%2F%2FBCTEA%40gov.bc.xn--ca-02t%2F&data=data",
+        "title_text": "https://site7.com/AAAAAAA/ns/tl_ex.cgi?SURL=https://bad.com/",
         "zeroize_on_tag_safe": false
       }
     ]
@@ -60,11 +63,18 @@
   "results": {
     "heuristics": [],
     "tags": {
+      "network.static.domain": [
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "bad.com"
+        }
+      ],
       "network.static.uri": [
         {
           "heur_id": null,
           "signatures": [],
-          "value": "http://BCTEA@gov.bc.xn--ca-02t/&data=data"
+          "value": "https://bad.com/"
         }
       ]
     },

@@ -20,9 +20,9 @@
         "auto_collapse": false,
         "body": [
           {
-            "COMPONENT": "QUERY",
-            "DECODED STRING": "http://BCTEA@gov.bc.xn--ca-02t/&data=data",
-            "ENCODED STRING": "url=http://BCTEA@gov.bc.xn--ca-02t/&data=data",
+            "COMPONENT": "URL",
+            "DECODED STRING": "https://namedrop.io/abc/1/guid",
+            "ENCODED STRING": "https://abc.eu-west-1.awstrack.me/L0/https:%2F%2Fnamedrop.io%2Fabc/1/guid",
             "OBFUSCATION": "encoding.url"
           }
         ],
@@ -43,12 +43,12 @@
           "network": {
             "static": {
               "uri": [
-                "http://BCTEA@gov.bc.xn--ca-02t/&data=data"
+                "https://abc.eu-west-1.awstrack.me/L0/https:%2F%2Fnamedrop.io%2Fabc/1/guid"
               ]
             }
           }
         },
-        "title_text": "https://site.com/?url=http%3A%2F%2FBCTEA%40gov.bc.xn--ca-02t%2F&data=data",
+        "title_text": "https://abc.eu-west-1.awstrack.me/L0/https:%2F%2Fnamedrop.io%2Fabc/1/guid",
         "zeroize_on_tag_safe": false
       }
     ]
@@ -64,7 +64,7 @@
         {
           "heur_id": null,
           "signatures": [],
-          "value": "http://BCTEA@gov.bc.xn--ca-02t/&data=data"
+          "value": "https://abc.eu-west-1.awstrack.me/L0/https:%2F%2Fnamedrop.io%2Fabc/1/guid"
         }
       ]
     },
