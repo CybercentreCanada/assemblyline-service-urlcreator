@@ -43,9 +43,11 @@
           "network": {
             "static": {
               "domain": [
+                "site5.com",
                 "bad.com"
               ],
               "uri": [
+                "http://site5.com/event/search_jump?ref=aaaaaaaaaaaaaa=&url=https://bad.com/",
                 "https://bad.com/"
               ]
             }
@@ -68,9 +70,19 @@
           "heur_id": null,
           "signatures": [],
           "value": "bad.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "site5.com"
         }
       ],
       "network.static.uri": [
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "http://site5.com/event/search_jump?ref=aaaaaaaaaaaaaa=&url=https://bad.com/"
+        },
         {
           "heur_id": null,
           "signatures": [],

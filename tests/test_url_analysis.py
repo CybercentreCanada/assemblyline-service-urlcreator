@@ -23,12 +23,12 @@ def test_embedded_base64():
     assert behaviours == {}
     assert network_iocs == {"uri": ["https://bad.com"], "domain": ["bad.com"], "ip": []}
     assert res_section.tags == {
-        # Encoded URL in query
-        "network.static.uri": ["https://bad.com"],
-        # Domain from encoded URL
-        "network.static.domain": ["bad.com"],
         # Encoded email in fragment
         "network.email.address": ["test@example.com"],
+        # Domain from encoded URL
+        "network.static.domain": ["somedomain.com", "bad.com"],
+        # Encoded URL in query
+        "network.static.uri": [url, "https://bad.com"],
     }
 
     # Handle garbage base64 strings, this shouldn't generate any results
@@ -45,17 +45,14 @@ def test_safelinks():
     res_section, network_iocs, behaviours = url_analysis(url)
     assert behaviours == {}
     assert network_iocs == {
-        # URL to be redirected to
-        "uri": ["https://helloworld.com/bad"],
         "domain": ["helloworld.com"],
         "ip": [],
+        "uri": ["https://helloworld.com/bad"],
     }
     assert res_section.tags == {
-        # URL to be redirected to
-        "network.static.uri": ["https://helloworld.com/bad"],
-        "network.static.domain": ["helloworld.com"],
-        # Recipient email address
         "network.email.address": ["test@example.com"],
+        "network.static.domain": ["safelinks.com", "helloworld.com"],
+        "network.static.uri": [url, "https://helloworld.com/bad"],
     }
 
 
@@ -67,17 +64,19 @@ def test_urldefense():
     res_section, network_iocs, behaviours = url_analysis(url)
     assert behaviours == {}
     assert network_iocs == {
-        # URL to be redirected to
         "uri": [
-            url,
+            "https://something.com/some/thing/?utm_source=SOURCE",
             "https://us-east-1.awstrack.me/L0/https:%2F%2Fsomething.com%2Fsome%2Fthing%2F%3Futm_source=SOURCE",
         ],
         "domain": [],
         "ip": [],
     }
     assert res_section.tags == {
-        # URL to be redirected to
-        "network.static.uri": [url],
+        "network.static.uri": [
+            url,
+            "https://us-east-1.awstrack.me/L0/https:%2F%2Fsomething.com%2Fsome%2Fthing%2F%3Futm_source=SOURCE",
+        ],
+        "network.static.domain": ["urldefense.com"],
     }
 
 
@@ -92,13 +91,14 @@ def test_loooooong():
     assert behaviours == {}
     assert network_iocs == {
         # URL to be redirected to
-        "uri": [url],
+        "uri": ["https://google.com/"],
         "domain": [],
         "ip": [],
     }
     assert res_section.tags == {
         # URL to be redirected to
-        "network.static.uri": [url],
+        "network.static.uri": [url, "https://google.com/"],
+        "network.static.domain": ["loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo.ong"],
     }
 
 
@@ -108,7 +108,10 @@ def test_hexed_ip():
     res_section, network_iocs, behaviours = url_analysis(url)
     assert behaviours == {}
     assert network_iocs["ip"] == ["127.0.0.1"]
-    assert res_section.tags == {"network.static.ip": ["127.0.0.1"]}
+    assert res_section.tags == {
+        "network.static.ip": ["127.0.0.1"],
+        "network.static.uri": [url],
+    }
 
 
 def test_phishing():
@@ -120,6 +123,7 @@ def test_phishing():
     assert network_iocs["uri"] == ["https://bad.com/malicious.zip?evil=true"]
     assert network_iocs["domain"] == ["bad.com"]
     assert res_section.tags == {
+        "network.static.domain": ["bad.com"],
         "network.static.uri": [
             url,
             "https://bad.com/malicious.zip?evil=true",
@@ -133,6 +137,7 @@ def test_phishing():
     assert network_iocs["uri"] == ["https://bad.com/malicious.zip"]
     assert network_iocs["domain"] == ["bad.com"]
     assert res_section.tags == {
+        "network.static.domain": ["bad.com"],
         "network.static.uri": [
             url,
             "https://bad.com/malicious.zip",
@@ -146,6 +151,7 @@ def test_phishing():
     assert network_iocs["uri"] == ["https://bad.com/malicious.zip"]
     assert network_iocs["domain"] == ["bad.com"]
     assert res_section.tags == {
+        "network.static.domain": ["bad.com"],
         "network.static.uri": [
             url,
             "https://bad.com/malicious.zip",
@@ -160,6 +166,7 @@ def test_phishing():
     assert network_iocs["uri"] == ["https://bad.com/malicious.zip"]
     assert network_iocs["domain"] == ["bad.com"]
     assert res_section.tags == {
+        "network.static.domain": ["bad.com"],
         "network.static.uri": [
             url,
             "https://bad.com/malicious.zip",
@@ -173,6 +180,7 @@ def test_phishing():
     assert network_iocs["uri"] == ["https://bad.com/malicious.zip"]
     assert network_iocs["domain"] == ["bad.com"]
     assert res_section.tags == {
+        "network.static.domain": ["bad.com"],
         "network.static.uri": [
             url,
             "https://bad.com/malicious.zip",
@@ -185,6 +193,7 @@ def test_phishing():
     assert network_iocs["uri"] == ["https://bad.com/"]
     assert network_iocs["domain"] == ["bad.com"]
     assert res_section.tags == {
+        "network.static.domain": ["bad.com"],
         "network.static.uri": [
             url,
             "https://bad.com/",
@@ -197,6 +206,7 @@ def test_phishing():
     assert network_iocs["uri"] == ["https://bad.com/"]
     assert network_iocs["domain"] == ["bad.com"]
     assert res_section.tags == {
+        "network.static.domain": ["bad.com"],
         "network.static.uri": [
             url,
             "https://bad.com/",
@@ -209,11 +219,37 @@ def test_phishing():
     assert network_iocs["uri"] == ["https://example.com/"]
     assert network_iocs["domain"] == ["example.com"]
     assert res_section.tags == {
+        "network.static.domain": ["example.com"],
         "network.static.uri": [
             url,
             "https://example.com/",
         ],
     }
+
+
+def test_simple_redirect():
+    url = "https://site.com/?url=https://bad.com/"
+    res_section, network_iocs, behaviours = url_analysis(url)
+    assert behaviours == {}
+    assert network_iocs == {
+        "uri": ["https://bad.com/"],
+        "domain": ["bad.com"],
+        "ip": [],
+    }
+    assert res_section.tags == {
+        "network.static.uri": [
+            url,
+            "https://bad.com/",
+        ],
+        "network.static.domain": [
+            "site.com",
+            "bad.com",
+        ],
+    }
+    assert '"COMPONENT": "QUERY"' in res_section.body
+    assert '"ENCODED STRING": "url=https://bad.com/"' in res_section.body
+    assert '"OBFUSCATION": "encoding.url"' in res_section.body
+    assert '"DECODED STRING": "https://bad.com/"' in res_section.body
 
 
 def test_ascii_decode_handling():
@@ -222,7 +258,10 @@ def test_ascii_decode_handling():
     assert behaviours == {"embedded_credentials": {"http://Data%C2%A0:Something@site2.com"}}
     assert sorted(network_iocs["uri"]) == ["http://Data%C2%A0:Something@site2.com", "http://site2.com"]
     assert network_iocs["domain"] == ["site2.com"]
+    assert '"COMPONENT": "QUERY"' in res_section.body
+    assert '"ENCODED STRING": "url=http://Data%C2%A0:Something@site2.com&data=other"' in res_section.body
     assert '"OBFUSCATION": "encoding.url"' in res_section.body
+    assert '"DECODED STRING": "http://Data%C2%A0:Something@site2.com"' in res_section.body
 
 
 def test_safelisted_domain():
@@ -242,6 +281,7 @@ def test_safelisted_domain():
     assert network_iocs["uri"] == ["https://bad.com/malicious.zip"]
     assert network_iocs["domain"] == ["bad.com"]
     assert res_section.tags == {
+        "network.static.domain": ["bad.com"],
         "network.static.uri": [
             url,
             "https://bad.com/malicious.zip",
@@ -255,6 +295,7 @@ def test_safelisted_domain():
     assert network_iocs["uri"] == ["https://safelistedenabled.com/malicious.zip"]
     assert network_iocs["domain"] == ["safelistedenabled.com"]
     assert res_section.tags == {
+        "network.static.domain": ["safelistedenabled.com"],
         "network.static.uri": [
             url,
             "https://safelistedenabled.com/malicious.zip",
@@ -268,6 +309,7 @@ def test_safelisted_domain():
     assert network_iocs["uri"] == ["https://safelisteddisabled.com/malicious.zip"]
     assert network_iocs["domain"] == ["safelisteddisabled.com"]
     assert res_section.tags == {
+        "network.static.domain": ["safelisteddisabled.com"],
         "network.static.uri": [
             url,
             "https://safelisteddisabled.com/malicious.zip",

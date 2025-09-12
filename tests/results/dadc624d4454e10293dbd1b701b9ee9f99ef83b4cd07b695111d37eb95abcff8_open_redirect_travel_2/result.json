@@ -42,7 +42,11 @@
         "tags": {
           "network": {
             "static": {
+              "domain": [
+                "www.google.com"
+              ],
               "uri": [
+                "https://www.google.com/travel/clk?pc=DATADATADATADATADATADATA&pcurl=https://www.realhotel.notreally/hotel/111",
                 "https://www.realhotel.notreally/hotel/111"
               ]
             }
@@ -81,7 +85,19 @@
   "results": {
     "heuristics": [],
     "tags": {
+      "network.static.domain": [
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "www.google.com"
+        }
+      ],
       "network.static.uri": [
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://www.google.com/travel/clk?pc=DATADATADATADATADATADATA&pcurl=https://www.realhotel.notreally/hotel/111"
+        },
         {
           "heur_id": null,
           "signatures": [],

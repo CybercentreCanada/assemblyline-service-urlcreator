@@ -1,0 +1,13 @@
+{
+    "submission_params": {
+        "minimum_maliciousness": 50
+    },
+    "tags": [
+        {
+            "type": "network.static.uri",
+            "short_type": "URI",
+            "value": "http://0x7f000001",
+            "score": 0
+        }
+    ]
+}

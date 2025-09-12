@@ -42,7 +42,11 @@
         "tags": {
           "network": {
             "static": {
+              "domain": [
+                "site.com"
+              ],
               "uri": [
+                "https://site.com/track/redirect?type=campaign&amp;lid=1&amp;tracking_id=%5BtrackingId%5D&amp;redirect_url=http%3A%2F%2Fbroken.U.pc%40https://site2.com/",
                 "http://broken.U.pc@https://site2.com/"
               ]
             }
@@ -60,11 +64,23 @@
   "results": {
     "heuristics": [],
     "tags": {
+      "network.static.domain": [
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "site.com"
+        }
+      ],
       "network.static.uri": [
         {
           "heur_id": null,
           "signatures": [],
           "value": "http://broken.U.pc@https://site2.com/"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://site.com/track/redirect?type=campaign&amp;lid=1&amp;tracking_id=%5BtrackingId%5D&amp;redirect_url=http%3A%2F%2Fbroken.U.pc%40https://site2.com/"
         }
       ]
     },

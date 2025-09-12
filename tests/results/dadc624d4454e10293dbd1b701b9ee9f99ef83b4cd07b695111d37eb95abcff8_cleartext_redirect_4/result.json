@@ -43,9 +43,11 @@
           "network": {
             "static": {
               "domain": [
+                "site4.com",
                 "bad.com"
               ],
               "uri": [
+                "https://site4.com/viewHelp.php?url=https://bad.com/",
                 "https://bad.com/"
               ]
             }
@@ -68,6 +70,11 @@
           "heur_id": null,
           "signatures": [],
           "value": "bad.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "site4.com"
         }
       ],
       "network.static.uri": [
@@ -75,6 +82,11 @@
           "heur_id": null,
           "signatures": [],
           "value": "https://bad.com/"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://site4.com/viewHelp.php?url=https://bad.com/"
         }
       ]
     },

@@ -76,6 +76,9 @@
         "tags": {
           "network": {
             "static": {
+              "domain": [
+                "site.com"
+              ],
               "uri": [
                 "http://user1@site.com/asdgasdf?u=234234&data=34234",
                 "http://site.com/asdgasdf?u=234234&data=34234"
@@ -112,6 +115,9 @@
         "tags": {
           "network": {
             "static": {
+              "domain": [
+                "site.com"
+              ],
               "uri": [
                 "http://user2@site.com/",
                 "http://site.com/"
@@ -148,6 +154,9 @@
         "tags": {
           "network": {
             "static": {
+              "domain": [
+                "site.com"
+              ],
               "uri": [
                 "http://user2@site.com",
                 "http://site.com"
@@ -175,6 +184,23 @@
       }
     ],
     "tags": {
+      "network.static.domain": [
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "site.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "site.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "site.com"
+        }
+      ],
       "network.static.uri": [
         {
           "heur_id": null,

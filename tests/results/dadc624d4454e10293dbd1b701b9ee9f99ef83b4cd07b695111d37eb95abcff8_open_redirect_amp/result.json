@@ -25,7 +25,18 @@
         "depth": 1,
         "heuristic": null,
         "promote_to": null,
-        "tags": {},
+        "tags": {
+          "network": {
+            "static": {
+              "domain": [
+                "google.com"
+              ],
+              "uri": [
+                "https://google.com/amp/bad.com%2Fs%2F639234b763d00"
+              ]
+            }
+          }
+        },
         "title_text": "https://google.com/amp/bad.com%2Fs%2F639234b763d00",
         "zeroize_on_tag_safe": false
       },
@@ -59,11 +70,23 @@
   "results": {
     "heuristics": [],
     "tags": {
+      "network.static.domain": [
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "google.com"
+        }
+      ],
       "network.static.uri": [
         {
           "heur_id": null,
           "signatures": [],
           "value": "https://bad.com/s/639234b763d00"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://google.com/amp/bad.com%2Fs%2F639234b763d00"
         }
       ]
     },

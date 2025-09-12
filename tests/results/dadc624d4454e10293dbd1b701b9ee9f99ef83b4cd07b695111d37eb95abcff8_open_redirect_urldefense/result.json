@@ -42,8 +42,12 @@
         "tags": {
           "network": {
             "static": {
+              "domain": [
+                "urldefense.com"
+              ],
               "uri": [
-                "https://urldefense.com/v3/__https://us-east-1.awstrack.me/L0/https:*2F*2Fsomething.com*2Fsome*2Fthing*2F*3Futm_source=SOURCE__;JSUlJSUl!!...$"
+                "https://urldefense.com/v3/__https://us-east-1.awstrack.me/L0/https:*2F*2Fsomething.com*2Fsome*2Fthing*2F*3Futm_source=SOURCE__;JSUlJSUl!!...$",
+                "https://us-east-1.awstrack.me/L0/https:%2F%2Fsomething.com%2Fsome%2Fthing%2F%3Futm_source=SOURCE"
               ]
             }
           }
@@ -77,8 +81,12 @@
         "tags": {
           "network": {
             "static": {
+              "domain": [
+                "us-east-1.awstrack.me"
+              ],
               "uri": [
-                "https://us-east-1.awstrack.me/L0/https:%2F%2Fsomething.com%2Fsome%2Fthing%2F%3Futm_source=SOURCE"
+                "https://us-east-1.awstrack.me/L0/https:%2F%2Fsomething.com%2Fsome%2Fthing%2F%3Futm_source=SOURCE",
+                "https://something.com/some/thing/?utm_source=SOURCE"
               ]
             }
           }
@@ -95,11 +103,33 @@
   "results": {
     "heuristics": [],
     "tags": {
+      "network.static.domain": [
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "urldefense.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "us-east-1.awstrack.me"
+        }
+      ],
       "network.static.uri": [
         {
           "heur_id": null,
           "signatures": [],
+          "value": "https://something.com/some/thing/?utm_source=SOURCE"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
           "value": "https://urldefense.com/v3/__https://us-east-1.awstrack.me/L0/https:*2F*2Fsomething.com*2Fsome*2Fthing*2F*3Futm_source=SOURCE__;JSUlJSUl!!...$"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://us-east-1.awstrack.me/L0/https:%2F%2Fsomething.com%2Fsome%2Fthing%2F%3Futm_source=SOURCE"
         },
         {
           "heur_id": null,

@@ -42,8 +42,12 @@
         "tags": {
           "network": {
             "static": {
+              "domain": [
+                "abc.eu-west-1.awstrack.me"
+              ],
               "uri": [
-                "https://abc.eu-west-1.awstrack.me/L0/https:%2F%2Fnamedrop.io%2Fabc/1/guid"
+                "https://abc.eu-west-1.awstrack.me/L0/https:%2F%2Fnamedrop.io%2Fabc/1/guid",
+                "https://namedrop.io/abc/1/guid"
               ]
             }
           }
@@ -60,11 +64,23 @@
   "results": {
     "heuristics": [],
     "tags": {
+      "network.static.domain": [
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "abc.eu-west-1.awstrack.me"
+        }
+      ],
       "network.static.uri": [
         {
           "heur_id": null,
           "signatures": [],
           "value": "https://abc.eu-west-1.awstrack.me/L0/https:%2F%2Fnamedrop.io%2Fabc/1/guid"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://namedrop.io/abc/1/guid"
         }
       ]
     },

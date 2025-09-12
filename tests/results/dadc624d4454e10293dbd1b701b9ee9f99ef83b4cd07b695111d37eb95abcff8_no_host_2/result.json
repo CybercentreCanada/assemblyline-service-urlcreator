@@ -42,7 +42,11 @@
         "tags": {
           "network": {
             "static": {
+              "domain": [
+                "site.com"
+              ],
               "uri": [
+                "https://site.com/?url=http%3A%2F%2FBCTEA%40gov.bc.xn--ca-02t%2F&amp;data=data",
                 "http://BCTEA@gov.bc.xn--ca-02t/&amp;data=data"
               ]
             }
@@ -60,11 +64,23 @@
   "results": {
     "heuristics": [],
     "tags": {
+      "network.static.domain": [
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "site.com"
+        }
+      ],
       "network.static.uri": [
         {
           "heur_id": null,
           "signatures": [],
           "value": "http://BCTEA@gov.bc.xn--ca-02t/&amp;data=data"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://site.com/?url=http%3A%2F%2FBCTEA%40gov.bc.xn--ca-02t%2F&amp;data=data"
         }
       ]
     },

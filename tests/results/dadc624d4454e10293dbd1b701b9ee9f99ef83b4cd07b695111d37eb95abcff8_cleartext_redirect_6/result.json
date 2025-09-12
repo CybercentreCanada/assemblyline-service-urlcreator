@@ -43,9 +43,11 @@
           "network": {
             "static": {
               "domain": [
+                "site6.com",
                 "bad.com"
               ],
               "uri": [
+                "http://site6.com/aaaa/redirect.php?event1=&event2=&event3=&goto=https://bad.com/",
                 "https://bad.com/"
               ]
             }
@@ -68,9 +70,19 @@
           "heur_id": null,
           "signatures": [],
           "value": "bad.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "site6.com"
         }
       ],
       "network.static.uri": [
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "http://site6.com/aaaa/redirect.php?event1=&event2=&event3=&goto=https://bad.com/"
+        },
         {
           "heur_id": null,
           "signatures": [],

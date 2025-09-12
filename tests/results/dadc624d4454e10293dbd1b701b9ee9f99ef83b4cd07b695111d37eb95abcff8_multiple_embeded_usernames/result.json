@@ -81,6 +81,9 @@
         "tags": {
           "network": {
             "static": {
+              "domain": [
+                "site.com"
+              ],
               "uri": [
                 "https://user1@site.com",
                 "https://site.com"
@@ -117,6 +120,9 @@
         "tags": {
           "network": {
             "static": {
+              "domain": [
+                "site.com"
+              ],
               "uri": [
                 "https://user2@site.com",
                 "https://site.com"
@@ -153,6 +159,9 @@
         "tags": {
           "network": {
             "static": {
+              "domain": [
+                "site.com"
+              ],
               "uri": [
                 "https://user3@site.com",
                 "https://site.com"
@@ -189,6 +198,9 @@
         "tags": {
           "network": {
             "static": {
+              "domain": [
+                "site.com"
+              ],
               "uri": [
                 "https://user4@site.com",
                 "https://site.com"
@@ -225,6 +237,9 @@
         "tags": {
           "network": {
             "static": {
+              "domain": [
+                "site.com"
+              ],
               "uri": [
                 "https://user5@site.com",
                 "https://site.com"
@@ -261,6 +276,9 @@
         "tags": {
           "network": {
             "static": {
+              "domain": [
+                "site.com"
+              ],
               "uri": [
                 "https://user6@site.com",
                 "https://site.com"
@@ -297,6 +315,9 @@
         "tags": {
           "network": {
             "static": {
+              "domain": [
+                "site.com"
+              ],
               "uri": [
                 "https://user7@site.com",
                 "https://site.com"
@@ -333,6 +354,9 @@
         "tags": {
           "network": {
             "static": {
+              "domain": [
+                "site.com"
+              ],
               "uri": [
                 "https://user8@site.com",
                 "https://site.com"
@@ -424,6 +448,48 @@
       }
     ],
     "tags": {
+      "network.static.domain": [
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "site.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "site.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "site.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "site.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "site.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "site.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "site.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "site.com"
+        }
+      ],
       "network.static.uri": [
         {
           "heur_id": null,

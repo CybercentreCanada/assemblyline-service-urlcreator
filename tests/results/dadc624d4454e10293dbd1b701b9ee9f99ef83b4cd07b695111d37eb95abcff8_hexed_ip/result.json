@@ -20,10 +20,10 @@
         "auto_collapse": false,
         "body": [
           {
-            "COMPONENT": "QUERY",
-            "DECODED STRING": "https://bad.com/",
-            "ENCODED STRING": "url=https://bad.com/",
-            "OBFUSCATION": "encoding.url"
+            "COMPONENT": "URL",
+            "DECODED STRING": "127.0.0.1",
+            "ENCODED STRING": "0x7f000001",
+            "OBFUSCATION": "ip_obfuscation"
           }
         ],
         "body_config": {
@@ -42,18 +42,16 @@
         "tags": {
           "network": {
             "static": {
-              "domain": [
-                "sub.site3.com",
-                "bad.com"
+              "ip": [
+                "127.0.0.1"
               ],
               "uri": [
-                "https://sub.site3.com/go.php?url=https://bad.com/",
-                "https://bad.com/"
+                "http://0x7f000001"
               ]
             }
           }
         },
-        "title_text": "https://sub.site3.com/go.php?url=https://bad.com/",
+        "title_text": "http://0x7f000001",
         "zeroize_on_tag_safe": false
       }
     ]
@@ -65,28 +63,18 @@
   "results": {
     "heuristics": [],
     "tags": {
-      "network.static.domain": [
+      "network.static.ip": [
         {
           "heur_id": null,
           "signatures": [],
-          "value": "bad.com"
-        },
-        {
-          "heur_id": null,
-          "signatures": [],
-          "value": "sub.site3.com"
+          "value": "127.0.0.1"
         }
       ],
       "network.static.uri": [
         {
           "heur_id": null,
           "signatures": [],
-          "value": "https://bad.com/"
-        },
-        {
-          "heur_id": null,
-          "signatures": [],
-          "value": "https://sub.site3.com/go.php?url=https://bad.com/"
+          "value": "http://0x7f000001"
         }
       ]
     },

@@ -46,6 +46,7 @@
                 "www.google.com"
               ],
               "uri": [
+                "https://www.google.com/url?hl=en&amp;q=https://www.google.com/travel/clk?pc%3DDATADATADATADATADATADATA%26pcurl%3Dhttps%253A%252F%252Fbad2.com%252F%253Fparam%253Dphishing%2540victim.com",
                 "https://www.google.com/travel/clk?pc=DATADATADATADATADATADATA&pcurl=https%3A%2F%2Fbad2.com%2F%3Fparam%3Dphishing%40victim.com"
               ]
             }
@@ -81,9 +82,11 @@
           "network": {
             "static": {
               "domain": [
+                "www.google.com",
                 "bad2.com"
               ],
               "uri": [
+                "https://www.google.com/travel/clk?pc=DATADATADATADATADATADATA&pcurl=https%3A%2F%2Fbad2.com%2F%3Fparam%3Dphishing%40victim.com",
                 "https://bad2.com/?param=phishing@victim.com"
               ]
             }
@@ -112,6 +115,49 @@
         },
         "title_text": "Open Redirect",
         "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "QUERY",
+            "DECODED STRING": "phishing@victim.com",
+            "ENCODED STRING": "param=phishing@victim.com",
+            "OBFUSCATION": ""
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 3,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "email": {
+              "address": [
+                "phishing@victim.com"
+              ]
+            },
+            "static": {
+              "domain": [
+                "bad2.com"
+              ],
+              "uri": [
+                "https://bad2.com/?param=phishing@victim.com"
+              ]
+            }
+          }
+        },
+        "title_text": "https://bad2.com/?param=phishing@victim.com",
+        "zeroize_on_tag_safe": false
       }
     ]
   },
@@ -122,11 +168,28 @@
   "results": {
     "heuristics": [],
     "tags": {
+      "network.email.address": [
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "phishing@victim.com"
+        }
+      ],
       "network.static.domain": [
         {
           "heur_id": null,
           "signatures": [],
           "value": "bad2.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "bad2.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "www.google.com"
         },
         {
           "heur_id": null,
@@ -148,7 +211,22 @@
         {
           "heur_id": null,
           "signatures": [],
+          "value": "https://bad2.com/?param=phishing@victim.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
           "value": "https://www.google.com/travel/clk?pc=DATADATADATADATADATADATA&pcurl=https%3A%2F%2Fbad2.com%2F%3Fparam%3Dphishing%40victim.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://www.google.com/travel/clk?pc=DATADATADATADATADATADATA&pcurl=https%3A%2F%2Fbad2.com%2F%3Fparam%3Dphishing%40victim.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://www.google.com/url?hl=en&amp;q=https://www.google.com/travel/clk?pc%3DDATADATADATADATADATADATA%26pcurl%3Dhttps%253A%252F%252Fbad2.com%252F%253Fparam%253Dphishing%2540victim.com"
         }
       ]
     },
