@@ -1,0 +1,13 @@
+{
+    "submission_params": {
+        "minimum_maliciousness": 50
+    },
+    "tags": [
+        {
+            "type": "network.static.uri",
+            "short_type": "URI",
+            "value": "https://urldefense.com/v3/__https://someredirector.com/CL0/https:*2F*2Furldefense.us*2Fv3*2F__https:*2F*2Fsomeredirector.com*2FCL0*2Fhttps:*2F*2Fbad.com*2Fdownload*2Fme*2Fmalware.exe__;JSUlJSUl!!IDKwhatThisisFor!IDKwhatThisisFor*25IDKwhatThisisFor__;JSUlJSUlJSUqKioqKiolJSUl!!IDKwhatThisisFor!IDKwhatThisisFor",
+            "score": 0
+        }
+    ]
+}

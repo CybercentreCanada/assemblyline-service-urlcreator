@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+# Taken from https://help.proofpoint.com/Threat_Insight_Dashboard/Concepts/How_do_I_decode_a_rewritten_URL%3F
+# Modified to account for .us on top of .com
+# Modified to account for multiple URLDefense v3 wrapping
 __author__ = "Eric Van Cleve"
 __copyright__ = "Copyright 2019, Proofpoint Inc"
 __license__ = "GPL v.3"
@@ -32,10 +35,10 @@ class URLDefenseDecoder(object):
 
     @staticmethod
     def __init__():
-        URLDefenseDecoder.ud_pattern = re.compile(r"https://urldefense(?:\.proofpoint)?\.com/(v[0-9])/")
+        URLDefenseDecoder.ud_pattern = re.compile(r"https://urldefense(?:\.proofpoint)?\.(?:com|us)/(v[0-9])/")
         URLDefenseDecoder.v1_pattern = re.compile(r"u=(?P<url>.+?)&k=")
         URLDefenseDecoder.v2_pattern = re.compile(r"u=(?P<url>.+?)&[dc]=")
-        URLDefenseDecoder.v3_pattern = re.compile(r"v3/__(?P<url>.+?)__;(?P<enc_bytes>.*?)!")
+        URLDefenseDecoder.v3_pattern = re.compile(r"v3/__(?P<url>.+)__;(?P<enc_bytes>.*?)!")
         URLDefenseDecoder.v3_token_pattern = re.compile(r"\*(\*.)?")
         URLDefenseDecoder.v3_single_slash = re.compile(r"^([a-z0-9+.-]+:/)([^/].+)", re.IGNORECASE)
         URLDefenseDecoder.v3_run_mapping = {}

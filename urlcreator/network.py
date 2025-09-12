@@ -328,16 +328,18 @@ def url_analysis(
             if "targeturl" in qs and isinstance(qs["targeturl"], list) and len(qs["targeturl"]) == 1:
                 open_redirect.add_line(f"Possible abuse of Microsoft Medius' open redirect to {qs['targeturl'][0]}")
                 open_redirect.add_tag("network.static.uri", qs["targeturl"][0])
-        elif host.value in (b"urldefense.proofpoint.com", b"urldefense.com"):
+        elif host.value in (
+            b"urldefense.proofpoint.com",
+            b"urldefense.com",
+            b"urldefense.proofpoint.us",
+            b"urldefense.us",
+        ):
             try:
                 decoded_url = URLDEFENSEDECODER.decode(url)
                 result = Node(URL_TYPE, decoded_url.encode(), obfuscation="", end=len(url), parent=Node(URL_TYPE, url))
                 add_MD_results_to_table(result)
             except ValueError:
                 pass
-        elif host.value.endswith(b"awstrack.me") and path.value.startswith(b"/L0/"):
-            result = Node(URL_TYPE, unquote(path.value[4:]), obfuscation="", end=len(url), parent=Node(URL_TYPE, url))
-            add_MD_results_to_table(result)
         elif host.value == b"loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo.ong" and path:
             # Assumes the query starts with '/l' and ends with 'ng'
             encoded = path.value.decode()[2:-2].replace("O", "1").replace("o", "0")
@@ -345,6 +347,16 @@ def url_analysis(
             if "\x00" in decoded:
                 decoded = decoded.replace("\x00", "")
             result = Node(URL_TYPE, decoded, obfuscation="", end=len(url), parent=Node(URL_TYPE, url))
+            add_MD_results_to_table(result)
+        elif re.match(b"/...?/http", path.value):
+            # Covers /L0/ or /CL0/ or other variations
+            result = Node(
+                URL_TYPE,
+                unquote(path.value.split(b"/", 2)[-1]),
+                obfuscation="",
+                end=len(url),
+                parent=Node(URL_TYPE, url),
+            )
             add_MD_results_to_table(result)
 
     # Analyze query/fragment

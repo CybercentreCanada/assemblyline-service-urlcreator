@@ -1,0 +1,251 @@
+{
+  "extra": {
+    "drop_file": false,
+    "score": 0,
+    "sections": [
+      {
+        "auto_collapse": false,
+        "body": null,
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 0,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {},
+        "title_text": "MultiDecoder Analysis",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "URL",
+            "DECODED STRING": "https://someredirector.com/CL0/https:%2F%2Furldefense.us%2Fv3%2F__https:%2F%2Fsomeredirector.com%2FCL0%2Fhttps:*2F*2Fbad.com*2Fdownload*2Fme*2Fmalware.exe__;JSUlJSUl!!IDKwhatThisisFor!IDKwhatThisisFor*25IDKwhatThisisFor",
+            "ENCODED STRING": "https://urldefense.com/v3/__https://someredirector.com/CL0/https:*2F*2Furldefense.us*2Fv3*2F__https:*2F*2Fsomeredirector.com*2FCL0*2Fhttps:*2F*2Fbad.com*2Fdownload*2Fme*2Fmalware.exe__;JSUlJSUl!!IDKwhatThisisFor!IDKwhatThisisFor*25IDKwhatThisisFor__;JSUlJSUlJSUqKioqKiolJSUl!!IDKwhatThisisFor!IDKwhatThisisFor",
+            "OBFUSCATION": "encoding.url"
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "domain": [
+                "urldefense.com"
+              ],
+              "uri": [
+                "https://urldefense.com/v3/__https://someredirector.com/CL0/https:*2F*2Furldefense.us*2Fv3*2F__https:*2F*2Fsomeredirector.com*2FCL0*2Fhttps:*2F*2Fbad.com*2Fdownload*2Fme*2Fmalware.exe__;JSUlJSUl!!IDKwhatThisisFor!IDKwhatThisisFor*25IDKwhatThisisFor__;JSUlJSUlJSUqKioqKiolJSUl!!IDKwhatThisisFor!IDKwhatThisisFor",
+                "https://someredirector.com/CL0/https:%2F%2Furldefense.us%2Fv3%2F__https:%2F%2Fsomeredirector.com%2FCL0%2Fhttps:*2F*2Fbad.com*2Fdownload*2Fme*2Fmalware.exe__;JSUlJSUl!!IDKwhatThisisFor!IDKwhatThisisFor*25IDKwhatThisisFor"
+              ]
+            }
+          }
+        },
+        "title_text": "https://urldefense.com/v3/__https://someredirector.com/CL0/https:*2F*2Furldefense.us*2Fv3*2F__https:*2F*2Fsomeredirector.com*2FC...",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "URL",
+            "DECODED STRING": "https://urldefense.us/v3/__https://someredirector.com/CL0/https:*2F*2Fbad.com*2Fdownload*2Fme*2Fmalware.exe__;JSUlJSUl!!IDKwhatThisisFor!IDKwhatThisisFor*25IDKwhatThisisFor",
+            "ENCODED STRING": "https://someredirector.com/CL0/https:%2F%2Furldefense.us%2Fv3%2F__https:%2F%2Fsomeredirector.com%2FCL0%2Fhttps:*2F*2Fbad.com*2Fdownload*2Fme*2Fmalware.exe__;JSUlJSUl!!IDKwhatThisisFor!IDKwhatThisisFor*25IDKwhatThisisFor",
+            "OBFUSCATION": "encoding.url"
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 2,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "domain": [
+                "someredirector.com"
+              ],
+              "uri": [
+                "https://someredirector.com/CL0/https:%2F%2Furldefense.us%2Fv3%2F__https:%2F%2Fsomeredirector.com%2FCL0%2Fhttps:*2F*2Fbad.com*2Fdownload*2Fme*2Fmalware.exe__;JSUlJSUl!!IDKwhatThisisFor!IDKwhatThisisFor*25IDKwhatThisisFor",
+                "https://urldefense.us/v3/__https://someredirector.com/CL0/https:*2F*2Fbad.com*2Fdownload*2Fme*2Fmalware.exe__;JSUlJSUl!!IDKwhatThisisFor!IDKwhatThisisFor*25IDKwhatThisisFor"
+              ]
+            }
+          }
+        },
+        "title_text": "https://someredirector.com/CL0/https:%2F%2Furldefense.us%2Fv3%2F__https:%2F%2Fsomeredirector.com%2FCL0%2Fhttps:*2F*2Fbad.com*2Fd...",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "URL",
+            "DECODED STRING": "https://someredirector.com/CL0/https:%2F%2Fbad.com%2Fdownload%2Fme%2Fmalware.exe",
+            "ENCODED STRING": "https://urldefense.us/v3/__https://someredirector.com/CL0/https:*2F*2Fbad.com*2Fdownload*2Fme*2Fmalware.exe__;JSUlJSUl!!IDKwhatThisisFor!IDKwhatThisisFor*25IDKwhatThisisFor",
+            "OBFUSCATION": "encoding.url"
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 3,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "domain": [
+                "urldefense.us"
+              ],
+              "uri": [
+                "https://urldefense.us/v3/__https://someredirector.com/CL0/https:*2F*2Fbad.com*2Fdownload*2Fme*2Fmalware.exe__;JSUlJSUl!!IDKwhatThisisFor!IDKwhatThisisFor*25IDKwhatThisisFor",
+                "https://someredirector.com/CL0/https:%2F%2Fbad.com%2Fdownload%2Fme%2Fmalware.exe"
+              ]
+            }
+          }
+        },
+        "title_text": "https://urldefense.us/v3/__https://someredirector.com/CL0/https:*2F*2Fbad.com*2Fdownload*2Fme*2Fmalware.exe__;JSUlJSUl!!IDKwhatT...",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "URL",
+            "DECODED STRING": "https://bad.com/download/me/malware.exe",
+            "ENCODED STRING": "https://someredirector.com/CL0/https:%2F%2Fbad.com%2Fdownload%2Fme%2Fmalware.exe",
+            "OBFUSCATION": "encoding.url"
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 4,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "domain": [
+                "someredirector.com"
+              ],
+              "uri": [
+                "https://someredirector.com/CL0/https:%2F%2Fbad.com%2Fdownload%2Fme%2Fmalware.exe",
+                "https://bad.com/download/me/malware.exe"
+              ]
+            }
+          }
+        },
+        "title_text": "https://someredirector.com/CL0/https:%2F%2Fbad.com%2Fdownload%2Fme%2Fmalware.exe",
+        "zeroize_on_tag_safe": false
+      }
+    ]
+  },
+  "files": {
+    "extracted": [],
+    "supplementary": []
+  },
+  "results": {
+    "heuristics": [],
+    "tags": {
+      "network.static.domain": [
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "someredirector.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "someredirector.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "urldefense.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "urldefense.us"
+        }
+      ],
+      "network.static.uri": [
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://bad.com/download/me/malware.exe"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://someredirector.com/CL0/https:%2F%2Fbad.com%2Fdownload%2Fme%2Fmalware.exe"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://someredirector.com/CL0/https:%2F%2Fbad.com%2Fdownload%2Fme%2Fmalware.exe"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://someredirector.com/CL0/https:%2F%2Furldefense.us%2Fv3%2F__https:%2F%2Fsomeredirector.com%2FCL0%2Fhttps:*2F*2Fbad.com*2Fdownload*2Fme*2Fmalware.exe__;JSUlJSUl!!IDKwhatThisisFor!IDKwhatThisisFor*25IDKwhatThisisFor"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://someredirector.com/CL0/https:%2F%2Furldefense.us%2Fv3%2F__https:%2F%2Fsomeredirector.com%2FCL0%2Fhttps:*2F*2Fbad.com*2Fdownload*2Fme*2Fmalware.exe__;JSUlJSUl!!IDKwhatThisisFor!IDKwhatThisisFor*25IDKwhatThisisFor"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://urldefense.com/v3/__https://someredirector.com/CL0/https:*2F*2Furldefense.us*2Fv3*2F__https:*2F*2Fsomeredirector.com*2FCL0*2Fhttps:*2F*2Fbad.com*2Fdownload*2Fme*2Fmalware.exe__;JSUlJSUl!!IDKwhatThisisFor!IDKwhatThisisFor*25IDKwhatThisisFor__;JSUlJSUlJSUqKioqKiolJSUl!!IDKwhatThisisFor!IDKwhatThisisFor"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://urldefense.us/v3/__https://someredirector.com/CL0/https:*2F*2Fbad.com*2Fdownload*2Fme*2Fmalware.exe__;JSUlJSUl!!IDKwhatThisisFor!IDKwhatThisisFor*25IDKwhatThisisFor"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://urldefense.us/v3/__https://someredirector.com/CL0/https:*2F*2Fbad.com*2Fdownload*2Fme*2Fmalware.exe__;JSUlJSUl!!IDKwhatThisisFor!IDKwhatThisisFor*25IDKwhatThisisFor"
+        }
+      ]
+    },
+    "temp_submission_data": {}
+  }
+}
