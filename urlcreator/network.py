@@ -62,7 +62,10 @@ def manual_base64_decode(parent_node, md):
             else:
                 try:
                     # Attempt decoding manually
-                    scan_result = md.scan(b64decode(b64_string)).children[0]
+                    scan_result = md.scan(b64decode(b64_string))
+                    if not scan_result.children:
+                        continue
+                    scan_result = scan_result.children[0]
                     # Manipulate the result to preserve the encoded → decoded process
                     scan_result.end = 0
                     scan_result.obfuscation = "encoding.base64"
@@ -333,7 +336,11 @@ def url_analysis(
             b"urldefense.proofpoint.us",
             b"urldefense.us",
         ):
-            decoded_url = urlcreator.proofpoint.decode(url)
+            decoded_url = None
+            try:
+                decoded_url = urlcreator.proofpoint.decode(url)
+            except UnicodeDecodeError:
+                pass
             if decoded_url and decoded_url != url:
                 result = Node(
                     URL_TYPE,

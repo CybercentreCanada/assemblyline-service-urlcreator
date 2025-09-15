@@ -38,6 +38,13 @@ def test_embedded_base64():
     assert network_iocs == {"uri": [], "domain": [], "ip": []}
     assert not res_section.body
 
+    # Handle even more garbage base64 strings
+    url = "https://site.com/index.html?mi=AAAaaaaaA0aHR03aaaaAAa&amp;data=None"
+    res_section, network_iocs, behaviours = url_analysis(url)
+    assert behaviours == {}
+    assert network_iocs == {"uri": [], "domain": [], "ip": []}
+    assert not res_section.body
+
 
 def test_safelinks():
     # Ref: https://learn.microsoft.com/en-us/defender-office-365/safe-links-about?view=o365-worldwide
