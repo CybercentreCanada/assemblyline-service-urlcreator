@@ -80,6 +80,26 @@ def test_urldefense():
     }
 
 
+def test_urldefense_special_char():
+    url = "https://urldefense.com/v3/__https:/website.com/page.html?special=char**B&size=1m*1m*1m__;4oSiJSU!!data!data$"
+    res_section, network_iocs, behaviours = url_analysis(url)
+    assert behaviours == {}
+    assert network_iocs == {
+        "domain": [],
+        "ip": [],
+        "uri": [
+            "https:/website.com/page.html?special=char™&size=1m%1m%1m",
+        ],
+    }
+    assert res_section.tags == {
+        "network.static.domain": ["urldefense.com"],
+        "network.static.uri": [
+            url,
+            "https:/website.com/page.html?special=char™&size=1m%1m%1m",
+        ],
+    }
+
+
 def test_loooooong():
     url = (
         "https://loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo.ong/"

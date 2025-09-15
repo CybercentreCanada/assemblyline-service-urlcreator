@@ -25,7 +25,7 @@ from multidecoder.node import Node
 from multidecoder.registry import get_analyzers
 from multidecoder.string_helper import make_bytes, make_str
 
-from urlcreator.proofpoint import URLDefenseDecoder
+import urlcreator.proofpoint
 
 NETWORK_IOC_TYPES = ["domain", "ip", "uri"]
 BEHAVIOUR_SCORES = {
@@ -34,7 +34,6 @@ BEHAVIOUR_SCORES = {
     "embedded_credentials": 0,
     "embedded_username": 0,
 }
-URLDEFENSEDECODER = URLDefenseDecoder()
 
 
 def manual_base64_decode(parent_node, md):
@@ -200,6 +199,7 @@ def url_analysis(
     fragment: Node = ([node for node in parsed_url if node.type == "network.url.fragment"] + [None])[0]
 
     analysis_table.add_tag("network.static.uri", url)
+    print("Analysing", url)
     if host:
         if host.type == "network.domain":
             analysis_table.add_tag("network.static.domain", host.value)
@@ -334,12 +334,16 @@ def url_analysis(
             b"urldefense.proofpoint.us",
             b"urldefense.us",
         ):
-            try:
-                decoded_url = URLDEFENSEDECODER.decode(url)
-                result = Node(URL_TYPE, decoded_url.encode(), obfuscation="", end=len(url), parent=Node(URL_TYPE, url))
+            decoded_url = urlcreator.proofpoint.decode(url)
+            if decoded_url and decoded_url != url:
+                result = Node(
+                    URL_TYPE,
+                    decoded_url.encode(),
+                    obfuscation="",
+                    end=len(url),
+                    parent=Node(URL_TYPE, url),
+                )
                 add_MD_results_to_table(result)
-            except ValueError:
-                pass
         elif host.value == b"loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo.ong" and path:
             # Assumes the query starts with '/l' and ends with 'ng'
             encoded = path.value.decode()[2:-2].replace("O", "1").replace("o", "0")

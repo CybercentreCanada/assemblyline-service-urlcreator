@@ -1,143 +1,444 @@
-#!/usr/bin/env python
-# Taken from https://help.proofpoint.com/Threat_Insight_Dashboard/Concepts/How_do_I_decode_a_rewritten_URL%3F
-# Modified to account for .us on top of .com
-# Modified to account for multiple URLDefense v3 wrapping
-__author__ = "Eric Van Cleve"
-__copyright__ = "Copyright 2019, Proofpoint Inc"
-__license__ = "GPL v.3"
-__version__ = "3.0.1"
-__email__ = "evancleve@proofpoint.com"
-__status__ = "Production"
+#!/usr/bin/env python3
+# Taken from https://github.com/cardi/proofpoint-url-decoder/blob/main/decode.py
+# Modified to decode ppv1
+# Modified to raise a ValueError instead of calling sys.exit()
 
+#
+# Written in 2016, updated in 2020 and 2022 by Calvin Ardi <calvin@isi.edu>
+#
+# To the extent possible under law, the author(s) have dedicated all copyright
+# and related and neighboring rights to this software to the public domain
+# worldwide. This software is distributed without any warranty.
+#
+# You should have received a copy of the CC0 Public Domain Dedication along
+# with this software.
+#
+# If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
+#
 
+"""This snippet prints out an unmodified proofpoint "protected" (i.e., mangled) URL.
+
+Usage:
+    decode.py [-h] [--debug] [--unquote] [--verbose] url
+
+Args:
+    url         a proofpoint url (usually starts with urldefense.proofpoint.com or urldefense.com)
+
+Optional Args:
+    -h, --help     show this help message and exit
+    --debug, -d    debugging trace mode (via pdb)
+    --unquote      unquote cleaned URL (e.g., '%7B' -> '{')
+    --verbose, -v  print more debugging output
+
+Returns:
+    A decoded (and optionally, unquoted) URL string.
+
+"""
+
+import argparse
+import base64
+import pdb
 import re
-import string
-import sys
-from argparse import ArgumentParser
-from base64 import urlsafe_b64decode
+import urllib.parse
 
-if sys.version_info[0] < 3:
-    from urllib import unquote
-
-    import HTMLParser
-
-    htmlparser = HTMLParser.HTMLParser()
-    unescape = htmlparser.unescape
-    from string import maketrans
-else:
-    from html import unescape
-    from urllib.parse import unquote
-
-    maketrans = str.maketrans
+DEBUG = False
 
 
-class URLDefenseDecoder(object):
+def decode_ppv1(mangled_url):
+    query = urllib.parse.urlparse(mangled_url).query
+    param = urllib.parse.parse_qs(query)
 
-    @staticmethod
-    def __init__():
-        URLDefenseDecoder.ud_pattern = re.compile(r"https://urldefense(?:\.proofpoint)?\.(?:com|us)/(v[0-9])/")
-        URLDefenseDecoder.v1_pattern = re.compile(r"u=(?P<url>.+?)&k=")
-        URLDefenseDecoder.v2_pattern = re.compile(r"u=(?P<url>.+?)&[dc]=")
-        URLDefenseDecoder.v3_pattern = re.compile(r"v3/__(?P<url>.+)__;(?P<enc_bytes>.*?)!")
-        URLDefenseDecoder.v3_token_pattern = re.compile(r"\*(\*.)?")
-        URLDefenseDecoder.v3_single_slash = re.compile(r"^([a-z0-9+.-]+:/)([^/].+)", re.IGNORECASE)
-        URLDefenseDecoder.v3_run_mapping = {}
-        run_values = string.ascii_uppercase + string.ascii_lowercase + string.digits + "-" + "_"
-        run_length = 2
-        for value in run_values:
-            URLDefenseDecoder.v3_run_mapping[value] = run_length
-            run_length += 1
+    if "u" not in param:
+        raise ValueError("ERROR: check if URL is a proofpoint URL")
+    else:
+        cleaned_url = urllib.parse.unquote(param["u"][0])
 
-    def decode(self, rewritten_url):
-        match = self.ud_pattern.search(rewritten_url)
-        if match:
-            if match.group(1) == "v1":
-                return self.decode_v1(rewritten_url)
-            elif match.group(1) == "v2":
-                return self.decode_v2(rewritten_url)
-            elif match.group(1) == "v3":
-                return self.decode_v3(rewritten_url)
-            else:
-                raise ValueError("Unrecognized version in: ", rewritten_url)
+    return cleaned_url
+
+
+#
+# proofpoint "protected" v2 URLs take the form of:
+#
+#   https://urldefense.proofpoint.com/v2/url?[params]
+#   https://urldefense.com/v2/url?[params]
+#
+# where [params] is described below
+#
+# TODO decode parameters
+#
+#  c := constant (per organization)
+#  d := constant (per organization)
+#  e := always empty?
+#  m := ?
+#  r := unique identifier tied to email address
+#  s := ?
+#  u := safe-encoded URL
+#
+#  'm' might be a hash of the URL or some metadata
+#  's' might be a signature or checksum
+#
+def decode_ppv2(mangled_url):
+    query = urllib.parse.urlparse(mangled_url).query
+    param = urllib.parse.parse_qs(query)
+
+    if "u" not in param:
+        raise ValueError("ERROR: check if URL is a proofpoint URL")
+    else:
+        u = param["u"][0].replace("-", "%").replace("_", "/")
+        cleaned_url = urllib.parse.unquote(u)
+
+    return cleaned_url
+
+
+#
+# proofpoint "protected" v3 URLs take the form of:
+#
+#   https://urldefense.com/v3/__[mangled_url]__;[b64-encoded_replacement_string]!![organization_id]![unique_identifier]$
+#
+# many symbols in the original URL are replaced with `*` in the [mangled_url] and
+# copied over to the [b64-encoded_replacement_string].
+#
+# example:
+#   mangled: http://www.example.com/*test*test
+# 	replacement string: ##
+# 	cleaned: http://www.example.com/#test#test
+#
+# however, if there are >=2 symbols/bytes that are encoded, it's mapped to
+# something like `**A`, `**B`, and so on.
+#
+# `**` means that there are at least 2 bytes to replace
+# The character following is the number of bytes (A == 2, B == 3, etc.)
+#
+# example:
+#   mangled: http://www.example.com/**Dtest*test
+#   replacement string: ######
+#   cleaned: http://www.example.com/#####test#test
+#
+# after a "run" of a maximum of 65 bytes, it simply repeats itself.
+#
+# example (replacement string consists of all `#`):
+#   mangled: http://www.example.com/**_test
+# 	number of #: 65
+# 	cleaned: http://www.example.com/#################################################################test
+#
+# example (replacement string consists of all `#`):
+#   mangled: http://www.example.com/**_*test
+# 	number of #: 66
+# 	cleaned: http://www.example.com/##################################################################test
+#
+# example (replacement string consists of all `#`):
+#   mangled: http://www.example.com/**_**Atest
+# 	number of #: 67
+# 	cleaned: http://www.example.com/###################################################################test
+#
+# example (replacement string consists of all `#`):
+#   mangled: http://www.example.com/**_**_test
+# 	number of #: 130
+# 	cleaned: http://www.example.com/##################################################################################################################################test
+#
+# the [organization_id] is a unique string per organization
+# XXX unknown as to how this is derived
+#
+# the [unique_identifier] is tied to the recipient or sender email address
+# (depending on whether the URL was rewritten inbound or outbound)
+# XXX unknown as to how this is derived
+#
+
+replacement_str_mapping = {
+    "A": 2,
+    "B": 3,
+    "C": 4,
+    "D": 5,
+    "E": 6,
+    "F": 7,
+    "G": 8,
+    "H": 9,
+    "I": 10,
+    "J": 11,
+    "K": 12,
+    "L": 13,
+    "M": 14,
+    "N": 15,
+    "O": 16,
+    "P": 17,
+    "Q": 18,
+    "R": 19,
+    "S": 20,
+    "T": 21,
+    "U": 22,
+    "V": 23,
+    "W": 24,
+    "X": 25,
+    "Y": 26,
+    "Z": 27,
+    "a": 28,
+    "b": 29,
+    "c": 30,
+    "d": 31,
+    "e": 32,
+    "f": 33,
+    "g": 34,
+    "h": 35,
+    "i": 36,
+    "j": 37,
+    "k": 38,
+    "l": 39,
+    "m": 40,
+    "n": 41,
+    "o": 42,
+    "p": 43,
+    "q": 44,
+    "r": 45,
+    "s": 46,
+    "t": 47,
+    "u": 48,
+    "v": 49,
+    "w": 50,
+    "x": 51,
+    "y": 52,
+    "z": 53,
+    "0": 54,
+    "1": 55,
+    "2": 56,
+    "3": 57,
+    "4": 58,
+    "5": 59,
+    "6": 60,
+    "7": 61,
+    "8": 62,
+    "9": 63,
+    "-": 64,
+    "_": 65,
+}
+
+
+def decode_ppv3(mangled_url, unquote_url=False):
+    # we don't use urlparse here because the mangled url confuses the function
+    # (e.g., it's not sure if the query belongs to the inner or our URL)
+    parsed_url = mangled_url
+
+    # extract URL between `__`s (e.g., /v3/__https://www.example.com__;Iw!![organization_id]![unique_identifier]$)
+    p = re.compile("__(.*)__;(.*)!!")
+    ps = p.search(parsed_url)
+
+    if ps is None:
+        DEBUG and print("%s is not a valid URL?" % parsed_url)
+
+        # return as is
+        return parsed_url
+
+    url = ps.group(1)
+    DEBUG and print(url)
+
+    # get string of b64-encoded replacement characters (e.g., "Iw" in  /v3/__https://www.example.com__;Iw!![organization_id]![unique_identifier]$)
+    replacement_b64 = ps.group(2)
+
+    # if the replacement string is empty, return extracted URL
+    if len(replacement_b64) == 0:
+        return url
+
+    DEBUG and print("replacement b64 = %s" % replacement_b64)
+
+    # base64 decode replacement string
+    #
+    # use `urlsafe_b64decode` as the base64-encoded string
+    # uses - and _ instead of + and /, respectively.
+    #
+    # See Section 5 in RFC4648
+    # <https://www.rfc-editor.org/rfc/rfc4648.html#page-7>.
+    replacement_str = (base64.urlsafe_b64decode(replacement_b64 + "==")).decode(
+        "utf-8"
+    )  # b64decode ignores any extra padding
+    DEBUG and print("replacement string = %s (%d)" % (replacement_str, len(replacement_str.encode("utf-8"))))
+
+    # XXX just some debugging code
+    # for i in range(len(replacement_str)+1):
+    #    test = replacement_str[0:i]
+    #    print(f"{test} {len(test.encode('utf-8'))}")
+
+    # replace `*` with actual symbols
+    replacement_list = list(replacement_str)
+    url_list = list(url)
+
+    DEBUG and print("replacement list = %s" % replacement_list)
+
+    offset = 0
+    save_bytes = 0
+    # this regex says: find ("*" but not "**") or ("**A", "**B", "**C", ..., "**-", "**_")
+    for m in re.finditer(r"(?<!\*)\*(?!\*)|\*{2}[A-Za-z0-9-_]", url):
+        DEBUG and print("%d %d %s" % (m.start(), m.end(), m.group(0)))
+
+        if m.group(0) == "*":
+            # we only need to replace one character here
+            url_list[m.start() + offset] = replacement_list.pop(0)
+        elif m.group(0).startswith("**"):
+            # we need to replace a certain number of bytes
+            # e.g., "foobar**Dfoo" --> "foobar#####foo"
+            num_bytes = replacement_str_mapping[m.group(0)[-1]]
+
+            DEBUG and print(f"replacing {num_bytes} + {save_bytes} bytes")
+
+            if save_bytes != 0:
+                num_bytes += save_bytes
+                save_bytes = 0  # reset
+            DEBUG and print(f"replacing {num_bytes} bytes total")
+
+            # replace "**[A-Za-z0-9-_]" with replacement characters
+            replacement_chars = list()
+
+            i = 0
+            while i < num_bytes:
+                # previously we assumed that the replacement_str_mapping
+                # referred to the number of characters, but it actually
+                # represents the number of bytes to copy over, given the UTF-8
+                # encoding. so we replace the for loop with a while loop and
+                # increment a counter with the size of each character being
+                # replaced.
+                replacement_char = replacement_list.pop(0)
+                replacement_chars.append(replacement_char)
+                i += len(replacement_char.encode("utf-8"))
+
+                DEBUG and print(
+                    f"the character {replacement_char} takes {len(replacement_char.encode('utf-8'))} bytes - running total: {i}"
+                )
+
+                # there seems to be an edge case at the boundaries: if we have
+                # a long consecutive list of non-ascii characters to replace,
+                # pp seems to break it up into segments of length 65 (e.g.,
+                # num_bytes % 65). this doesn't quite work if each character is
+                # of size 2, and we'll hit an empty list sooner than later and
+                # get an error.
+                #
+                # we will resolve this by checking the _next_ character in the
+                # list and checking if its size will be greater than (num_bytes
+                # - i), where `i` is the current number of bytes we've replaced
+                # so far. if so, "save" the difference and add it on to the
+                # next segment.
+                #
+                # for example, if we have 124 bytes to replace, pp will break
+                # it up into 65 (`**_`) and 59 (`**5`). all of the replacement
+                # characters are 2 bytes, which means when we get to byte 64,
+                # we have 1 byte left. similarly the 59 bytes in the next
+                # segment doesn't make sense, because again all replacement
+                # characters are 2 bytes. so we'll "save" the 1 byte and add it
+                # on to the next segment (i.e., we're really treating this as
+                # segments of 64 (`**-`) and 60 (`**6`)
+                #
+                # (presumably we could also search for and combine sequences of
+                # replacement strings, i.e., if we see `**_**5`, we can combine
+                # the two and add them together to get 65+59=124, and so on.)
+                #
+                if len(replacement_list) != 0:
+                    next_replacement_char = replacement_list[0]
+                    next_replacement_char_size = len(next_replacement_char.encode("utf-8"))
+
+                    if next_replacement_char_size > (num_bytes - i):
+                        # save the difference and add it to the next segment.
+                        save_bytes = num_bytes - i
+                        # break out of loop
+                        i += save_bytes
+
+            # replace a sub-list with a replacement list
+            # works nicely even if the replacement list is shorter than the sub-list
+            url_list[m.start() + offset : m.end() + offset] = replacement_chars
+
+            # update offset as we're modifying url_list in place
+            # (m.start() and m.end() refer to positions in the original `url` string)
+            offset += len(replacement_chars) - 3
         else:
-            raise ValueError("Does not appear to be a URL Defense URL")
+            # shouldn't get here
+            DEBUG and print("shouldn't get here")
+            pass
 
-    def decode_v1(self, rewritten_url):
-        match = self.v1_pattern.search(rewritten_url)
-        if match:
-            url_encoded_url = match.group("url")
-            html_encoded_url = unquote(url_encoded_url)
-            url = unescape(html_encoded_url)
-            return url
-        else:
-            raise ValueError("Error parsing URL")
+    cleaned_url = "".join(url_list)
 
-    def decode_v2(self, rewritten_url):
-        match = self.v2_pattern.search(rewritten_url)
-        if match:
-            special_encoded_url = match.group("url")
-            trans = maketrans("-_", "%/")
-            url_encoded_url = special_encoded_url.translate(trans)
-            html_encoded_url = unquote(url_encoded_url)
-            url = unescape(html_encoded_url)
-            return url
-        else:
-            raise ValueError("Error parsing URL")
+    # we don't know whether the original URL was quoted or not, so
+    # give the option to unquote the URL.
+    if unquote_url:
+        cleaned_url = urllib.parse.unquote(cleaned_url)
 
-    def decode_v3(self, rewritten_url):
-        def replace_token(token):
-            if token == "*":
-                character = self.dec_bytes[self.current_marker]
-                self.current_marker += 1
-                return character
-            if token.startswith("**"):
-                run_length = self.v3_run_mapping[token[-1]]
-                run = self.dec_bytes[self.current_marker : self.current_marker + run_length]
-                self.current_marker += run_length
-                return run
-
-        def substitute_tokens(text, start_pos=0):
-            match = self.v3_token_pattern.search(text, start_pos)
-            if match:
-                start = text[start_pos : match.start()]
-                built_string = start
-                token = text[match.start() : match.end()]
-                built_string += replace_token(token)
-                built_string += substitute_tokens(text, match.end())
-                return built_string
-            else:
-                return text[start_pos : len(text)]
-
-        match = self.v3_pattern.search(rewritten_url)
-        if match:
-            url = match.group("url")
-            singleSlash = self.v3_single_slash.findall(url)
-            if singleSlash and len(singleSlash[0]) == 2:
-                url = singleSlash[0][0] + "/" + singleSlash[0][1]
-            encoded_url = unquote(url)
-            enc_bytes = match.group("enc_bytes")
-            enc_bytes += "=="
-            self.dec_bytes = (urlsafe_b64decode(enc_bytes)).decode("utf-8")
-            self.current_marker = 0
-            return substitute_tokens(encoded_url)
-
-        else:
-            raise ValueError("Error parsing URL")
+    return cleaned_url
 
 
-def main():
-    parser = ArgumentParser(
-        prog="URLDefenseDecode", description="Decode URLs rewritten by URL Defense. Supports v1, v2, and v3 URLs."
-    )
-    parser.add_argument("rewritten_urls", nargs="+")
-    args = parser.parse_args()
-    urldefense_decoder = URLDefenseDecoder()
-    for rewritten_url in args.rewritten_urls:
-        try:
-            print(urldefense_decoder.decode(rewritten_url))
-        except ValueError as e:
-            print(e)
+def decode(mangled_url, unquote_url=False):
+    parsed_url = urllib.parse.urlparse(mangled_url)
+
+    if (
+        (
+            (
+                parsed_url.netloc == "urldefense.proofpoint.com"
+                or parsed_url.netloc == "urldefense.com"
+                or parsed_url.netloc == "urldefense.us"
+            )
+            and parsed_url.path.startswith("/v1/")
+        )
+        or (parsed_url.path.startswith("urldefense.proofpoint.com/v1/"))
+        or (parsed_url.path.startswith("urldefense.com/v1/"))
+        or (parsed_url.path.startswith("urldefense.us/v1/"))
+    ):
+        cleaned_url = decode_ppv1(mangled_url)
+    elif (
+        (
+            (
+                parsed_url.netloc == "urldefense.proofpoint.com"
+                or parsed_url.netloc == "urldefense.com"
+                or parsed_url.netloc == "urldefense.us"
+            )
+            and parsed_url.path.startswith("/v2/")
+        )
+        or (parsed_url.path.startswith("urldefense.proofpoint.com/v2/"))
+        or (parsed_url.path.startswith("urldefense.com/v2/"))
+        or (parsed_url.path.startswith("urldefense.us/v2/"))
+    ):
+        cleaned_url = decode_ppv2(mangled_url)
+    elif (
+        (
+            (parsed_url.netloc == "urldefense.com" or parsed_url.netloc == "urldefense.us")
+            and parsed_url.path.startswith("/v3/")
+        )
+        or (parsed_url.path.startswith("urldefense.com/v3/"))
+        or (parsed_url.path.startswith("urldefense.us/v3/"))
+    ):
+        cleaned_url = decode_ppv3(mangled_url, unquote_url)
+    else:
+        # assume URL hasn't been mangled
+        return mangled_url
+
+    return cleaned_url
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description="decode proofpoint-mangled URLs")
+    parser.add_argument(
+        "--debug",
+        "-d",
+        help="debugging trace mode (via pdb)",
+        action="store_true",
+        default=False,
+    )
+    parser.add_argument(
+        "--unquote",
+        action="store_true",
+        default=False,
+        help="unquote cleaned URL (e.g., '%%7B' -> '{')",
+    )
+    parser.add_argument(
+        "--verbose",
+        "-v",
+        help="print more debugging output",
+        action="store_true",
+        default=False,
+    )
+    parser.add_argument("url", type=str, help="URL to clean and decode")
+    args = parser.parse_args()
+
+    if args.verbose:
+        DEBUG = True
+
+    if args.debug:
+        DEBUG = True
+        pdb.set_trace()
+
+    cleaned_url = decode(args.url, args.unquote)
+
+    print(cleaned_url)
