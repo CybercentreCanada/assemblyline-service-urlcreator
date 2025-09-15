@@ -199,7 +199,6 @@ def url_analysis(
     fragment: Node = ([node for node in parsed_url if node.type == "network.url.fragment"] + [None])[0]
 
     analysis_table.add_tag("network.static.uri", url)
-    print("Analysing", url)
     if host:
         if host.type == "network.domain":
             analysis_table.add_tag("network.static.domain", host.value)
