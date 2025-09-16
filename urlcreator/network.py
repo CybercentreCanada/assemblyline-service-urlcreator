@@ -339,7 +339,7 @@ def url_analysis(
             decoded_url = None
             try:
                 decoded_url = urlcreator.proofpoint.decode(url)
-            except UnicodeDecodeError:
+            except (UnicodeDecodeError, ValueError, IndexError):
                 pass
             if decoded_url and decoded_url != url:
                 result = Node(

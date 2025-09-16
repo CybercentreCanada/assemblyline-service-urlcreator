@@ -86,8 +86,6 @@ def test_urldefense():
         "network.static.domain": ["urldefense.com"],
     }
 
-
-def test_urldefense_special_char():
     url = "https://urldefense.com/v3/__https:/website.com/page.html?special=char**B&size=1m*1m*1m__;4oSiJSU!!data!data$"
     res_section, network_iocs, behaviours = url_analysis(url)
     assert behaviours == {}
@@ -104,6 +102,51 @@ def test_urldefense_special_char():
             url,
             "https:/website.com/page.html?special=char™&size=1m%1m%1m",
         ],
+    }
+
+    # Wrongly formatted inner URL, no second / in http:// and the decoding bytes are lowercase instead of being JSUlJQ
+    url = "https://urldefense.com/v3/__https:/www.site.com/file/dl*20me*20from*20-*20here.exe__;jsuljq!!data!data$"
+    res_section, network_iocs, behaviours = url_analysis(url)
+    assert behaviours == {}
+    assert network_iocs == {
+        "domain": [],
+        "ip": [],
+        "uri": [],
+    }
+    assert not res_section.body
+
+    # Truncated URL, in v1/v2, the u query parameter is mandatory
+    url = "https://website.com/clickme/query?url=https%3a%2f%2furldefense.proofpoint.com%2fv2%2fur"
+    res_section, network_iocs, behaviours = url_analysis(url)
+    assert behaviours == {}
+    assert network_iocs == {
+        "domain": ["urldefense.proofpoint.com"],
+        "ip": [],
+        "uri": ["https://urldefense.proofpoint.com/v2/ur"],
+    }
+    assert res_section.tags == {
+        "network.static.domain": [
+            "website.com",
+            "urldefense.proofpoint.com",
+        ],
+        "network.static.uri": [
+            url,
+            "https://urldefense.proofpoint.com/v2/ur",
+        ],
+    }
+
+    # Truncated v3 decoding bytes
+    url = "https://urldefense.com/v3/__https:/www.google.com/url?q=https:**Awww.google.com*url*q*3Dhttps:**Aurldefense.com*v3*__https:*site.com*en*files*download*something*something*file.html*h5__;Iw!!DATA!DATA$...the-actual-outer-decoding-bytes-would-be-here..."
+    res_section, network_iocs, behaviours = url_analysis(url)
+    assert behaviours == {}
+    assert network_iocs == {
+        "domain": ["Aurldefense.com", "Awww.google.com", "site.com"],
+        "ip": [],
+        "uri": [],
+    }
+    assert res_section.tags == {
+        "network.static.domain": ["urldefense.com", "Awww.google.com", "Aurldefense.com", "site.com"],
+        "network.static.uri": [url],
     }
 
 
