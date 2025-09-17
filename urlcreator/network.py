@@ -191,6 +191,10 @@ def url_analysis(
         parsed_url = parse_url(make_bytes(url))
     except UnicodeDecodeError:
         parsed_url = manual_url_parsing(url)
+    except ValueError as e:
+        if str(e) == "Invalid IPv6 URL":
+            return analysis_table, network_iocs, flagged_behaviours
+        raise
 
     scheme: Node = ([node for node in parsed_url if node.type == "network.url.scheme"] + [None])[0]
     scheme = "http" if not scheme else scheme.value.decode()

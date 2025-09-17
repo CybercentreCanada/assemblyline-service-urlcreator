@@ -149,6 +149,23 @@ def test_urldefense():
         "network.static.uri": [url],
     }
 
+    # Defanged inner url, the tags won't properly work but the extraction is expected
+    url = "https://urldefense.com/v3/__https://www*dot*google*dot*com__;W11bXQ!!DATA!DATA$"
+    res_section, network_iocs, behaviours = url_analysis(url)
+    assert behaviours == {}
+    assert network_iocs == {
+        "domain": [],
+        "ip": [],
+        "uri": ["https://www[dot]google[dot]com"],
+    }
+    assert res_section.tags == {
+        "network.static.domain": ["urldefense.com"],
+        "network.static.uri": [
+            url,
+            "https://www[dot]google[dot]com",
+        ],
+    }
+
 
 def test_loooooong():
     url = (
