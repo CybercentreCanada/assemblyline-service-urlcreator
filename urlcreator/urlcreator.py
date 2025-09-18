@@ -1,13 +1,10 @@
 import os
-import re
 from collections import Counter, defaultdict
 from urllib.parse import urlparse
 
-from assemblyline.odm.base import IP_ONLY_REGEX, IPV4_ONLY_REGEX
 from assemblyline_v4_service.common.base import ServiceBase
 from assemblyline_v4_service.common.request import ServiceRequest
 from assemblyline_v4_service.common.result import (
-    Heuristic,
     Result,
     ResultSection,
     ResultTableSection,
@@ -17,31 +14,6 @@ from assemblyline_v4_service.common.result import (
 from assemblyline_v4_service.common.task import MaxExtractedExceeded
 
 import urlcreator.network
-
-# Threshold to trigger heuristic regarding high port usage in URI
-HIGH_PORT_MINIMUM = 1024
-
-# Common tools native to the platform that can be used for recon
-WINDOWS_TOOLS = ["dir", "hostname", "ipconfig", "netsh", "pwd", "route", "schtasks", "whoami"]
-LINUX_TOOLS = ["crontab", "hostname", "iptables", "pwd", "route", "uname", "whoami"]
-
-# Tools used for recon, sourced from https://github.com/ail-project/ail-framework/blob/master/bin/modules/Tools.py
-# fmt: off
-RECON_TOOLS = [
-    "amap", "arachni", "armitage", "arpscan", "automater", "backdoorfactory", "beef", "braa", "cdpsnarf", "cge",
-    "ciscotorch", "dig", "dirb", "dmytry", "dnmap", "dnscan", "dnsdict6", "dnsenum", "dnsmap", "dnsrecon", "dnstracer",
-    "dotdotpwn", "dsfs", "dsjs", "dsss", "dsxs", "enum4linux", "fierce", "fimap", "firewalk", "fragroute",
-    "fragrouter", "golismero", "goofile", "grabber", "hping3", "hydra", "identywaf", "intrace", "inurlbr",
-    "ismtp", "jbossautopwn", "john", "joomscan", "keimpx", "knock", "lbd", "maskprocessor", "masscan", "miranda",
-    "msfconsole", "ncat", "ncrack", "nessus", "netcat", "nikto", "nmap", "nslookup", "ohrwurm", "openvas", "oscanner",
-    "p0f", "patator", "phrasendrescher", "polenum", "rainbowcrack", "rcracki_mt", "reconng", "rhawk", "searchsploit",
-    "sfuzz", "sidguess", "skipfish", "smbmap", "sqlmap", "sqlninja", "sqlsus", "sslcaudit", "sslstrip", "sslyze",
-    "striker", "tcpdump", "theharvester", "uniscan", "unixprivesccheck", "wafw00f", "whatwaf", "whois", "wig", "wpscan",
-    "yersinia",
-]
-# fmt: on
-
-ALL_TOOLS = set(LINUX_TOOLS + WINDOWS_TOOLS + RECON_TOOLS)
 
 
 class URLCreator(ServiceBase):
@@ -79,15 +51,10 @@ class URLCreator(ServiceBase):
         emails = [x[0].lower() for x in tags.get("network.email.address", [])]
 
         scoring_uri = ResultTableSection(title_text="High scoring URI")
-        potential_ip_download = ResultTableSection(
-            title_text="Potential IP-related File Downloads", heuristic=Heuristic(1)
-        )
-        high_port_table = ResultTableSection("High Port Usage", heuristic=Heuristic(2))
-        tool_table = ResultTableSection("Discovery Tool Found in URI Path", heuristic=Heuristic(3))
         max_extracted_section = ResultTextSection("Too many URI files to be created")
         url_analysis_section = ResultSection("MultiDecoder Analysis")
         url_analysis_network_iocs = defaultdict(Counter)
-        flagged_behaviours = defaultdict(set)
+        flagged_behaviours = urlcreator.network.BehaviourDict()
 
         for tag_value, tag_score in urls:
             # Analyse the URL for the possibility of it being a something we should download
@@ -107,7 +74,7 @@ class URLCreator(ServiceBase):
             for k, v in network_iocs.items():
                 url_analysis_network_iocs[k].update(v)
             for k, v in tag_flagged_behaviours.items():
-                flagged_behaviours[k].update(v)
+                flagged_behaviours[k].update(v) if isinstance(v, set) else flagged_behaviours[k].extend(v)
             if analysis_table.body or analysis_table.subsections:
                 url_analysis_section.add_subsection(analysis_table)
 
@@ -116,58 +83,26 @@ class URLCreator(ServiceBase):
                 scoring_uri.add_tag("network.static.uri", tag_value)
                 interesting_features.append(f"Score of {tag_score}")
 
-            if re.match(IP_ONLY_REGEX, parsed_url.hostname) and "." in os.path.basename(parsed_url.path):
-                # If URL host is an IP and the path suggests it's downloading a file, it warrants attention
-                ip_version = "4" if re.match(IPV4_ONLY_REGEX, parsed_url.hostname) else "6"
-                potential_ip_download.add_row(
-                    TableRow(
-                        {
-                            "URL": tag_value,
-                            "HOSTNAME": parsed_url.hostname,
-                            "IP_VERSION": ip_version,
-                            "PATH": parsed_url.path,
-                        }
-                    )
-                )
-                potential_ip_download.add_tag("network.static.uri", tag_value)
-                potential_ip_download.add_tag("network.static.ip", parsed_url.hostname)
-                if not potential_ip_download.heuristic:
-                    potential_ip_download.set_heuristic(3)
-                potential_ip_download.heuristic.add_signature_id(f"ipv{ip_version}")
-                interesting_features.append("IP as hostname")
+            if "potential_ip_download" in tag_flagged_behaviours:
+                # Make sure it's for the same uri
+                for data in tag_flagged_behaviours["potential_ip_download"]:
+                    if data["URL"] == tag_value:
+                        interesting_features.append("IP as hostname")
+                        break
 
-            url_port = None
-            try:
-                url_port = parsed_url.port
-            except ValueError as e:
-                if str(e) == "Port out of range 0-65535":
-                    # Port is out of range, probably an invalid URI
-                    continue
-                raise
+            if "high_port" in tag_flagged_behaviours:
+                # Make sure it's for the same uri
+                for data in tag_flagged_behaviours["high_port"]:
+                    if data["URI"] == tag_value:
+                        interesting_features.append("High port")
+                        break
 
-            if url_port and url_port > HIGH_PORT_MINIMUM:
-                # High port usage associated to host
-                high_port_table.heuristic.add_signature_id(
-                    "ip" if re.match(IP_ONLY_REGEX, parsed_url.hostname) else "domain"
-                )
-                high_port_table.add_row(TableRow({"URI": tag_value, "HOST": parsed_url.hostname, "PORT": url_port}))
-                interesting_features.append("High port")
-
-            # Check if URI path is greater than the smallest tool we can look for (ie. '/ls')
-            if parsed_url.path and len(parsed_url.path) > 2:
-                path_split = parsed_url.path.lower().split("/")
-                for tool in ALL_TOOLS:
-                    if tool in path_split:
-                        # Native OS tool found in URI path
-                        if tool in LINUX_TOOLS:
-                            tool_table.heuristic.add_signature_id("linux")
-                        if tool in WINDOWS_TOOLS:
-                            tool_table.heuristic.add_signature_id("windows")
-                        if tool in RECON_TOOLS:
-                            tool_table.heuristic.add_signature_id("recon")
-
-                        tool_table.add_row(TableRow({"URI": tag_value, "HOST": parsed_url.hostname, "TOOL": tool}))
+            if "tool_path" in tag_flagged_behaviours:
+                # Make sure it's for the same uri
+                for data in tag_flagged_behaviours["tool_path"]:
+                    if data["URI"] == tag_value:
                         interesting_features.append("Tool in path")
+                        break
 
             if interesting_features:
                 try:
@@ -181,24 +116,24 @@ class URLCreator(ServiceBase):
 
         if scoring_uri.body:
             request.result.add_section(scoring_uri)
-        if potential_ip_download.body:
+        if "potential_ip_download" in flagged_behaviours:
+            potential_ip_download = urlcreator.network.BEHAVIOURS["potential_ip_download"](
+                flagged_behaviours.pop("potential_ip_download")
+            )
             request.result.add_section(potential_ip_download)
-        if high_port_table.body:
+        if "high_port" in flagged_behaviours:
+            high_port_table = urlcreator.network.BEHAVIOURS["high_port"](flagged_behaviours.pop("high_port"))
             request.result.add_section(high_port_table)
-        if tool_table.body:
+        if "tool_path" in flagged_behaviours:
+            tool_table = urlcreator.network.BEHAVIOURS["tool_path"](flagged_behaviours.pop("tool_path"))
             request.result.add_section(tool_table)
         if max_extracted_section.body:
             request.result.add_section(max_extracted_section)
 
         if flagged_behaviours:
-            for behaviour, uris in flagged_behaviours.items():
-                behaviour_section = ResultSection(f"Behaviour {behaviour} found", parent=request.result)
-                heur = Heuristic(4)
-                heur.add_signature_id(behaviour, urlcreator.network.BEHAVIOUR_SCORES[behaviour])
-                behaviour_section.set_heuristic(heur)
-                for uri in sorted(uris):
-                    behaviour_section.add_line(uri)
-                    behaviour_section.add_tag("network.static.uri", uri)
+            for behaviour_name, uris in flagged_behaviours.items():
+                behaviour_section = urlcreator.network.BEHAVIOURS[behaviour_name](uris)
+                request.result.add_section(behaviour_section)
 
         # Try to find redirector abuse. If there are multiple tags that are all
         # containing the same inner URL, that may be the final URI worth investigating

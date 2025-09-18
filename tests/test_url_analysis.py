@@ -402,3 +402,24 @@ def test_safelisted_domain():
             "https://safelisteddisabled.com/malicious.zip",
         ],
     }
+
+
+def test_inner_behaviour():
+    url = "https://site1.com/?url=https://1.1.1.1/path.exe"
+    res_section, network_iocs, behaviours = url_analysis(url)
+    assert behaviours == {
+        "potential_ip_download": [
+            {
+                "URL": "https://1.1.1.1/path.exe",
+                "HOSTNAME": "1.1.1.1",
+                "IP_VERSION": "4",
+                "PATH": "/path.exe",
+            }
+        ]
+    }
+    assert network_iocs == {"uri": ["https://1.1.1.1/path.exe"], "domain": [], "ip": ["1.1.1.1"]}
+    assert res_section.tags == {
+        "network.static.domain": ["site1.com"],
+        "network.static.ip": ["1.1.1.1"],
+        "network.static.uri": [url, "https://1.1.1.1/path.exe"],
+    }

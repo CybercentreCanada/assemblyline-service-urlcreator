@@ -1,0 +1,19 @@
+{
+    "submission_params": {
+        "minimum_maliciousness": 50
+    },
+    "tags": [
+        {
+            "type": "network.static.uri",
+            "short_type": "URI",
+            "value": "https://site1.com/?url=https://1.1.1.1/path.exe",
+            "score": 0
+        },
+        {
+            "type": "network.static.uri",
+            "short_type": "URI",
+            "value": "https://site2.com/?url=https://1.1.1.1/path.exe",
+            "score": 0
+        }
+    ]
+}

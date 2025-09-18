@@ -1,13 +1,15 @@
 import binascii
 import hashlib
+import os
 import re
 from base64 import b64decode
 from collections import defaultdict
 from typing import Callable, Dict, List, Tuple
 from urllib.parse import parse_qs, unquote, urlparse
 
-from assemblyline.odm.base import IP_ONLY_REGEX
+from assemblyline.odm.base import IP_ONLY_REGEX, IPV4_ONLY_REGEX
 from assemblyline_v4_service.common.result import (
+    Heuristic,
     ResultSection,
     ResultTableSection,
     TableRow,
@@ -28,12 +30,115 @@ from multidecoder.string_helper import make_bytes, make_str
 import urlcreator.proofpoint
 
 NETWORK_IOC_TYPES = ["domain", "ip", "uri"]
-BEHAVIOUR_SCORES = {
-    "safelisted_url_masquerade": 0,
-    "url_masquerade": 500,
-    "embedded_credentials": 0,
-    "embedded_username": 0,
+
+# Threshold to trigger heuristic regarding high port usage in URI
+HIGH_PORT_MINIMUM = 1024
+
+# Common tools native to the platform that can be used for recon
+WINDOWS_TOOLS = ["dir", "hostname", "ipconfig", "netsh", "pwd", "route", "schtasks", "whoami"]
+LINUX_TOOLS = ["crontab", "hostname", "iptables", "pwd", "route", "uname", "whoami"]
+
+# Tools used for recon, sourced from https://github.com/ail-project/ail-framework/blob/master/bin/modules/Tools.py
+# fmt: off
+RECON_TOOLS = [
+    "amap", "arachni", "armitage", "arpscan", "automater", "backdoorfactory", "beef", "braa", "cdpsnarf", "cge",
+    "ciscotorch", "dig", "dirb", "dmytry", "dnmap", "dnscan", "dnsdict6", "dnsenum", "dnsmap", "dnsrecon", "dnstracer",
+    "dotdotpwn", "dsfs", "dsjs", "dsss", "dsxs", "enum4linux", "fierce", "fimap", "firewalk", "fragroute",
+    "fragrouter", "golismero", "goofile", "grabber", "hping3", "hydra", "identywaf", "intrace", "inurlbr",
+    "ismtp", "jbossautopwn", "john", "joomscan", "keimpx", "knock", "lbd", "maskprocessor", "masscan", "miranda",
+    "msfconsole", "ncat", "ncrack", "nessus", "netcat", "nikto", "nmap", "nslookup", "ohrwurm", "openvas", "oscanner",
+    "p0f", "patator", "phrasendrescher", "polenum", "rainbowcrack", "rcracki_mt", "reconng", "rhawk", "searchsploit",
+    "sfuzz", "sidguess", "skipfish", "smbmap", "sqlmap", "sqlninja", "sqlsus", "sslcaudit", "sslstrip", "sslyze",
+    "striker", "tcpdump", "theharvester", "uniscan", "unixprivesccheck", "wafw00f", "whatwaf", "whois", "wig", "wpscan",
+    "yersinia",
+]
+# fmt: on
+
+ALL_TOOLS = set(LINUX_TOOLS + WINDOWS_TOOLS + RECON_TOOLS)
+
+
+def generic_behaviour(uris, behaviour_name, heuristic, score):
+    behaviour_section = ResultSection(f"Behaviour {behaviour_name} found")
+    heur = Heuristic(heuristic)
+    heur.add_signature_id(behaviour_name, score)
+    behaviour_section.set_heuristic(heur)
+    for uri in sorted(uris):
+        behaviour_section.add_line(uri)
+        behaviour_section.add_tag("network.static.uri", uri)
+    return behaviour_section
+
+
+def high_port_behaviour(items):
+    high_port_table = ResultTableSection("High Port Usage", heuristic=Heuristic(2))
+    added_uri = set()
+    for item in items:
+        if item["URI"] in added_uri:
+            continue
+        added_uri.add(item["URI"])
+        high_port_table.heuristic.add_signature_id("ip" if re.match(IP_ONLY_REGEX, item["HOST"]) else "domain")
+        high_port_table.add_row(TableRow(item))
+    return high_port_table
+
+
+def tool_path_behaviour(items):
+    tool_table = ResultTableSection("Discovery Tool Found in URI Path", heuristic=Heuristic(3))
+    added_uri = set()
+    for item in items:
+        if item["URI"] in added_uri:
+            continue
+        added_uri.add(item["URI"])
+        if item["TOOL"] in LINUX_TOOLS:
+            tool_table.heuristic.add_signature_id("linux")
+        if item["TOOL"] in WINDOWS_TOOLS:
+            tool_table.heuristic.add_signature_id("windows")
+        if item["TOOL"] in RECON_TOOLS:
+            tool_table.heuristic.add_signature_id("recon")
+        tool_table.add_row(TableRow(item))
+    return tool_table
+
+
+def potential_ip_download_behaviour(items):
+    potential_ip_download = ResultTableSection(title_text="Potential IP-related File Downloads", heuristic=Heuristic(1))
+    added_url = set()
+    for item in items:
+        if item["URL"] in added_url:
+            continue
+        added_url.add(item["URL"])
+        potential_ip_download.add_row(TableRow(item))
+        potential_ip_download.add_tag("network.static.uri", item["URL"])
+        potential_ip_download.add_tag("network.static.ip", item["HOSTNAME"])
+        potential_ip_download.heuristic.add_signature_id(f"ipv{item['IP_VERSION']}")
+    return potential_ip_download
+
+
+BEHAVIOURS = {
+    "safelisted_url_masquerade": lambda uris: generic_behaviour(uris, "safelisted_url_masquerade", 4, 0),
+    "url_masquerade": lambda uris: generic_behaviour(uris, "url_masquerade", 4, 500),
+    "embedded_credentials": lambda uris: generic_behaviour(uris, "embedded_credentials", 4, 0),
+    "embedded_username": lambda uris: generic_behaviour(uris, "embedded_username", 4, 0),
+    "high_port": high_port_behaviour,
+    "tool_path": tool_path_behaviour,
+    "potential_ip_download": potential_ip_download_behaviour,
 }
+
+
+class BehaviourDict(defaultdict):
+    def __init__(self, *args, **kwargs):
+        super().__init__(None, *args, **kwargs)
+        self.struct_map = {
+            "safelisted_url_masquerade": set,
+            "url_masquerade": set,
+            "embedded_credentials": set,
+            "embedded_username": set,
+            "high_port": list,
+            "tool_path": list,
+            "potential_ip_download": list,
+        }
+
+    def __missing__(self, key):
+        struct_type = self.struct_map.get(key, set)
+        self[key] = struct_type()
+        return self[key]
 
 
 def manual_base64_decode(parent_node, md):
@@ -115,7 +220,7 @@ def url_analysis(
 
     analysis_table = ResultTableSection(url[:128] + "..." if len(url) > 128 else url)
     network_iocs = {ioc_type: [] for ioc_type in NETWORK_IOC_TYPES}
-    flagged_behaviours = defaultdict(set)
+    flagged_behaviours = BehaviourDict()
 
     def add_MD_results_to_table(result: Node):
         if len(result.children) == 1 and result.value == result.children[0].value:
@@ -172,11 +277,11 @@ def url_analysis(
             if inner_analysis_section.body:
                 # If we were able to analyze anything of interest recursively, append to result
                 analysis_table.add_subsection(inner_analysis_section)
-                # Merge found IOCs
-                for ioc_type in NETWORK_IOC_TYPES:
-                    network_iocs[ioc_type] = network_iocs[ioc_type] + inner_network_iocs[ioc_type]
-                for k, v in inner_flagged_behaviours.items():
-                    flagged_behaviours[k].update(v)
+            # Merge found IOCs
+            for ioc_type in NETWORK_IOC_TYPES:
+                network_iocs[ioc_type] = network_iocs[ioc_type] + inner_network_iocs[ioc_type]
+            for k, v in inner_flagged_behaviours.items():
+                flagged_behaviours[k].update(v) if isinstance(v, set) else flagged_behaviours[k].extend(v)
         elif result.type == EMAIL_TYPE:
             analysis_table.add_tag("network.email.address", value_str)
         elif result.type == DOMAIN_TYPE:
@@ -217,6 +322,39 @@ def url_analysis(
                 if not host.parent:
                     host.parent = Node("network.url", url)
                 add_MD_results_to_table(host)
+
+    urlparsed_url = urlparse(url)
+
+    # Check for IP host with a path that looks like a file download
+    if (
+        urlparsed_url.hostname
+        and re.match(IP_ONLY_REGEX, urlparsed_url.hostname)
+        and "." in os.path.basename(urlparsed_url.path)
+    ):
+        ip_version = "4" if re.match(IPV4_ONLY_REGEX, urlparsed_url.hostname) else "6"
+        flagged_behaviours["potential_ip_download"].append(
+            {"URL": url, "HOSTNAME": urlparsed_url.hostname, "IP_VERSION": ip_version, "PATH": urlparsed_url.path}
+        )
+
+    # Check for high port usage
+    try:
+        if urlparsed_url.port and urlparsed_url.port > HIGH_PORT_MINIMUM:
+            # High port usage associated to host
+            flagged_behaviours["high_port"].append(
+                {"URI": url, "HOST": urlparsed_url.hostname, "PORT": urlparsed_url.port}
+            )
+    except ValueError as e:
+        # Ignore port out of range errors, probably an invalid URI
+        if str(e) != "Port out of range 0-65535":
+            raise
+
+    # Check if URI path is greater than the smallest tool we can look for (ie. '/ls')
+    if urlparsed_url.path and len(urlparsed_url.path) > 2:
+        path_split = urlparsed_url.path.lower().split("/")
+        for tool in ALL_TOOLS:
+            if tool in path_split:
+                # Native OS tool found in URI path
+                flagged_behaviours["tool_path"].append({"URI": url, "HOST": urlparsed_url.hostname, "TOOL": tool})
 
     # Check to see if there's anything "phishy" about the URL
     if username and host and host.type == "network.domain":
