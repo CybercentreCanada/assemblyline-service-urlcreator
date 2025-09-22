@@ -16,6 +16,37 @@ def test_unicode_characters():
         "network.static.uri": [url, "https://écoute.com/"],
     }
 
+    url = "https://website.com/files/Tools%20en%20Fran%E7ais.pdf"
+    res_section, network_iocs, behaviours = url_analysis(url)
+    assert behaviours == {}
+    assert network_iocs == {"uri": [], "domain": [], "ip": []}
+    assert res_section.tags == {
+        "network.static.domain": ["website.com"],
+        "network.static.uri": [url],
+    }
+
+
+def test_corrupted_port():
+    # Corrupted wrap of a redirector from a signature (phone info)
+    url = "http://website.com/CL0/http:%2F%2Ftel:800-555-0000/1/data/data=111"
+    res_section, network_iocs, behaviours = url_analysis(url)
+    assert behaviours == {}
+    assert network_iocs == {"uri": ["http://tel:800-555-0000/1/data/data=111"], "domain": [], "ip": []}
+    assert res_section.tags == {
+        "network.static.domain": ["website.com"],
+        "network.static.uri": [url, "http://tel:800-555-0000/1/data/data=111"],
+    }
+
+    # Corrupted wrap of urldefense from a signature (website info)
+    url = "https://urldefense.com/v3/__http://w:*20www.website.com__;JQ!!DATA!DATA$"
+    res_section, network_iocs, behaviours = url_analysis(url)
+    assert behaviours == {}
+    assert network_iocs == {"uri": ["http://w:%20www.website.com"], "domain": [], "ip": []}
+    assert res_section.tags == {
+        "network.static.domain": ["urldefense.com"],
+        "network.static.uri": [url, "http://w:%20www.website.com"],
+    }
+
 
 def test_embedded_base64():
     url = "https://somedomain.com/some/path?u=a1aHR0cHM6Ly9iYWQuY29t#dGVzdEBleGFtcGxlLmNvbQ=="

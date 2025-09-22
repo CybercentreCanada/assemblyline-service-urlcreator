@@ -64,7 +64,9 @@ EXTRA_SHORTENERS = [
 ]
 # fmt: on
 
-ALL_TOOLS = set(LINUX_TOOLS + WINDOWS_TOOLS + RECON_TOOLS)
+ALL_TOOLS = set(
+    [x.encode() for x in LINUX_TOOLS] + [x.encode() for x in WINDOWS_TOOLS] + [x.encode() for x in RECON_TOOLS]
+)
 
 MISP_SHORTENERS = WarningLists().warninglists["List of known URL Shorteners domains"].list
 
@@ -377,18 +379,19 @@ def url_analysis(
             flagged_behaviours["high_port"].append(
                 {"URI": url, "HOST": urlparsed_url.hostname, "PORT": urlparsed_url.port}
             )
-    except ValueError as e:
-        # Ignore port out of range errors, probably an invalid URI
-        if str(e) != "Port out of range 0-65535":
-            raise
+    except ValueError:
+        # Invalid port during URI parsing, the URL is probably corrupted.
+        return analysis_table, network_iocs, flagged_behaviours
 
     # Check if URI path is greater than the smallest tool we can look for (ie. '/ls')
     if path and len(path.value) > 2:
-        path_split = path.value.decode().lower().split("/")
+        path_split = path.value.lower().split(b"/")
         for tool in ALL_TOOLS:
             if tool in path_split:
                 # Native OS tool found in URI path
-                flagged_behaviours["tool_path"].append({"URI": url, "HOST": urlparsed_url.hostname, "TOOL": tool})
+                flagged_behaviours["tool_path"].append(
+                    {"URI": url, "HOST": urlparsed_url.hostname, "TOOL": tool.decode()}
+                )
 
     # Check to see if there's anything "phishy" about the URL
     if username and host and host.type == "network.domain":
