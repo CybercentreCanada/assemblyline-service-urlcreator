@@ -1,4 +1,3 @@
-import os
 from collections import Counter, defaultdict
 from urllib.parse import urlparse
 
@@ -69,7 +68,9 @@ class URLCreator(ServiceBase):
 
             # Look for data that might be embedded in URLs
             analysis_table, network_iocs, tag_flagged_behaviours = urlcreator.network.url_analysis(
-                tag_value, self.api_interface.lookup_safelist
+                tag_value,
+                self.api_interface.lookup_safelist,
+                self.service_attributes.docker_config.allow_internet_access and request.get_param("use_internet"),
             )
             for k, v in network_iocs.items():
                 url_analysis_network_iocs[k].update(v)
@@ -157,3 +158,12 @@ class URLCreator(ServiceBase):
 
         if url_analysis_section.subsections:
             request.result.add_section(url_analysis_section)
+
+        if request.get_param("use_internet") and not self.service_attributes.docker_config.allow_internet_access:
+            no_internet_section = ResultSection("No Internet", parent=request.result)
+            no_internet_section.add_line(
+                (
+                    "Internet access was requested but is not allowed by the service configuration, "
+                    "some results may be missing."
+                )
+            )

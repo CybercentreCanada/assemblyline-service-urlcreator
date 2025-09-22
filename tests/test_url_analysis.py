@@ -189,6 +189,36 @@ def test_loooooong():
     }
 
 
+def test_shorteners():
+    url = "https://bit.ly/amtrak-valentines"
+    res_section, network_iocs, behaviours = network_url_analysis(url, lambda qhash: None, remote_lookups=False)
+    assert behaviours == {"shorteners": {"https://bit.ly/amtrak-valentines"}}
+    assert network_iocs == {
+        "uri": [],
+        "domain": [],
+        "ip": [],
+    }
+    assert res_section.tags == {
+        "network.static.uri": [url],
+        "network.static.domain": ["bit.ly"],
+    }
+
+    res_section, network_iocs, behaviours = network_url_analysis(url, lambda qhash: None, remote_lookups=True)
+    assert behaviours == {"shorteners": {"https://bit.ly/amtrak-valentines"}}
+    assert network_iocs == {
+        "uri": ["https://www.usatoday.com/story/travel/2022/02/10/amtrak-deal-valentines-offer-sale/6741296001/"],
+        "domain": [],
+        "ip": [],
+    }
+    assert res_section.tags == {
+        "network.static.uri": [
+            url,
+            "https://www.usatoday.com/story/travel/2022/02/10/amtrak-deal-valentines-offer-sale/6741296001/",
+        ],
+        "network.static.domain": ["bit.ly"],
+    }
+
+
 def test_hexed_ip():
     # Ref: https://www.darkreading.com/cloud/shellbot-cracks-linux-ssh-servers-debuts-new-evasion-tactic
     url = "http://0x7f000001"

@@ -2,7 +2,7 @@ ARG branch=latest
 FROM cccs/assemblyline-v4-service-base:$branch
 
 # Python path to the service class from your service directory
-ENV SERVICE_PATH urlcreator.urlcreator.URLCreator
+ENV SERVICE_PATH=urlcreator.urlcreator.URLCreator
 
 # Install apt dependencies
 USER root
@@ -25,6 +25,8 @@ RUN pip install \
 # Copy service code
 WORKDIR /opt/al_service
 COPY . .
+
+ADD --chmod=644 https://github.com/PeterDaveHello/url-shorteners/raw/refs/heads/master/list /opt/al_service/urlcreator/large_shorteners_list
 
 # Patch version in manifest
 ARG version=1.0.0.dev1

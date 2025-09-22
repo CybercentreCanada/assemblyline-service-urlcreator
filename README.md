@@ -8,6 +8,10 @@
 
 This Assemblyline service creates URI files for URIs that were extracted by other services with an associated score that is high enough, or if the URI fits a certain set of criteria.
 
+## Configuration
+
+This service can expand shortened URLs if it finds the domain in either the MISP shorteners, the Unfurl shorteners, or the PeterDaveHello big list of shorteners. To do so, an administrator needs to configure the service to be internet connected in the service's docker configuration. It will also require the user to set the submission parameter "use_internet" to True. An administrator could also set that submission parameter to True by default. The current defaults are that URLCreator is not internet connected, and the value for "use_internet" is False.
+
 ## Image variants and tags
 
 Assemblyline services are built from the [Assemblyline service base image](https://hub.docker.com/r/cccs/assemblyline-v4-service-base),
@@ -44,6 +48,10 @@ General Assemblyline documentation can be found at: https://cybercentrecanada.gi
 
 Ce service d'Assemblyline crée des fichiers URI pour les URIs qui sont extrait par d'autres services associés à un score suffisament élevé, ou si le URI rencontre certains critères.
 
+## Configuration
+
+Ce service a la capacité de résoudre les URLs qui sont passées dans un service de redirection si le domaine fait partie des listes de MISP, Unfurl, ou la liste de PeterDaveHello. Pour ce faire, un administrateur doit configurer le service afin que le container docker puisse accéder à l'internet. L'utilisateur créant la soumission doit aussi configurer la valeur de "use_internet" à True. Un administrateur peut configurer la valeur de "use_internet" à True pour tous les utilisateurs par défaut. Les valeurs par défaut du service sont de ne pas être connecté à l'internet, et d'utiliser la valeur False pour "use_internet".
+
 ## Variantes et étiquettes d'image
 
 Les services d'Assemblyline sont construits à partir de l'image de base [Assemblyline service](https://hub.docker.com/r/cccs/assemblyline-v4-service-base),
@@ -75,4 +83,3 @@ Pour ajouter ce service à votre déploiement d'Assemblyline, suivez ceci
 ## Documentation
 
 La documentation générale sur Assemblyline peut être consultée à l'adresse suivante: https://cybercentrecanada.github.io/assemblyline4_docs/
-

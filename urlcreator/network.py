@@ -1,13 +1,15 @@
 import binascii
 import hashlib
 import os
+import pathlib
 import re
 from base64 import b64decode
 from collections import defaultdict
 from typing import Callable, Dict, List, Tuple
 from urllib.parse import parse_qs, unquote, urlparse
 
-from assemblyline.odm.base import IP_ONLY_REGEX, IPV4_ONLY_REGEX
+import requests
+from assemblyline.odm.base import IP_ONLY_REGEX
 from assemblyline_v4_service.common.result import (
     Heuristic,
     ResultSection,
@@ -26,6 +28,7 @@ from multidecoder.multidecoder import Multidecoder
 from multidecoder.node import Node
 from multidecoder.registry import get_analyzers
 from multidecoder.string_helper import make_bytes, make_str
+from pymispwarninglists import WarningLists
 
 import urlcreator.proofpoint
 
@@ -52,9 +55,21 @@ RECON_TOOLS = [
     "striker", "tcpdump", "theharvester", "uniscan", "unixprivesccheck", "wafw00f", "whatwaf", "whois", "wig", "wpscan",
     "yersinia",
 ]
+
+# Taken from https://github.com/obsidianforensics/unfurl/blob/v2025.08/unfurl/parsers/parse_shortlink.py#L118
+EXTRA_SHORTENERS = [
+    "bit.do", "buff.ly", "cutt.ly", "db.tt", "dlvr.it", "fb.me", "flip.it", "goo.gl", "ift.tt", "is.gd", "lc.chat",
+    "nyti.ms", "ow.ly", "reut.rs", "sansurl.com", "snip.ly", "t.co", "t.ly", "tinyurl.com", "tr.im", "trib.al",
+    "urlwee.com", "urlzs.com",
+]
 # fmt: on
 
 ALL_TOOLS = set(LINUX_TOOLS + WINDOWS_TOOLS + RECON_TOOLS)
+
+MISP_SHORTENERS = WarningLists().warninglists["List of known URL Shorteners domains"].list
+
+with open(os.path.join(pathlib.Path(__file__).parent.resolve(), "large_shorteners_list"), "r") as f:
+    SHORTENERS = [x.strip() for x in f.readlines()]
 
 
 def generic_behaviour(uris, behaviour_name, heuristic, score):
@@ -119,6 +134,7 @@ BEHAVIOURS = {
     "high_port": high_port_behaviour,
     "tool_path": tool_path_behaviour,
     "potential_ip_download": potential_ip_download_behaviour,
+    "shorteners": lambda uris: generic_behaviour(uris, "shorteners", 4, 0),
 }
 
 
@@ -133,6 +149,7 @@ class BehaviourDict(defaultdict):
             "high_port": list,
             "tool_path": list,
             "potential_ip_download": list,
+            "shorteners": set,
         }
 
     def __missing__(self, key):
@@ -211,8 +228,19 @@ def manual_url_parsing(url):
     return parsed_url
 
 
+def expand_url_via_redirect_header(url):
+    r = requests.get(url, allow_redirects=False)
+
+    if r.status_code in [301, 302]:
+        return r.headers["Location"]
+    else:
+        return {}
+
+
 def url_analysis(
-    url: str, lookup_safelist: Callable
+    url: str,
+    lookup_safelist: Callable,
+    remote_lookups: bool = False,
 ) -> Tuple[ResultTableSection, Dict[str, List[str]], Dict[str, List[str]]]:
     # There is no point in searching for keywords in a URL
     md_registry = get_analyzers()
@@ -272,7 +300,7 @@ def url_analysis(
                 analysis_table.add_tag("network.static.ip", host_node.value)
                 network_iocs["ip"].append(host_node.value.decode())
             inner_analysis_section, inner_network_iocs, inner_flagged_behaviours = url_analysis(
-                value_str, lookup_safelist
+                value_str, lookup_safelist, remote_lookups
             )
             if inner_analysis_section.body:
                 # If we were able to analyze anything of interest recursively, append to result
@@ -301,14 +329,14 @@ def url_analysis(
             return analysis_table, network_iocs, flagged_behaviours
         raise
 
-    scheme: Node = ([node for node in parsed_url if node.type == "network.url.scheme"] + [None])[0]
+    scheme: Node = ([n for n in parsed_url if n.type == "network.url.scheme" and n.value != b""] + [None])[0]
     scheme = "http" if not scheme else scheme.value.decode()
-    host: Node = ([node for node in parsed_url if node.type in ["network.ip", "network.domain"]] + [None])[0]
-    path: Node = ([node for node in parsed_url if node.type == "network.url.path"] + [None])[0]
-    username: Node = ([node for node in parsed_url if node.type == "network.url.username"] + [None])[0]
-    password: Node = ([node for node in parsed_url if node.type == "network.url.password"] + [None])[0]
-    query: Node = ([node for node in parsed_url if node.type == "network.url.query"] + [None])[0]
-    fragment: Node = ([node for node in parsed_url if node.type == "network.url.fragment"] + [None])[0]
+    host: Node = ([n for n in parsed_url if n.type in ["network.ip", "network.domain"] and n.value != b""] + [None])[0]
+    path: Node = ([node for node in parsed_url if node.type == "network.url.path" and node.value != b""] + [None])[0]
+    username: Node = ([n for n in parsed_url if n.type == "network.url.username" and n.value != b""] + [None])[0]
+    password: Node = ([n for n in parsed_url if n.type == "network.url.password" and n.value != b""] + [None])[0]
+    query: Node = ([node for node in parsed_url if node.type == "network.url.query" and node.value != b""] + [None])[0]
+    fragment: Node = ([n for n in parsed_url if n.type == "network.url.fragment" and n.value != b""] + [None])[0]
 
     analysis_table.add_tag("network.static.uri", url)
     if host:
@@ -326,15 +354,21 @@ def url_analysis(
     urlparsed_url = urlparse(url)
 
     # Check for IP host with a path that looks like a file download
-    if (
-        urlparsed_url.hostname
-        and re.match(IP_ONLY_REGEX, urlparsed_url.hostname)
-        and "." in os.path.basename(urlparsed_url.path)
-    ):
-        ip_version = "4" if re.match(IPV4_ONLY_REGEX, urlparsed_url.hostname) else "6"
+    if host and path and host.type == "network.ip" and b"." in os.path.basename(path.value):
+        ip_version = "6" if host.value[0] == b"[" else "4"
         flagged_behaviours["potential_ip_download"].append(
-            {"URL": url, "HOSTNAME": urlparsed_url.hostname, "IP_VERSION": ip_version, "PATH": urlparsed_url.path}
+            {"URL": url, "HOSTNAME": host.value.decode(), "IP_VERSION": ip_version, "PATH": path.value.decode()}
         )
+
+    if host and host.type == "network.domain":
+        host_value = host.value.decode()
+        if host_value in SHORTENERS or host_value in MISP_SHORTENERS or host_value in EXTRA_SHORTENERS:
+            flagged_behaviours["shorteners"].add(url)
+            if remote_lookups and (redirection := expand_url_via_redirect_header(url)):
+                result = Node(
+                    URL_TYPE, redirection.encode(), obfuscation="shortener", end=len(url), parent=Node(URL_TYPE, url)
+                )
+                add_MD_results_to_table(result)
 
     # Check for high port usage
     try:
@@ -349,8 +383,8 @@ def url_analysis(
             raise
 
     # Check if URI path is greater than the smallest tool we can look for (ie. '/ls')
-    if urlparsed_url.path and len(urlparsed_url.path) > 2:
-        path_split = urlparsed_url.path.lower().split("/")
+    if path and len(path.value) > 2:
+        path_split = path.value.decode().lower().split("/")
         for tool in ALL_TOOLS:
             if tool in path_split:
                 # Native OS tool found in URI path

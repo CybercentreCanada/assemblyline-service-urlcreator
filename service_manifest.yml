@@ -30,6 +30,10 @@ submission_params:
     name: minimum_maliciousness
     value: 300
     type: int
+  - default: false
+    name: use_internet
+    value: false
+    type: bool
 
 config:
   minimum_maliciousness_limit: 1

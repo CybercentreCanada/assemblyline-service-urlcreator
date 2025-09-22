@@ -1,3 +1,5 @@
 assemblyline
 assemblyline-v4-service
 multidecoder>=1.0.0,<2
+pymispwarninglists
+requests
