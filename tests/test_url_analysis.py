@@ -222,7 +222,7 @@ def test_loooooong():
 
 def test_shorteners():
     url = "https://bit.ly/amtrak-valentines"
-    res_section, network_iocs, behaviours = network_url_analysis(url, lambda qhash: None, remote_lookups=False)
+    res_section, network_iocs, behaviours = network_url_analysis(url, lambda qhash: None, remote_lookups=None)
     assert behaviours == {"shorteners": {"https://bit.ly/amtrak-valentines"}}
     assert network_iocs == {
         "uri": [],
@@ -234,7 +234,9 @@ def test_shorteners():
         "network.static.domain": ["bit.ly"],
     }
 
-    res_section, network_iocs, behaviours = network_url_analysis(url, lambda qhash: None, remote_lookups=True)
+    res_section, network_iocs, behaviours = network_url_analysis(
+        url, lambda qhash: None, remote_lookups={"http": "", "https": ""}
+    )
     assert behaviours == {"shorteners": {"https://bit.ly/amtrak-valentines"}}
     assert network_iocs == {
         "uri": ["https://www.usatoday.com/story/travel/2022/02/10/amtrak-deal-valentines-offer-sale/6741296001/"],

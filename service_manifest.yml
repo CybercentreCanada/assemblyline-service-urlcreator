@@ -34,9 +34,18 @@ submission_params:
     name: use_internet
     value: false
     type: bool
+  - default: "no_proxy"
+    name: proxy
+    type: list
+    value: "no_proxy"
+    list: ["no_proxy", "https_proxy", "socks5_proxy"]
 
 config:
   minimum_maliciousness_limit: 1
+  proxies:
+    no_proxy:
+    https_proxy: http://127.0.0.1:8080
+    socks5_proxy: socks5://127.0.0.1:8080
 
 heuristics:
   - heur_id: 1

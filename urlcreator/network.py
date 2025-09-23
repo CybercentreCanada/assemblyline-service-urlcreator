@@ -230,10 +230,10 @@ def manual_url_parsing(url):
     return parsed_url
 
 
-def expand_url_via_redirect_header(url):
-    r = requests.get(url, allow_redirects=False)
+def expand_url_via_redirect_header(url, remote_lookups=None):
+    r = requests.get(url, allow_redirects=False, proxies=remote_lookups)
 
-    if r.status_code in [301, 302]:
+    if r.status_code in [301, 302, 303, 307, 308] and "Location" in r.headers:
         return r.headers["Location"]
     else:
         return {}
@@ -242,7 +242,7 @@ def expand_url_via_redirect_header(url):
 def url_analysis(
     url: str,
     lookup_safelist: Callable,
-    remote_lookups: bool = False,
+    remote_lookups: Dict[str, str] | None = None,
 ) -> Tuple[ResultTableSection, Dict[str, List[str]], Dict[str, List[str]]]:
     # There is no point in searching for keywords in a URL
     md_registry = get_analyzers()
@@ -366,7 +366,7 @@ def url_analysis(
         host_value = host.value.decode()
         if host_value in SHORTENERS or host_value in MISP_SHORTENERS or host_value in EXTRA_SHORTENERS:
             flagged_behaviours["shorteners"].add(url)
-            if remote_lookups and (redirection := expand_url_via_redirect_header(url)):
+            if remote_lookups is not None and (redirection := expand_url_via_redirect_header(url, remote_lookups)):
                 result = Node(
                     URL_TYPE, redirection.encode(), obfuscation="shortener", end=len(url), parent=Node(URL_TYPE, url)
                 )

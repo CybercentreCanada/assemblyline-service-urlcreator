@@ -67,10 +67,12 @@ class URLCreator(ServiceBase):
             interesting_features = []
 
             # Look for data that might be embedded in URLs
+            remote_lookups = None
+            if self.service_attributes.docker_config.allow_internet_access and request.get_param("use_internet"):
+                remote_lookups = self.config["proxies"][request.get_param("proxy")] or ""
+                remote_lookups = {"http": remote_lookups, "https": remote_lookups}
             analysis_table, network_iocs, tag_flagged_behaviours = urlcreator.network.url_analysis(
-                tag_value,
-                self.api_interface.lookup_safelist,
-                self.service_attributes.docker_config.allow_internet_access and request.get_param("use_internet"),
+                tag_value, self.api_interface.lookup_safelist, remote_lookups
             )
             for k, v in network_iocs.items():
                 url_analysis_network_iocs[k].update(v)
