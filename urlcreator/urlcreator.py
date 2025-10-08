@@ -42,6 +42,9 @@ class URLCreator(ServiceBase):
         # Only concerned with static/dynamic URIs found by prior services
         urls = tags.get("network.static.uri", []) + tags.get("network.dynamic.uri", [])
 
+        if request.file_type.startswith("uri/http"):
+            urls.insert(0, (request.task.fileinfo.uri_info.uri, 0))
+
         # No tags of interest? Exit fast!
         if not urls:
             return

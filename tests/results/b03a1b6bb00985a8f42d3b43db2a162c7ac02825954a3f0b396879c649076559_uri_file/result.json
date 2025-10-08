@@ -1,0 +1,142 @@
+{
+  "extra": {
+    "drop_file": false,
+    "score": 0,
+    "sections": [
+      {
+        "auto_collapse": false,
+        "body": "https://tinyurl.com/2au2tes5",
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 0,
+        "heuristic": {
+          "attack_ids": [],
+          "frequency": 1,
+          "heur_id": 4,
+          "score": 0,
+          "score_map": {
+            "shorteners": 0
+          },
+          "signatures": {
+            "shorteners": 1
+          }
+        },
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "uri": [
+                "https://tinyurl.com/2au2tes5"
+              ]
+            }
+          }
+        },
+        "title_text": "Behaviour shorteners found",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": null,
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 0,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {},
+        "title_text": "MultiDecoder Analysis",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "QUERY",
+            "DECODED STRING": "https://bad.com/&data=data",
+            "ENCODED STRING": "url=https://bad.com/&data=data",
+            "OBFUSCATION": "encoding.url"
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "domain": [
+                "site1.com",
+                "bad.com"
+              ],
+              "uri": [
+                "https://site1.com/?url=https://bad.com/&data=data",
+                "https://bad.com/&data=data"
+              ]
+            }
+          }
+        },
+        "title_text": "https://site1.com/?url=https://bad.com/&data=data",
+        "zeroize_on_tag_safe": false
+      }
+    ]
+  },
+  "files": {
+    "extracted": [],
+    "supplementary": []
+  },
+  "results": {
+    "heuristics": [
+      {
+        "attack_ids": [],
+        "heur_id": 4,
+        "signatures": [
+          "shorteners"
+        ]
+      }
+    ],
+    "tags": {
+      "network.static.domain": [
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "bad.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "site1.com"
+        }
+      ],
+      "network.static.uri": [
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://bad.com/&data=data"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://site1.com/?url=https://bad.com/&data=data"
+        },
+        {
+          "heur_id": 4,
+          "signatures": [
+            "shorteners"
+          ],
+          "value": "https://tinyurl.com/2au2tes5"
+        }
+      ]
+    },
+    "temp_submission_data": {}
+  }
+}

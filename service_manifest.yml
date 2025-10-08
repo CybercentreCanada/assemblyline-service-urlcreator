@@ -4,7 +4,7 @@ description: This Assemblyline service creates URI files for URIs that were extr
 
 # Regex defining the types of files the service accepts and rejects
 accepts: .*
-rejects: empty|metadata/.*|uri/.*
+rejects: empty|metadata/.*
 
 # At which stage the service should run (one of FILTER, EXTRACT, CORE, SECONDARY, POST, REVIEW)
 # NOTE: Stages are executed in the order defined in the list
