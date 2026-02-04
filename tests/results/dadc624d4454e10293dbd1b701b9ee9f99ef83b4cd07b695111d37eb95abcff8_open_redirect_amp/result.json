@@ -18,8 +18,22 @@
       },
       {
         "auto_collapse": false,
-        "body": null,
-        "body_config": {},
+        "body": [
+          {
+            "COMPONENT": "URL",
+            "DECODED STRING": "https://bad.com/s/639234b763d00",
+            "ENCODED STRING": "https://google.com/amp/bad.com%2Fs%2F639234b763d00",
+            "OBFUSCATION": "encoding.url"
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
         "body_format": "TABLE",
         "classification": "TLP:C",
         "depth": 1,
@@ -32,7 +46,8 @@
                 "google.com"
               ],
               "uri": [
-                "https://google.com/amp/bad.com%2Fs%2F639234b763d00"
+                "https://google.com/amp/bad.com%2Fs%2F639234b763d00",
+                "https://bad.com/s/639234b763d00"
               ]
             }
           }
@@ -78,6 +93,11 @@
         }
       ],
       "network.static.uri": [
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://bad.com/s/639234b763d00"
+        },
         {
           "heur_id": null,
           "signatures": [],

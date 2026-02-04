@@ -1,0 +1,37 @@
+{
+    "submission_params": {
+        "minimum_maliciousness": 50
+    },
+    "tags": [
+        {
+            "short_type": "unc_path",
+            "type": "network.static.unc_path",
+            "value": "\\\\2\\xa3\\xc3.8\\xc1w\\x1f\\x9d\\xa2\\x10\\xc0\\xd1-\\x1d\\xd7_\\x7fu2\\xeb\\xb6W\\xb1\\xeb\\x91",
+            "score": 0
+        },
+        {
+            "short_type": "unc_path",
+            "type": "network.static.unc_path",
+            "value": "\\\\DQ\\xd1\\xacKH\\x17\\xd9\\x14",
+            "score": 0
+        },
+        {
+            "short_type": "unc_path",
+            "type": "network.static.unc_path",
+            "value": "\\\\F\\xa3\\x8f",
+            "score": 0
+        },
+        {
+            "short_type": "unc_path",
+            "type": "network.static.unc_path",
+            "value": "\\\\0.0.0.9\\xcb\\x93B\\x8e\\xef\\xd6A\\x8f\\x1dWE",
+            "score": 0
+        },
+        {
+            "short_type": "unc_path",
+            "type": "network.static.unc_path",
+            "value": "\\\\x14\\xc5\\x9e\\x91\\xd9f\\xd6i\\xec\\xa5\\xe9\\x9e\\xa1\\x80\\xa2\\x02",
+            "score": 0
+        }
+    ]
+}

@@ -487,6 +487,8 @@ def url_analysis(
             redirect = f"{scheme}://{unquote(redirect.decode())}"
             open_redirect.add_line(f"Possible abuse of Google AMP's open redirect to {redirect}")
             open_redirect.add_tag("network.static.uri", redirect)
+            result = Node(URL_TYPE, redirect.encode(), obfuscation="", end=len(url), parent=Node(URL_TYPE, url))
+            add_MD_results_to_table(result)
         # Microsoft Login
         # https://medium.com/@coyemerald/f96a8fc807b6
         elif query and host.value == b"login.microsoftonline.com" and b"post_logout_redirect_uri" in query.value:

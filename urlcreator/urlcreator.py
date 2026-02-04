@@ -1,18 +1,15 @@
 from collections import Counter, defaultdict
 from urllib.parse import urlparse
 
+from assemblyline.odm import URI
 from assemblyline_v4_service.common.base import ServiceBase
 from assemblyline_v4_service.common.request import ServiceRequest
-from assemblyline_v4_service.common.result import (
-    Result,
-    ResultSection,
-    ResultTableSection,
-    ResultTextSection,
-    TableRow,
-)
+from assemblyline_v4_service.common.result import Result, ResultSection, ResultTableSection, ResultTextSection, TableRow
 from assemblyline_v4_service.common.task import MaxExtractedExceeded
 
 import urlcreator.network
+
+URI_VALIDATOR = URI()
 
 
 class URLCreator(ServiceBase):
@@ -30,6 +27,11 @@ class URLCreator(ServiceBase):
             supposed_host = unc_path[5:].lstrip("/").split("/", 1)[0]
             if "@" in supposed_host:
                 unc_path = unc_path.replace(supposed_host, supposed_host[::-1].replace("@", ":", 1)[::-1], 1)
+            if not request.deep_scan:
+                try:
+                    URI_VALIDATOR.check(unc_path)
+                except ValueError:
+                    continue
             unc_http_paths.append(unc_path)
         if unc_http_paths:
             unc_to_http = ResultTextSection(
@@ -113,7 +115,7 @@ class URLCreator(ServiceBase):
             if interesting_features:
                 try:
                     request.add_extracted_uri(
-                        f"Feature{'s' if len(interesting_features)>1 else ''}: {', '.join(interesting_features)}",
+                        f"Feature{'s' if len(interesting_features) > 1 else ''}: {', '.join(interesting_features)}",
                         tag_value,
                         request.get_uri_metadata(tag_value),
                     )
