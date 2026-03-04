@@ -79,6 +79,10 @@ class URLCreator(ServiceBase):
             analysis_table, network_iocs, tag_flagged_behaviours = urlcreator.network.url_analysis(
                 tag_value, self.api_interface.lookup_safelist, remote_lookups
             )
+            if "contains_email" in tag_flagged_behaviours:
+                tag_flagged_behaviours["contains_email"] = [
+                    [email, urls + [tag_value]] for email, urls in tag_flagged_behaviours["contains_email"]
+                ]
             for k, v in network_iocs.items():
                 url_analysis_network_iocs[k].update(v)
             for k, v in tag_flagged_behaviours.items():
@@ -135,6 +139,20 @@ class URLCreator(ServiceBase):
         if "tool_path" in flagged_behaviours:
             tool_table = urlcreator.network.BEHAVIOURS["tool_path"](flagged_behaviours.pop("tool_path"))
             request.result.add_section(tool_table)
+
+        ipfs_lookalikes = []
+        if "ipfs_lookalike" in flagged_behaviours:
+            ipfs_lookalikes = flagged_behaviours.pop("ipfs_lookalike")
+            ipfs_table = urlcreator.network.BEHAVIOURS["ipfs_lookalike"](ipfs_lookalikes)
+            request.result.add_section(ipfs_table)
+        php_targets = []
+        if "php_target" in flagged_behaviours:
+            php_targets = flagged_behaviours.pop("php_target")
+
+        if "contains_email" in flagged_behaviours:
+            emails = flagged_behaviours.pop("contains_email")
+            contain_email_table = urlcreator.network.BEHAVIOURS["contains_email"](emails, ipfs_lookalikes, php_targets)
+            request.result.add_section(contain_email_table)
         if max_extracted_section.body:
             request.result.add_section(max_extracted_section)
 

@@ -1,0 +1,154 @@
+{
+  "extra": {
+    "drop_file": false,
+    "score": 0,
+    "sections": [
+      {
+        "auto_collapse": false,
+        "body": "victim@site.com\nhttps://website.com/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg#victim@site.com",
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 0,
+        "heuristic": {
+          "attack_ids": [],
+          "frequency": 1,
+          "heur_id": 4,
+          "score": 0,
+          "score_map": {
+            "contains_email": 0
+          },
+          "signatures": {
+            "contains_email": 1
+          }
+        },
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "email": {
+              "address": [
+                "victim@site.com"
+              ]
+            },
+            "static": {
+              "uri": [
+                "https://website.com/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg#victim@site.com"
+              ]
+            }
+          }
+        },
+        "title_text": "Email Address Found in URI",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": null,
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 0,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {},
+        "title_text": "MultiDecoder Analysis",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "FRAGMENT",
+            "DECODED STRING": "victim@site.com",
+            "ENCODED STRING": "victim@site.com",
+            "OBFUSCATION": ""
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "email": {
+              "address": [
+                "victim@site.com"
+              ]
+            },
+            "static": {
+              "domain": [
+                "website.com"
+              ],
+              "uri": [
+                "https://website.com/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg#victim@site.com"
+              ]
+            }
+          }
+        },
+        "title_text": "https://website.com/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg#victim@site.com",
+        "zeroize_on_tag_safe": false
+      }
+    ]
+  },
+  "files": {
+    "extracted": [],
+    "supplementary": []
+  },
+  "results": {
+    "heuristics": [
+      {
+        "attack_ids": [],
+        "heur_id": 4,
+        "signatures": [
+          "contains_email"
+        ]
+      }
+    ],
+    "tags": {
+      "network.email.address": [
+        {
+          "heur_id": 4,
+          "signatures": [
+            "contains_email"
+          ],
+          "value": "victim@site.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "victim@site.com"
+        }
+      ],
+      "network.static.domain": [
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "website.com"
+        }
+      ],
+      "network.static.uri": [
+        {
+          "heur_id": 4,
+          "signatures": [
+            "contains_email"
+          ],
+          "value": "https://website.com/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg#victim@site.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://website.com/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg#victim@site.com"
+        }
+      ]
+    },
+    "temp_submission_data": {}
+  }
+}

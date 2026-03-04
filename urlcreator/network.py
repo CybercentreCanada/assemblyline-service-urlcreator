@@ -10,20 +10,9 @@ from urllib.parse import parse_qs, unquote, urlparse
 
 import requests
 from assemblyline.odm.base import IP_ONLY_REGEX
-from assemblyline_v4_service.common.result import (
-    Heuristic,
-    ResultSection,
-    ResultTableSection,
-    TableRow,
-)
+from assemblyline_v4_service.common.result import Heuristic, ResultTableSection, ResultTextSection, TableRow
 from multidecoder.decoders.base64 import BASE64_RE
-from multidecoder.decoders.network import (
-    DOMAIN_TYPE,
-    EMAIL_TYPE,
-    IP_TYPE,
-    URL_TYPE,
-    parse_url,
-)
+from multidecoder.decoders.network import DOMAIN_TYPE, EMAIL_TYPE, IP_TYPE, URL_TYPE, parse_url
 from multidecoder.multidecoder import Multidecoder
 from multidecoder.node import Node
 from multidecoder.registry import get_analyzers
@@ -62,6 +51,16 @@ EXTRA_SHORTENERS = [
     "nyti.ms", "ow.ly", "reut.rs", "sansurl.com", "snip.ly", "t.co", "t.ly", "tinyurl.com", "tr.im", "trib.al",
     "urlwee.com", "urlzs.com",
 ]
+
+# Taken from https://github.com/ipfs/public-gateway-checker/blob/main/gateways.json
+# Will strip the https:// in the code.
+IPFS_GATEWAYS = [
+  "https://ipfs.filebase.io", "https://ipfs.orbitor.dev", "https://latam.orbitor.dev", "https://apac.orbitor.dev",
+  "https://eu.orbitor.dev", "https://dget.top", "https://flk-ipfs.xyz", "https://ipfs.cyou", "https://dlunar.net",
+  "https://storry.tv", "https://ipfs.io", "https://dweb.link", "https://gateway.pinata.cloud", "https://hardbin.com",
+  "https://ipfs.runfission.com", "https://ipfs.eth.aragon.network", "https://4everland.io", "https://w3s.link",
+  "https://trustless-gateway.link", "https://ipfs.ecolatam.com",
+]
 # fmt: on
 
 ALL_TOOLS = set(
@@ -73,9 +72,11 @@ MISP_SHORTENERS = WarningLists().warninglists["List of known URL Shorteners doma
 with open(os.path.join(pathlib.Path(__file__).parent.resolve(), "large_shorteners_list"), "r") as f:
     SHORTENERS = [x.strip() for x in f.readlines()]
 
+IPFS_GATEWAYS = [re.sub(r"^https?://", "", x) for x in IPFS_GATEWAYS]
+
 
 def generic_behaviour(uris, behaviour_name, heuristic, score):
-    behaviour_section = ResultSection(f"Behaviour {behaviour_name} found")
+    behaviour_section = ResultTextSection(f"Behaviour {behaviour_name} found")
     heur = Heuristic(heuristic)
     heur.add_signature_id(behaviour_name, score)
     behaviour_section.set_heuristic(heur)
@@ -128,6 +129,26 @@ def potential_ip_download_behaviour(items):
     return potential_ip_download
 
 
+def contains_email_behaviour(emails, ipfs_lookalikes=[], php_targets=[]):
+    contain_email_table = ResultTextSection(title_text="Email Address Found in URI")
+    heur = Heuristic(4)
+    heur.add_signature_id("contains_email", 0)
+    contain_email_table.set_heuristic(heur)
+    for email, urls in emails:
+        if contain_email_table.body:
+            contain_email_table.add_line("")
+        contain_email_table.add_line(email)
+        contain_email_table.add_tag("network.email.address", email)
+        for url in urls:
+            contain_email_table.add_line(url)
+            contain_email_table.add_tag("network.static.uri", url)
+        if any(url in ipfs_lookalikes for url in urls):
+            contain_email_table.heuristic.add_signature_id("email_with_ipfs_lookalike", 500)
+        if any(url in php_targets for url in urls):
+            contain_email_table.heuristic.add_signature_id("email_with_php_target", 500)
+    return contain_email_table
+
+
 BEHAVIOURS = {
     "safelisted_url_masquerade": lambda uris: generic_behaviour(uris, "safelisted_url_masquerade", 4, 0),
     "url_masquerade": lambda uris: generic_behaviour(uris, "url_masquerade", 4, 500),
@@ -137,6 +158,8 @@ BEHAVIOURS = {
     "tool_path": tool_path_behaviour,
     "potential_ip_download": potential_ip_download_behaviour,
     "shorteners": lambda uris: generic_behaviour(uris, "shorteners", 4, 0),
+    "contains_email": contains_email_behaviour,
+    "ipfs_lookalike": lambda uris: generic_behaviour(uris, "ipfs_lookalike", 4, 0),
 }
 
 
@@ -152,6 +175,9 @@ class BehaviourDict(defaultdict):
             "tool_path": list,
             "potential_ip_download": list,
             "shorteners": set,
+            "contains_email": list,
+            "ipfs_lookalike": list,
+            "php_target": list,
         }
 
     def __missing__(self, key):
@@ -304,6 +330,10 @@ def url_analysis(
             inner_analysis_section, inner_network_iocs, inner_flagged_behaviours = url_analysis(
                 value_str, lookup_safelist, remote_lookups
             )
+            if "contains_email" in inner_flagged_behaviours:
+                inner_flagged_behaviours["contains_email"] = [
+                    [email, urls + [value_str]] for email, urls in inner_flagged_behaviours["contains_email"]
+                ]
             if inner_analysis_section.body:
                 # If we were able to analyze anything of interest recursively, append to result
                 analysis_table.add_subsection(inner_analysis_section)
@@ -314,6 +344,7 @@ def url_analysis(
                 flagged_behaviours[k].update(v) if isinstance(v, set) else flagged_behaviours[k].extend(v)
         elif result.type == EMAIL_TYPE:
             analysis_table.add_tag("network.email.address", value_str)
+            flagged_behaviours["contains_email"].append([value_str, []])
         elif result.type == DOMAIN_TYPE:
             analysis_table.add_tag("network.static.domain", value_str)
             network_iocs["domain"].append(value_str)
@@ -396,7 +427,7 @@ def url_analysis(
     # Check to see if there's anything "phishy" about the URL
     if username and host and host.type == "network.domain":
         domain = host.value.decode()
-        target_url = f"{scheme}://{url[url.index(domain):]}"
+        target_url = f"{scheme}://{url[url.index(domain) :]}"
         try:
             username_url = make_bytes(scheme) + b"://" + username.value
             username_as_url = parse_url(username_url.strip())
@@ -465,7 +496,7 @@ def url_analysis(
     if host and path and host.type == "network.domain":
         # Google Travel
         if query and host.value.endswith(b"google.com") and path.value == b"/travel/clk":
-            open_redirect = ResultSection("Open Redirect", parent=analysis_table)
+            open_redirect = ResultTextSection("Open Redirect", parent=analysis_table)
             qs = parse_qs(query.value.decode())
             if "pcurl" in qs and isinstance(qs["pcurl"], list) and len(qs["pcurl"]) == 1:
                 open_redirect.add_line(f"Possible abuse of Google travel/clk's open redirect to {qs['pcurl'][0]}")
@@ -480,7 +511,7 @@ def url_analysis(
                 )
         # Google AMP
         elif host.value.endswith(b"google.com") and path.value.startswith(b"/amp/"):
-            open_redirect = ResultSection("Open Redirect", parent=analysis_table)
+            open_redirect = ResultTextSection("Open Redirect", parent=analysis_table)
             redirect = path.value[5:]
             if redirect.startswith(b"s/"):
                 redirect = redirect[2:]
@@ -492,7 +523,7 @@ def url_analysis(
         # Microsoft Login
         # https://medium.com/@coyemerald/f96a8fc807b6
         elif query and host.value == b"login.microsoftonline.com" and b"post_logout_redirect_uri" in query.value:
-            open_redirect = ResultSection("Open Redirect", parent=analysis_table)
+            open_redirect = ResultTextSection("Open Redirect", parent=analysis_table)
             qs = parse_qs(query.value.decode())
             if (
                 "post_logout_redirect_uri" in qs
@@ -506,7 +537,7 @@ def url_analysis(
         # Microsoft Medius
         # https://www.bleepingcomputer.com/news/security/threat-actors-abuse-google-amp-for-evasive-phishing-attacks/
         elif query and host.value == b"medius.microsoft.com" and path.value == b"/redirect":
-            open_redirect = ResultSection("Open Redirect", parent=analysis_table)
+            open_redirect = ResultTextSection("Open Redirect", parent=analysis_table)
             qs = parse_qs(query.value.decode())
             if "targeturl" in qs and isinstance(qs["targeturl"], list) and len(qs["targeturl"]) == 1:
                 open_redirect.add_line(f"Possible abuse of Microsoft Medius' open redirect to {qs['targeturl'][0]}")
@@ -549,6 +580,28 @@ def url_analysis(
                 parent=Node(URL_TYPE, url),
             )
             add_MD_results_to_table(result)
+
+    # Check for ipfs lookalike patterns in the host, path, or fragment
+    if (
+        host
+        and host.type == "network.domain"
+        and (
+            host.value.startswith(b"ipfs.")
+            or host.value.startswith(b"ipfs-")
+            or b".ipfs." in host.value
+            or b"-ipfs." in host.value
+            or b".ipfs-" in host.value
+            or b"-ipfs-" in host.value
+        )
+    ):
+        flagged_behaviours["ipfs_lookalike"].append(url)
+    elif path and re.search(b"(ipfs|ipns|ipld|ipldns|ipfs)/[a-zA-Z0-9]{46}", path.value):
+        flagged_behaviours["ipfs_lookalike"].append(url)
+    elif fragment and re.search(b"(ipfs|ipns|ipld|ipldns|ipfs)/[a-zA-Z0-9]{46}", fragment.value):
+        flagged_behaviours["ipfs_lookalike"].append(url)
+
+    if path and path.value.endswith(b".php"):
+        flagged_behaviours["php_target"].append(url)
 
     # Analyze query/fragment
     for segment in [query, fragment]:

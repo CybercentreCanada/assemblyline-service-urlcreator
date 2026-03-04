@@ -1,0 +1,159 @@
+{
+  "extra": {
+    "drop_file": false,
+    "score": 500,
+    "sections": [
+      {
+        "auto_collapse": false,
+        "body": "victim@site.com\nhttps://comehere.com/cmm/index.php?target=victim@site.com",
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 0,
+        "heuristic": {
+          "attack_ids": [],
+          "frequency": 1,
+          "heur_id": 4,
+          "score": 500,
+          "score_map": {
+            "contains_email": 0,
+            "email_with_php_target": 500
+          },
+          "signatures": {
+            "contains_email": 1,
+            "email_with_php_target": 1
+          }
+        },
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "email": {
+              "address": [
+                "victim@site.com"
+              ]
+            },
+            "static": {
+              "uri": [
+                "https://comehere.com/cmm/index.php?target=victim@site.com"
+              ]
+            }
+          }
+        },
+        "title_text": "Email Address Found in URI",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": null,
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 0,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {},
+        "title_text": "MultiDecoder Analysis",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "QUERY",
+            "DECODED STRING": "victim@site.com",
+            "ENCODED STRING": "target=victim@site.com",
+            "OBFUSCATION": ""
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "email": {
+              "address": [
+                "victim@site.com"
+              ]
+            },
+            "static": {
+              "domain": [
+                "comehere.com"
+              ],
+              "uri": [
+                "https://comehere.com/cmm/index.php?target=victim@site.com"
+              ]
+            }
+          }
+        },
+        "title_text": "https://comehere.com/cmm/index.php?target=victim@site.com",
+        "zeroize_on_tag_safe": false
+      }
+    ]
+  },
+  "files": {
+    "extracted": [],
+    "supplementary": []
+  },
+  "results": {
+    "heuristics": [
+      {
+        "attack_ids": [],
+        "heur_id": 4,
+        "signatures": [
+          "contains_email",
+          "email_with_php_target"
+        ]
+      }
+    ],
+    "tags": {
+      "network.email.address": [
+        {
+          "heur_id": 4,
+          "signatures": [
+            "contains_email",
+            "email_with_php_target"
+          ],
+          "value": "victim@site.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "victim@site.com"
+        }
+      ],
+      "network.static.domain": [
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "comehere.com"
+        }
+      ],
+      "network.static.uri": [
+        {
+          "heur_id": 4,
+          "signatures": [
+            "contains_email",
+            "email_with_php_target"
+          ],
+          "value": "https://comehere.com/cmm/index.php?target=victim@site.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://comehere.com/cmm/index.php?target=victim@site.com"
+        }
+      ]
+    },
+    "temp_submission_data": {}
+  }
+}

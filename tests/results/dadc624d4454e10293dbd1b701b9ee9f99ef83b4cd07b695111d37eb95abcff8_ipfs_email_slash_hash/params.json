@@ -6,7 +6,7 @@
         {
             "type": "network.static.uri",
             "short_type": "URI",
-            "value": "https://site.com/track/redirect?type=campaign&amp;lid=1&amp;tracking_id=%5BtrackingId%5D&amp;redirect_url=http%3A%2F%2Fbroken.U.pc%40https://site2.com/",
+            "value": "https://website.com/ipfs/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg/#victim@site.com",
             "score": 0
         }
     ]

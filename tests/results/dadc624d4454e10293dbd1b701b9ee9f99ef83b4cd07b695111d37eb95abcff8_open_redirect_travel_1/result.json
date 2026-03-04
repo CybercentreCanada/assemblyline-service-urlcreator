@@ -5,6 +5,44 @@
     "sections": [
       {
         "auto_collapse": false,
+        "body": "phishing@victim.com\nhttps://bad1.com/?param=phishing@victim.com\nhttps://www.google.com/travel/clk?pc=DATADATADATADATADATADATA&amp;pcurl=https://bad1.com/?param=phishing@victim.com",
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 0,
+        "heuristic": {
+          "attack_ids": [],
+          "frequency": 1,
+          "heur_id": 4,
+          "score": 0,
+          "score_map": {
+            "contains_email": 0
+          },
+          "signatures": {
+            "contains_email": 1
+          }
+        },
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "email": {
+              "address": [
+                "phishing@victim.com"
+              ]
+            },
+            "static": {
+              "uri": [
+                "https://bad1.com/?param=phishing@victim.com",
+                "https://www.google.com/travel/clk?pc=DATADATADATADATADATADATA&amp;pcurl=https://bad1.com/?param=phishing@victim.com"
+              ]
+            }
+          }
+        },
+        "title_text": "Email Address Found in URI",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
         "body": null,
         "body_config": {},
         "body_format": "TEXT",
@@ -127,9 +165,24 @@
     "supplementary": []
   },
   "results": {
-    "heuristics": [],
+    "heuristics": [
+      {
+        "attack_ids": [],
+        "heur_id": 4,
+        "signatures": [
+          "contains_email"
+        ]
+      }
+    ],
     "tags": {
       "network.email.address": [
+        {
+          "heur_id": 4,
+          "signatures": [
+            "contains_email"
+          ],
+          "value": "phishing@victim.com"
+        },
         {
           "heur_id": null,
           "signatures": [],
@@ -155,8 +208,10 @@
       ],
       "network.static.uri": [
         {
-          "heur_id": null,
-          "signatures": [],
+          "heur_id": 4,
+          "signatures": [
+            "contains_email"
+          ],
           "value": "https://bad1.com/?param=phishing@victim.com"
         },
         {
@@ -168,6 +223,18 @@
           "heur_id": null,
           "signatures": [],
           "value": "https://bad1.com/?param=phishing@victim.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://bad1.com/?param=phishing@victim.com"
+        },
+        {
+          "heur_id": 4,
+          "signatures": [
+            "contains_email"
+          ],
+          "value": "https://www.google.com/travel/clk?pc=DATADATADATADATADATADATA&amp;pcurl=https://bad1.com/?param=phishing@victim.com"
         },
         {
           "heur_id": null,

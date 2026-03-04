@@ -1,0 +1,13 @@
+{
+    "submission_params": {
+        "minimum_maliciousness": 50
+    },
+    "tags": [
+        {
+            "type": "network.static.uri",
+            "short_type": "URI",
+            "value": "https://comehere.com/cmm/index.php?target=victim@site.com",
+            "score": 0
+        }
+    ]
+}
