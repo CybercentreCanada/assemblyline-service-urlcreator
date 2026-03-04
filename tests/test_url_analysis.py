@@ -51,7 +51,7 @@ def test_corrupted_port():
 def test_embedded_base64():
     url = "https://somedomain.com/some/path?u=a1aHR0cHM6Ly9iYWQuY29t#dGVzdEBleGFtcGxlLmNvbQ=="
     res_section, network_iocs, behaviours = url_analysis(url)
-    assert behaviours == {"contains_email": ["test@example.com"]}
+    assert behaviours == {"contains_email": [["test@example.com", []]]}
     assert network_iocs == {"uri": ["https://bad.com"], "domain": ["bad.com"], "ip": []}
     assert res_section.tags == {
         # Encoded email in fragment
@@ -81,7 +81,7 @@ def test_safelinks():
     # Ref: https://learn.microsoft.com/en-us/defender-office-365/safe-links-about?view=o365-worldwide
     url = "https://safelinks.com/?url=https%3A%2F%2Fhelloworld%2Ecom%2Fbad%7C01%7Ctest%40example%2Ecom"
     res_section, network_iocs, behaviours = url_analysis(url)
-    assert behaviours == {"contains_email": ["test@example.com"]}
+    assert behaviours == {"contains_email": [["test@example.com", []]]}
     assert network_iocs == {
         "domain": ["helloworld.com"],
         "ip": [],
