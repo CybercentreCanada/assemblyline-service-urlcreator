@@ -145,7 +145,7 @@ def contains_email_behaviour(emails, ipfs_lookalikes=[], php_targets=[]):
         if any(url in ipfs_lookalikes for url in urls):
             contain_email_table.heuristic.add_signature_id("email_with_ipfs_lookalike", 500)
         if any(url in php_targets for url in urls):
-            contain_email_table.heuristic.add_signature_id("email_with_php_target", 500)
+            contain_email_table.heuristic.add_signature_id("email_with_php_target", 0)
     return contain_email_table
 
 
