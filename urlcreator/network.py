@@ -130,23 +130,25 @@ def potential_ip_download_behaviour(items):
 
 
 def contains_email_behaviour(emails, ipfs_lookalikes=[], php_targets=[]):
-    contain_email_table = ResultTextSection(title_text="Email Address Found in URI")
-    heur = Heuristic(4)
-    heur.add_signature_id("contains_email", 0)
-    contain_email_table.set_heuristic(heur)
+    contain_email_section = ResultTextSection(title_text="Email Address Found in URI")
     for email, urls in emails:
-        if contain_email_table.body:
-            contain_email_table.add_line("")
-        contain_email_table.add_line(email)
-        contain_email_table.add_tag("network.email.address", email)
+        title = email
+        if len(title) > 64:
+            title = title[:61] + "..."
+        sub_contain_email_section = ResultTextSection(
+            title_text=title, heuristic=Heuristic(4), parent=contain_email_section
+        )
+        sub_contain_email_section.heuristic.add_signature_id("contains_email", 0)
+        sub_contain_email_section.add_line(email)
+        sub_contain_email_section.add_tag("network.email.address", email)
         for url in urls:
-            contain_email_table.add_line(url)
-            contain_email_table.add_tag("network.static.uri", url)
+            sub_contain_email_section.add_line(url)
+            sub_contain_email_section.add_tag("network.static.uri", url)
         if any(url in ipfs_lookalikes for url in urls):
-            contain_email_table.heuristic.add_signature_id("email_with_ipfs_lookalike", 500)
+            sub_contain_email_section.heuristic.add_signature_id("email_with_ipfs_lookalike", 500)
         if any(url in php_targets for url in urls):
-            contain_email_table.heuristic.add_signature_id("email_with_php_target", 0)
-    return contain_email_table
+            sub_contain_email_section.heuristic.add_signature_id("email_with_php_target", 0)
+    return contain_email_section
 
 
 BEHAVIOURS = {

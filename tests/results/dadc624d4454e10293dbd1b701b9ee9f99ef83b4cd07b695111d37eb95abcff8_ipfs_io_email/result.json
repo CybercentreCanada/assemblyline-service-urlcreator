@@ -37,11 +37,24 @@
       },
       {
         "auto_collapse": false,
-        "body": "victim@site.com\nhttps://ipfs.io/ipfs/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg#victim@site.com",
+        "body": null,
         "body_config": {},
         "body_format": "TEXT",
         "classification": "TLP:C",
         "depth": 0,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {},
+        "title_text": "Email Address Found in URI",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": "victim@site.com\nhttps://ipfs.io/ipfs/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg#victim@site.com",
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 1,
         "heuristic": {
           "attack_ids": [],
           "frequency": 1,
@@ -71,7 +84,7 @@
             }
           }
         },
-        "title_text": "Email Address Found in URI",
+        "title_text": "victim@site.com",
         "zeroize_on_tag_safe": false
       },
       {

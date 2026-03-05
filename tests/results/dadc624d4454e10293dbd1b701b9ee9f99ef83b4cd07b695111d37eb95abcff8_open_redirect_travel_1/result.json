@@ -5,11 +5,24 @@
     "sections": [
       {
         "auto_collapse": false,
-        "body": "phishing@victim.com\nhttps://bad1.com/?param=phishing@victim.com\nhttps://www.google.com/travel/clk?pc=DATADATADATADATADATADATA&amp;pcurl=https://bad1.com/?param=phishing@victim.com",
+        "body": null,
         "body_config": {},
         "body_format": "TEXT",
         "classification": "TLP:C",
         "depth": 0,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {},
+        "title_text": "Email Address Found in URI",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": "phishing@victim.com\nhttps://bad1.com/?param=phishing@victim.com\nhttps://www.google.com/travel/clk?pc=DATADATADATADATADATADATA&amp;pcurl=https://bad1.com/?param=phishing@victim.com",
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 1,
         "heuristic": {
           "attack_ids": [],
           "frequency": 1,
@@ -38,7 +51,7 @@
             }
           }
         },
-        "title_text": "Email Address Found in URI",
+        "title_text": "phishing@victim.com",
         "zeroize_on_tag_safe": false
       },
       {

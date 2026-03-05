@@ -5,38 +5,6 @@
     "sections": [
       {
         "auto_collapse": false,
-        "body": "https://website-ipfs.com/ipfs/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg/index.html#",
-        "body_config": {},
-        "body_format": "TEXT",
-        "classification": "TLP:C",
-        "depth": 0,
-        "heuristic": {
-          "attack_ids": [],
-          "frequency": 1,
-          "heur_id": 4,
-          "score": 0,
-          "score_map": {
-            "ipfs_lookalike": 0
-          },
-          "signatures": {
-            "ipfs_lookalike": 1
-          }
-        },
-        "promote_to": null,
-        "tags": {
-          "network": {
-            "static": {
-              "uri": [
-                "https://website-ipfs.com/ipfs/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg/index.html#"
-              ]
-            }
-          }
-        },
-        "title_text": "Behaviour ipfs_lookalike found",
-        "zeroize_on_tag_safe": false
-      },
-      {
-        "auto_collapse": false,
         "body": null,
         "body_config": {},
         "body_format": "TEXT",
@@ -50,7 +18,7 @@
       },
       {
         "auto_collapse": false,
-        "body": "victim@site.com\nhttps://randomsite.com/index.html#victim@site.com",
+        "body": "friendabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@site.com\nhttps://website.com/index.html?thankyou=friendabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@site.com",
         "body_config": {},
         "body_format": "TEXT",
         "classification": "TLP:C",
@@ -72,17 +40,17 @@
           "network": {
             "email": {
               "address": [
-                "victim@site.com"
+                "friendabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@site.com"
               ]
             },
             "static": {
               "uri": [
-                "https://randomsite.com/index.html#victim@site.com"
+                "https://website.com/index.html?thankyou=friendabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@site.com"
               ]
             }
           }
         },
-        "title_text": "victim@site.com",
+        "title_text": "friendabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabc...",
         "zeroize_on_tag_safe": false
       },
       {
@@ -102,9 +70,9 @@
         "auto_collapse": false,
         "body": [
           {
-            "COMPONENT": "FRAGMENT",
-            "DECODED STRING": "victim@site.com",
-            "ENCODED STRING": "victim@site.com",
+            "COMPONENT": "QUERY",
+            "DECODED STRING": "friendabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@site.com",
+            "ENCODED STRING": "thankyou=friendabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@site.com",
             "OBFUSCATION": ""
           }
         ],
@@ -125,20 +93,20 @@
           "network": {
             "email": {
               "address": [
-                "victim@site.com"
+                "friendabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@site.com"
               ]
             },
             "static": {
               "domain": [
-                "randomsite.com"
+                "website.com"
               ],
               "uri": [
-                "https://randomsite.com/index.html#victim@site.com"
+                "https://website.com/index.html?thankyou=friendabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@site.com"
               ]
             }
           }
         },
-        "title_text": "https://randomsite.com/index.html#victim@site.com",
+        "title_text": "https://website.com/index.html?thankyou=friendabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCD...",
         "zeroize_on_tag_safe": false
       }
     ]
@@ -149,13 +117,6 @@
   },
   "results": {
     "heuristics": [
-      {
-        "attack_ids": [],
-        "heur_id": 4,
-        "signatures": [
-          "ipfs_lookalike"
-        ]
-      },
       {
         "attack_ids": [],
         "heur_id": 4,
@@ -171,19 +132,19 @@
           "signatures": [
             "contains_email"
           ],
-          "value": "victim@site.com"
+          "value": "friendabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@site.com"
         },
         {
           "heur_id": null,
           "signatures": [],
-          "value": "victim@site.com"
+          "value": "friendabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@site.com"
         }
       ],
       "network.static.domain": [
         {
           "heur_id": null,
           "signatures": [],
-          "value": "randomsite.com"
+          "value": "website.com"
         }
       ],
       "network.static.uri": [
@@ -192,19 +153,12 @@
           "signatures": [
             "contains_email"
           ],
-          "value": "https://randomsite.com/index.html#victim@site.com"
+          "value": "https://website.com/index.html?thankyou=friendabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@site.com"
         },
         {
           "heur_id": null,
           "signatures": [],
-          "value": "https://randomsite.com/index.html#victim@site.com"
-        },
-        {
-          "heur_id": 4,
-          "signatures": [
-            "ipfs_lookalike"
-          ],
-          "value": "https://website-ipfs.com/ipfs/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg/index.html#"
+          "value": "https://website.com/index.html?thankyou=friendabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@site.com"
         }
       ]
     },

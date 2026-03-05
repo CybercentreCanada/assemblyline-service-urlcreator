@@ -376,6 +376,21 @@ def test_phishing():
         ],
     }
 
+    url = "https://github.com∕kubernetes∕kubernetes∕archive∕refs∕tags∕@v1271.zip"
+    res_section, network_iocs, behaviours = url_analysis(url)
+    # Should reveal the true target URL for reputation checking
+    # assert behaviours == {"url_masquerade": {url}}
+    assert network_iocs["uri"] == ["https://v1271.zip"]
+    assert network_iocs["domain"] == ["v1271.zip"]
+    assert res_section.tags == {
+        "network.static.domain": ["v1271.zip"],
+        "network.static.uri": [
+            url,
+            "https://v1271.zip",
+        ],
+    }
+    # assert "url_masquerade" in res_section.heuristic.signatures
+
 
 def test_simple_redirect():
     url = "https://site.com/?url=https://bad.com/"

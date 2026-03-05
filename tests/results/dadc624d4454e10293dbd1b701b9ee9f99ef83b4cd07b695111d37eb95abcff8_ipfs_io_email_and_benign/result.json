@@ -1,11 +1,11 @@
 {
   "extra": {
     "drop_file": false,
-    "score": 0,
+    "score": 500,
     "sections": [
       {
         "auto_collapse": false,
-        "body": "https://website-ipfs.com/ipfs/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg/index.html#",
+        "body": "https://ipfs.io/ipfs/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg#victim@site.com",
         "body_config": {},
         "body_format": "TEXT",
         "classification": "TLP:C",
@@ -27,7 +27,7 @@
           "network": {
             "static": {
               "uri": [
-                "https://website-ipfs.com/ipfs/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg/index.html#"
+                "https://ipfs.io/ipfs/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg#victim@site.com"
               ]
             }
           }
@@ -50,7 +50,46 @@
       },
       {
         "auto_collapse": false,
-        "body": "victim@site.com\nhttps://randomsite.com/index.html#victim@site.com",
+        "body": "victim@site.com\nhttps://ipfs.io/ipfs/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg#victim@site.com",
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": {
+          "attack_ids": [],
+          "frequency": 1,
+          "heur_id": 4,
+          "score": 500,
+          "score_map": {
+            "contains_email": 0,
+            "email_with_ipfs_lookalike": 500
+          },
+          "signatures": {
+            "contains_email": 1,
+            "email_with_ipfs_lookalike": 1
+          }
+        },
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "email": {
+              "address": [
+                "victim@site.com"
+              ]
+            },
+            "static": {
+              "uri": [
+                "https://ipfs.io/ipfs/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg#victim@site.com"
+              ]
+            }
+          }
+        },
+        "title_text": "victim@site.com",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": "friend@site.com\nhttps://benign.com/?thankyou=friend@site.com",
         "body_config": {},
         "body_format": "TEXT",
         "classification": "TLP:C",
@@ -72,17 +111,17 @@
           "network": {
             "email": {
               "address": [
-                "victim@site.com"
+                "friend@site.com"
               ]
             },
             "static": {
               "uri": [
-                "https://randomsite.com/index.html#victim@site.com"
+                "https://benign.com/?thankyou=friend@site.com"
               ]
             }
           }
         },
-        "title_text": "victim@site.com",
+        "title_text": "friend@site.com",
         "zeroize_on_tag_safe": false
       },
       {
@@ -130,15 +169,58 @@
             },
             "static": {
               "domain": [
-                "randomsite.com"
+                "ipfs.io"
               ],
               "uri": [
-                "https://randomsite.com/index.html#victim@site.com"
+                "https://ipfs.io/ipfs/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg#victim@site.com"
               ]
             }
           }
         },
-        "title_text": "https://randomsite.com/index.html#victim@site.com",
+        "title_text": "https://ipfs.io/ipfs/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg#victim@site.com",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "QUERY",
+            "DECODED STRING": "friend@site.com",
+            "ENCODED STRING": "thankyou=friend@site.com",
+            "OBFUSCATION": ""
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "email": {
+              "address": [
+                "friend@site.com"
+              ]
+            },
+            "static": {
+              "domain": [
+                "benign.com"
+              ],
+              "uri": [
+                "https://benign.com/?thankyou=friend@site.com"
+              ]
+            }
+          }
+        },
+        "title_text": "https://benign.com/?thankyou=friend@site.com",
         "zeroize_on_tag_safe": false
       }
     ]
@@ -160,6 +242,14 @@
         "attack_ids": [],
         "heur_id": 4,
         "signatures": [
+          "contains_email",
+          "email_with_ipfs_lookalike"
+        ]
+      },
+      {
+        "attack_ids": [],
+        "heur_id": 4,
+        "signatures": [
           "contains_email"
         ]
       }
@@ -170,6 +260,19 @@
           "heur_id": 4,
           "signatures": [
             "contains_email"
+          ],
+          "value": "friend@site.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "friend@site.com"
+        },
+        {
+          "heur_id": 4,
+          "signatures": [
+            "contains_email",
+            "email_with_ipfs_lookalike"
           ],
           "value": "victim@site.com"
         },
@@ -183,7 +286,12 @@
         {
           "heur_id": null,
           "signatures": [],
-          "value": "randomsite.com"
+          "value": "benign.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "ipfs.io"
         }
       ],
       "network.static.uri": [
@@ -192,19 +300,32 @@
           "signatures": [
             "contains_email"
           ],
-          "value": "https://randomsite.com/index.html#victim@site.com"
+          "value": "https://benign.com/?thankyou=friend@site.com"
         },
         {
           "heur_id": null,
           "signatures": [],
-          "value": "https://randomsite.com/index.html#victim@site.com"
+          "value": "https://benign.com/?thankyou=friend@site.com"
         },
         {
           "heur_id": 4,
           "signatures": [
             "ipfs_lookalike"
           ],
-          "value": "https://website-ipfs.com/ipfs/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg/index.html#"
+          "value": "https://ipfs.io/ipfs/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg#victim@site.com"
+        },
+        {
+          "heur_id": 4,
+          "signatures": [
+            "contains_email",
+            "email_with_ipfs_lookalike"
+          ],
+          "value": "https://ipfs.io/ipfs/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg#victim@site.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://ipfs.io/ipfs/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg#victim@site.com"
         }
       ]
     },
