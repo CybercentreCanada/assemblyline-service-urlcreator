@@ -72,7 +72,7 @@ MISP_SHORTENERS = WarningLists().warninglists["List of known URL Shorteners doma
 with open(os.path.join(pathlib.Path(__file__).parent.resolve(), "large_shorteners_list"), "r") as f:
     SHORTENERS = [x.strip() for x in f.readlines()]
 
-IPFS_GATEWAYS = [re.sub(r"^https?://", "", x) for x in IPFS_GATEWAYS]
+IPFS_GATEWAYS = [re.sub(r"^https?://", "", x).encode() for x in IPFS_GATEWAYS]
 
 
 def generic_behaviour(uris, behaviour_name, heuristic, score):
@@ -588,7 +588,8 @@ def url_analysis(
         host
         and host.type == "network.domain"
         and (
-            host.value.startswith(b"ipfs.")
+            any(host.value == gateway or host.value.endswith(b"." + gateway) for gateway in IPFS_GATEWAYS)
+            or host.value.startswith(b"ipfs.")
             or host.value.startswith(b"ipfs-")
             or b".ipfs." in host.value
             or b"-ipfs." in host.value
