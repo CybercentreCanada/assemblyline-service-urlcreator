@@ -1,11 +1,11 @@
 {
   "extra": {
     "drop_file": false,
-    "score": 0,
+    "score": 500,
     "sections": [
       {
         "auto_collapse": true,
-        "body": "https://website-ipfs.com/ipfs/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg/index.html#",
+        "body": "https://firebasestorage.googleapis.com/v0/b/111111111-11111.firebasestorage.app/o/111111111111.html?alt=media&amp;token=a0e26c35-0f20-43fd-9fa6-177d922034d2#victim@site.com",
         "body_config": {},
         "body_format": "TEXT",
         "classification": "TLP:C",
@@ -27,7 +27,7 @@
           "network": {
             "static": {
               "uri": [
-                "https://website-ipfs.com/ipfs/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg/index.html#"
+                "https://firebasestorage.googleapis.com/v0/b/111111111-11111.firebasestorage.app/o/111111111111.html?alt=media&amp;token=a0e26c35-0f20-43fd-9fa6-177d922034d2#victim@site.com"
               ]
             }
           }
@@ -50,7 +50,7 @@
       },
       {
         "auto_collapse": false,
-        "body": "victim@site.com\nhttps://randomsite.com/index.html#victim@site.com",
+        "body": "victim@site.com\nhttps://firebasestorage.googleapis.com/v0/b/111111111-11111.firebasestorage.app/o/111111111111.html?alt=media&amp;token=a0e26c35-0f20-43fd-9fa6-177d922034d2#victim@site.com",
         "body_config": {},
         "body_format": "TEXT",
         "classification": "TLP:C",
@@ -59,12 +59,14 @@
           "attack_ids": [],
           "frequency": 1,
           "heur_id": 4,
-          "score": 0,
+          "score": 500,
           "score_map": {
-            "contains_email": 0
+            "contains_email": 0,
+            "email_with_shady_site": 500
           },
           "signatures": {
-            "contains_email": 1
+            "contains_email": 1,
+            "email_with_shady_site": 1
           }
         },
         "promote_to": null,
@@ -77,7 +79,7 @@
             },
             "static": {
               "uri": [
-                "https://randomsite.com/index.html#victim@site.com"
+                "https://firebasestorage.googleapis.com/v0/b/111111111-11111.firebasestorage.app/o/111111111111.html?alt=media&amp;token=a0e26c35-0f20-43fd-9fa6-177d922034d2#victim@site.com"
               ]
             }
           }
@@ -130,15 +132,15 @@
             },
             "static": {
               "domain": [
-                "randomsite.com"
+                "firebasestorage.googleapis.com"
               ],
               "uri": [
-                "https://randomsite.com/index.html#victim@site.com"
+                "https://firebasestorage.googleapis.com/v0/b/111111111-11111.firebasestorage.app/o/111111111111.html?alt=media&amp;token=a0e26c35-0f20-43fd-9fa6-177d922034d2#victim@site.com"
               ]
             }
           }
         },
-        "title_text": "https://randomsite.com/index.html#victim@site.com",
+        "title_text": "https://firebasestorage.googleapis.com/v0/b/111111111-11111.firebasestorage.app/o/111111111111.html?alt=media&amp;token=a0e26c35...",
         "zeroize_on_tag_safe": false
       }
     ]
@@ -160,7 +162,8 @@
         "attack_ids": [],
         "heur_id": 4,
         "signatures": [
-          "contains_email"
+          "contains_email",
+          "email_with_shady_site"
         ]
       }
     ],
@@ -169,7 +172,8 @@
         {
           "heur_id": 4,
           "signatures": [
-            "contains_email"
+            "contains_email",
+            "email_with_shady_site"
           ],
           "value": "victim@site.com"
         },
@@ -183,28 +187,29 @@
         {
           "heur_id": null,
           "signatures": [],
-          "value": "randomsite.com"
+          "value": "firebasestorage.googleapis.com"
         }
       ],
       "network.static.uri": [
         {
           "heur_id": 4,
           "signatures": [
-            "contains_email"
+            "shady_sites"
           ],
-          "value": "https://randomsite.com/index.html#victim@site.com"
-        },
-        {
-          "heur_id": null,
-          "signatures": [],
-          "value": "https://randomsite.com/index.html#victim@site.com"
+          "value": "https://firebasestorage.googleapis.com/v0/b/111111111-11111.firebasestorage.app/o/111111111111.html?alt=media&amp;token=a0e26c35-0f20-43fd-9fa6-177d922034d2#victim@site.com"
         },
         {
           "heur_id": 4,
           "signatures": [
-            "shady_sites"
+            "contains_email",
+            "email_with_shady_site"
           ],
-          "value": "https://website-ipfs.com/ipfs/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg/index.html#"
+          "value": "https://firebasestorage.googleapis.com/v0/b/111111111-11111.firebasestorage.app/o/111111111111.html?alt=media&amp;token=a0e26c35-0f20-43fd-9fa6-177d922034d2#victim@site.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://firebasestorage.googleapis.com/v0/b/111111111-11111.firebasestorage.app/o/111111111111.html?alt=media&amp;token=a0e26c35-0f20-43fd-9fa6-177d922034d2#victim@site.com"
         }
       ]
     },

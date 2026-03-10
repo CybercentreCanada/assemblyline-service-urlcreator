@@ -4,7 +4,7 @@
     "score": 500,
     "sections": [
       {
-        "auto_collapse": false,
+        "auto_collapse": true,
         "body": "https://ipfs.io/ipfs/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg#victim@site.com",
         "body_config": {},
         "body_format": "TEXT",
@@ -16,10 +16,10 @@
           "heur_id": 4,
           "score": 0,
           "score_map": {
-            "ipfs_lookalike": 0
+            "shady_sites": 0
           },
           "signatures": {
-            "ipfs_lookalike": 1
+            "shady_sites": 1
           }
         },
         "promote_to": null,
@@ -32,7 +32,7 @@
             }
           }
         },
-        "title_text": "Behaviour ipfs_lookalike found",
+        "title_text": "Behaviour shady_sites found",
         "zeroize_on_tag_safe": false
       },
       {
@@ -62,11 +62,11 @@
           "score": 500,
           "score_map": {
             "contains_email": 0,
-            "email_with_ipfs_lookalike": 500
+            "email_with_shady_site": 500
           },
           "signatures": {
             "contains_email": 1,
-            "email_with_ipfs_lookalike": 1
+            "email_with_shady_site": 1
           }
         },
         "promote_to": null,
@@ -235,7 +235,7 @@
         "attack_ids": [],
         "heur_id": 4,
         "signatures": [
-          "ipfs_lookalike"
+          "shady_sites"
         ]
       },
       {
@@ -243,7 +243,7 @@
         "heur_id": 4,
         "signatures": [
           "contains_email",
-          "email_with_ipfs_lookalike"
+          "email_with_shady_site"
         ]
       },
       {
@@ -272,7 +272,7 @@
           "heur_id": 4,
           "signatures": [
             "contains_email",
-            "email_with_ipfs_lookalike"
+            "email_with_shady_site"
           ],
           "value": "victim@site.com"
         },
@@ -310,7 +310,7 @@
         {
           "heur_id": 4,
           "signatures": [
-            "ipfs_lookalike"
+            "shady_sites"
           ],
           "value": "https://ipfs.io/ipfs/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg#victim@site.com"
         },
@@ -318,7 +318,7 @@
           "heur_id": 4,
           "signatures": [
             "contains_email",
-            "email_with_ipfs_lookalike"
+            "email_with_shady_site"
           ],
           "value": "https://ipfs.io/ipfs/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg#victim@site.com"
         },

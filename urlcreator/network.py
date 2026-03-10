@@ -129,7 +129,7 @@ def potential_ip_download_behaviour(items):
     return potential_ip_download
 
 
-def contains_email_behaviour(emails, ipfs_lookalikes=[], php_targets=[]):
+def contains_email_behaviour(emails, shady_sites=[], php_targets=[]):
     contain_email_section = ResultTextSection(title_text="Email Address Found in URI")
     for email, urls in emails:
         title = email
@@ -144,8 +144,8 @@ def contains_email_behaviour(emails, ipfs_lookalikes=[], php_targets=[]):
         for url in urls:
             sub_contain_email_section.add_line(url)
             sub_contain_email_section.add_tag("network.static.uri", url)
-        if any(url in ipfs_lookalikes for url in urls):
-            sub_contain_email_section.heuristic.add_signature_id("email_with_ipfs_lookalike", 500)
+        if any(url in shady_sites for url in urls):
+            sub_contain_email_section.heuristic.add_signature_id("email_with_shady_site", 500)
         if any(url in php_targets for url in urls):
             sub_contain_email_section.heuristic.add_signature_id("email_with_php_target", 0)
     return contain_email_section
@@ -161,7 +161,7 @@ BEHAVIOURS = {
     "potential_ip_download": potential_ip_download_behaviour,
     "shorteners": lambda uris: generic_behaviour(uris, "shorteners", 4, 0),
     "contains_email": contains_email_behaviour,
-    "ipfs_lookalike": lambda uris: generic_behaviour(uris, "ipfs_lookalike", 4, 0),
+    "shady_sites": lambda uris: generic_behaviour(uris, "shady_sites", 4, 0),
 }
 
 
@@ -178,7 +178,7 @@ class BehaviourDict(defaultdict):
             "potential_ip_download": list,
             "shorteners": set,
             "contains_email": list,
-            "ipfs_lookalike": list,
+            "shady_sites": list,
             "php_target": list,
         }
 
@@ -597,11 +597,21 @@ def url_analysis(
             or b"-ipfs-" in host.value
         )
     ):
-        flagged_behaviours["ipfs_lookalike"].append(url)
-    elif path and re.search(b"(ipfs|ipns|ipld|ipldns|ipfs)/[a-zA-Z0-9]{46}", path.value):
-        flagged_behaviours["ipfs_lookalike"].append(url)
-    elif fragment and re.search(b"(ipfs|ipns|ipld|ipldns|ipfs)/[a-zA-Z0-9]{46}", fragment.value):
-        flagged_behaviours["ipfs_lookalike"].append(url)
+        flagged_behaviours["shady_sites"].append(url)
+    elif path and re.search(b"(ipfs|ipns|ipld|ipldns|ipfs)/[a-zA-Z0-9]{30,60}", path.value):
+        flagged_behaviours["shady_sites"].append(url)
+    elif fragment and re.search(b"(ipfs|ipns|ipld|ipldns|ipfs)/[a-zA-Z0-9]{30,60}", fragment.value):
+        flagged_behaviours["shady_sites"].append(url)
+
+    # Check for firebase storage domains which are commonly used for malware hosting due to their free and easy to use
+    # nature, as well as their integration with the popular Firebase platform which is often abused by threat actors
+    # or C2 infrastructure.
+    if (
+        host
+        and host.type == "network.domain"
+        and (host.value == b"firebasestorage.googleapis.com" or host.value.endswith(b".firebasestorage.googleapis.com"))
+    ):
+        flagged_behaviours["shady_sites"].append(url)
 
     if path and path.value.endswith(b".php"):
         flagged_behaviours["php_target"].append(url)

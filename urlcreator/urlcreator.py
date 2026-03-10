@@ -140,19 +140,20 @@ class URLCreator(ServiceBase):
             tool_table = urlcreator.network.BEHAVIOURS["tool_path"](flagged_behaviours.pop("tool_path"))
             request.result.add_section(tool_table)
 
-        ipfs_lookalikes = []
-        if "ipfs_lookalike" in flagged_behaviours:
-            ipfs_lookalikes = flagged_behaviours.pop("ipfs_lookalike")
-            ipfs_table = urlcreator.network.BEHAVIOURS["ipfs_lookalike"](ipfs_lookalikes)
-            request.result.add_section(ipfs_table)
+        shady_sites = []
+        if "shady_sites" in flagged_behaviours:
+            shady_sites = flagged_behaviours.pop("shady_sites")
+            shady_sites_section = urlcreator.network.BEHAVIOURS["shady_sites"](shady_sites)
+            shady_sites_section.auto_collapse = True
+            request.result.add_section(shady_sites_section)
         php_targets = []
         if "php_target" in flagged_behaviours:
             php_targets = flagged_behaviours.pop("php_target")
 
         if "contains_email" in flagged_behaviours:
             emails = flagged_behaviours.pop("contains_email")
-            contain_email_table = urlcreator.network.BEHAVIOURS["contains_email"](emails, ipfs_lookalikes, php_targets)
-            request.result.add_section(contain_email_table)
+            contain_email_section = urlcreator.network.BEHAVIOURS["contains_email"](emails, shady_sites, php_targets)
+            request.result.add_section(contain_email_section)
         if max_extracted_section.body:
             request.result.add_section(max_extracted_section)
 
