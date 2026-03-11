@@ -5,6 +5,24 @@
             "short_type": "URI",
             "value": "https://website.com/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg#victim@site.com",
             "score": 0
+        },
+        {
+            "type": "network.static.uri",
+            "short_type": "URI",
+            "value": "https://website.com/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg#dmljdGltMkBzb21lLXNpdGUuY29t",
+            "score": 0
+        },
+        {
+            "type": "network.static.uri",
+            "short_type": "URI",
+            "value": "https://website.com/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg#$dmljdGltM0Bzb21lLXNpdGUuY29t",
+            "score": 0
+        },
+        {
+            "type": "network.static.uri",
+            "short_type": "URI",
+            "value": "https://website.com/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg@/$dmljdGltNEBzb21lLXNpdGUuY29t",
+            "score": 0
         }
     ]
 }

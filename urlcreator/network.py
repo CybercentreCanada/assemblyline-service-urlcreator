@@ -619,6 +619,15 @@ def url_analysis(
     if path and path.value.endswith(b".php"):
         flagged_behaviours["php_target"].append(url)
 
+    # Analyze path, but only for specific obfuscations
+    if path:
+        scan_result = md.scan_node(path)
+        if scan_result.children:
+            # Something was found while analyzing
+            for child in scan_result.children:
+                if child.obfuscation == "encoding.base64":
+                    add_MD_results_to_table(child)
+
     # Analyze query/fragment
     for segment in [query, fragment]:
         if segment:
