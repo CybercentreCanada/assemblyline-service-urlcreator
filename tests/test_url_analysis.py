@@ -493,7 +493,13 @@ def test_inner_behaviour():
                 "IP_VERSION": "4",
                 "PATH": "/path.exe",
             }
-        ]
+        ],
+        "shady_sites": [
+            (
+                "https://1.1.1.1/path.exe",
+                "ip",
+            ),
+        ],
     }
     assert network_iocs == {"uri": ["https://1.1.1.1/path.exe"], "domain": [], "ip": ["1.1.1.1"]}
     assert res_section.tags == {
