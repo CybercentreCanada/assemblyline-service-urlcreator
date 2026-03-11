@@ -1,7 +1,4 @@
 {
-    "submission_params": {
-        "minimum_maliciousness": 50
-    },
     "tags": [
         {
             "short_type": "unc_path",
