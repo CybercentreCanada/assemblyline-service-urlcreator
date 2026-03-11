@@ -1,0 +1,10 @@
+{
+    "tags": [
+        {
+            "type": "network.static.uri",
+            "short_type": "URI",
+            "value": "https://1.2.3.4/index.php?who=victim@site.com",
+            "score": 0
+        }
+    ]
+}

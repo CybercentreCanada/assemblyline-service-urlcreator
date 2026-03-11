@@ -140,12 +140,12 @@ class URLCreator(ServiceBase):
             tool_table = urlcreator.network.BEHAVIOURS["tool_path"](flagged_behaviours.pop("tool_path"))
             request.result.add_section(tool_table)
 
-        shady_sites = []
+        shady_sites = defaultdict(list)
         if "shady_sites" in flagged_behaviours:
-            shady_sites = flagged_behaviours.pop("shady_sites")
-            shady_sites_section = urlcreator.network.BEHAVIOURS["shady_sites"](shady_sites)
-            shady_sites_section.auto_collapse = True
-            request.result.add_section(shady_sites_section)
+            values = flagged_behaviours.pop("shady_sites")
+            for url, site_type in values:
+                shady_sites[site_type].append(url)
+
         php_targets = []
         if "php_target" in flagged_behaviours:
             php_targets = flagged_behaviours.pop("php_target")

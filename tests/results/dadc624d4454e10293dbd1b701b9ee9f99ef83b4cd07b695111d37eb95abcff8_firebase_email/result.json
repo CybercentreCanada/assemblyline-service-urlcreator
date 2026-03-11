@@ -4,38 +4,6 @@
     "score": 500,
     "sections": [
       {
-        "auto_collapse": true,
-        "body": "https://firebasestorage.googleapis.com/v0/b/111111111-11111.firebasestorage.app/o/111111111111.html?alt=media&amp;token=a0e26c35-0f20-43fd-9fa6-177d922034d2#victim@site.com",
-        "body_config": {},
-        "body_format": "TEXT",
-        "classification": "TLP:C",
-        "depth": 0,
-        "heuristic": {
-          "attack_ids": [],
-          "frequency": 1,
-          "heur_id": 4,
-          "score": 0,
-          "score_map": {
-            "shady_sites": 0
-          },
-          "signatures": {
-            "shady_sites": 1
-          }
-        },
-        "promote_to": null,
-        "tags": {
-          "network": {
-            "static": {
-              "uri": [
-                "https://firebasestorage.googleapis.com/v0/b/111111111-11111.firebasestorage.app/o/111111111111.html?alt=media&amp;token=a0e26c35-0f20-43fd-9fa6-177d922034d2#victim@site.com"
-              ]
-            }
-          }
-        },
-        "title_text": "Behaviour shady_sites found",
-        "zeroize_on_tag_safe": false
-      },
-      {
         "auto_collapse": false,
         "body": null,
         "body_config": {},
@@ -62,11 +30,11 @@
           "score": 500,
           "score_map": {
             "contains_email": 0,
-            "email_with_shady_site": 500
+            "email_with_firebase_shady_site": 500
           },
           "signatures": {
             "contains_email": 1,
-            "email_with_shady_site": 1
+            "email_with_firebase_shady_site": 1
           }
         },
         "promote_to": null,
@@ -155,15 +123,8 @@
         "attack_ids": [],
         "heur_id": 4,
         "signatures": [
-          "shady_sites"
-        ]
-      },
-      {
-        "attack_ids": [],
-        "heur_id": 4,
-        "signatures": [
           "contains_email",
-          "email_with_shady_site"
+          "email_with_firebase_shady_site"
         ]
       }
     ],
@@ -173,7 +134,7 @@
           "heur_id": 4,
           "signatures": [
             "contains_email",
-            "email_with_shady_site"
+            "email_with_firebase_shady_site"
           ],
           "value": "victim@site.com"
         },
@@ -194,15 +155,8 @@
         {
           "heur_id": 4,
           "signatures": [
-            "shady_sites"
-          ],
-          "value": "https://firebasestorage.googleapis.com/v0/b/111111111-11111.firebasestorage.app/o/111111111111.html?alt=media&amp;token=a0e26c35-0f20-43fd-9fa6-177d922034d2#victim@site.com"
-        },
-        {
-          "heur_id": 4,
-          "signatures": [
             "contains_email",
-            "email_with_shady_site"
+            "email_with_firebase_shady_site"
           ],
           "value": "https://firebasestorage.googleapis.com/v0/b/111111111-11111.firebasestorage.app/o/111111111111.html?alt=media&amp;token=a0e26c35-0f20-43fd-9fa6-177d922034d2#victim@site.com"
         },

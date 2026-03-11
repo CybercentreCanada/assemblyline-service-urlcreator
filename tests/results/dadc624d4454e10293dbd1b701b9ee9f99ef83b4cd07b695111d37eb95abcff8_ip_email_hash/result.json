@@ -5,6 +5,53 @@
     "sections": [
       {
         "auto_collapse": false,
+        "body": [
+          {
+            "HOSTNAME": "1.2.3.4",
+            "IP_VERSION": "4",
+            "PATH": "/index.php",
+            "URL": "https://1.2.3.4/index.php?who=victim@site.com"
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "URL",
+            "HOSTNAME",
+            "IP_VERSION",
+            "PATH"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 0,
+        "heuristic": {
+          "attack_ids": [],
+          "frequency": 1,
+          "heur_id": 1,
+          "score": 0,
+          "score_map": {},
+          "signatures": {
+            "ipv4": 1
+          }
+        },
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "ip": [
+                "1.2.3.4"
+              ],
+              "uri": [
+                "https://1.2.3.4/index.php?who=victim@site.com"
+              ]
+            }
+          }
+        },
+        "title_text": "Potential IP-related File Downloads",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
         "body": null,
         "body_config": {},
         "body_format": "TEXT",
@@ -18,7 +65,7 @@
       },
       {
         "auto_collapse": false,
-        "body": "victim@site.com\nhttps://chromelewebkitgeckocriosmobilevender-sjg6ufgg-englishroadr.ipfs.website.app/vxgo4kiuum3b-something.html?eta=victim@site.com",
+        "body": "victim@site.com\nhttps://1.2.3.4/index.php?who=victim@site.com",
         "body_config": {},
         "body_format": "TEXT",
         "classification": "TLP:C",
@@ -30,11 +77,13 @@
           "score": 500,
           "score_map": {
             "contains_email": 0,
-            "email_with_ipfs_shady_site": 500
+            "email_with_ip_shady_site": 500,
+            "email_with_php_target": 0
           },
           "signatures": {
             "contains_email": 1,
-            "email_with_ipfs_shady_site": 1
+            "email_with_ip_shady_site": 1,
+            "email_with_php_target": 1
           }
         },
         "promote_to": null,
@@ -47,7 +96,7 @@
             },
             "static": {
               "uri": [
-                "https://chromelewebkitgeckocriosmobilevender-sjg6ufgg-englishroadr.ipfs.website.app/vxgo4kiuum3b-something.html?eta=victim@site.com"
+                "https://1.2.3.4/index.php?who=victim@site.com"
               ]
             }
           }
@@ -74,7 +123,7 @@
           {
             "COMPONENT": "QUERY",
             "DECODED STRING": "victim@site.com",
-            "ENCODED STRING": "eta=victim@site.com",
+            "ENCODED STRING": "who=victim@site.com",
             "OBFUSCATION": ""
           }
         ],
@@ -99,32 +148,45 @@
               ]
             },
             "static": {
-              "domain": [
-                "chromelewebkitgeckocriosmobilevender-sjg6ufgg-englishroadr.ipfs.website.app"
+              "ip": [
+                "1.2.3.4"
               ],
               "uri": [
-                "https://chromelewebkitgeckocriosmobilevender-sjg6ufgg-englishroadr.ipfs.website.app/vxgo4kiuum3b-something.html?eta=victim@site.com"
+                "https://1.2.3.4/index.php?who=victim@site.com"
               ]
             }
           }
         },
-        "title_text": "https://chromelewebkitgeckocriosmobilevender-sjg6ufgg-englishroadr.ipfs.website.app/vxgo4kiuum3b-something.html?eta=victim@site....",
+        "title_text": "https://1.2.3.4/index.php?who=victim@site.com",
         "zeroize_on_tag_safe": false
       }
     ]
   },
   "files": {
-    "extracted": [],
+    "extracted": [
+      {
+        "name": "https://1.2.3.4/index.php?who=victim@site.com",
+        "sha256": "f523d97933b0e9be0e85d622203405136627d08a26cb5947700ebf9b7b773d27"
+      }
+    ],
     "supplementary": []
   },
   "results": {
     "heuristics": [
       {
         "attack_ids": [],
+        "heur_id": 1,
+        "signatures": [
+          "ipv4"
+        ]
+      },
+      {
+        "attack_ids": [],
         "heur_id": 4,
         "signatures": [
           "contains_email",
-          "email_with_ipfs_shady_site"
+          "email_with_ip_shady_site",
+          "email_with_php_target"
         ]
       }
     ],
@@ -134,7 +196,8 @@
           "heur_id": 4,
           "signatures": [
             "contains_email",
-            "email_with_ipfs_shady_site"
+            "email_with_ip_shady_site",
+            "email_with_php_target"
           ],
           "value": "victim@site.com"
         },
@@ -144,26 +207,41 @@
           "value": "victim@site.com"
         }
       ],
-      "network.static.domain": [
+      "network.static.ip": [
+        {
+          "heur_id": 1,
+          "signatures": [
+            "ipv4"
+          ],
+          "value": "1.2.3.4"
+        },
         {
           "heur_id": null,
           "signatures": [],
-          "value": "chromelewebkitgeckocriosmobilevender-sjg6ufgg-englishroadr.ipfs.website.app"
+          "value": "1.2.3.4"
         }
       ],
       "network.static.uri": [
         {
+          "heur_id": 1,
+          "signatures": [
+            "ipv4"
+          ],
+          "value": "https://1.2.3.4/index.php?who=victim@site.com"
+        },
+        {
           "heur_id": 4,
           "signatures": [
             "contains_email",
-            "email_with_ipfs_shady_site"
+            "email_with_ip_shady_site",
+            "email_with_php_target"
           ],
-          "value": "https://chromelewebkitgeckocriosmobilevender-sjg6ufgg-englishroadr.ipfs.website.app/vxgo4kiuum3b-something.html?eta=victim@site.com"
+          "value": "https://1.2.3.4/index.php?who=victim@site.com"
         },
         {
           "heur_id": null,
           "signatures": [],
-          "value": "https://chromelewebkitgeckocriosmobilevender-sjg6ufgg-englishroadr.ipfs.website.app/vxgo4kiuum3b-something.html?eta=victim@site.com"
+          "value": "https://1.2.3.4/index.php?who=victim@site.com"
         }
       ]
     },

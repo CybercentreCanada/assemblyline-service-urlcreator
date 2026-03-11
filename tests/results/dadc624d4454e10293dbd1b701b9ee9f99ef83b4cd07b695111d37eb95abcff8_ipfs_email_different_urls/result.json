@@ -4,38 +4,6 @@
     "score": 0,
     "sections": [
       {
-        "auto_collapse": true,
-        "body": "https://website-ipfs.com/ipfs/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg/index.html#",
-        "body_config": {},
-        "body_format": "TEXT",
-        "classification": "TLP:C",
-        "depth": 0,
-        "heuristic": {
-          "attack_ids": [],
-          "frequency": 1,
-          "heur_id": 4,
-          "score": 0,
-          "score_map": {
-            "shady_sites": 0
-          },
-          "signatures": {
-            "shady_sites": 1
-          }
-        },
-        "promote_to": null,
-        "tags": {
-          "network": {
-            "static": {
-              "uri": [
-                "https://website-ipfs.com/ipfs/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg/index.html#"
-              ]
-            }
-          }
-        },
-        "title_text": "Behaviour shady_sites found",
-        "zeroize_on_tag_safe": false
-      },
-      {
         "auto_collapse": false,
         "body": null,
         "body_config": {},
@@ -153,13 +121,6 @@
         "attack_ids": [],
         "heur_id": 4,
         "signatures": [
-          "shady_sites"
-        ]
-      },
-      {
-        "attack_ids": [],
-        "heur_id": 4,
-        "signatures": [
           "contains_email"
         ]
       }
@@ -198,13 +159,6 @@
           "heur_id": null,
           "signatures": [],
           "value": "https://randomsite.com/index.html#victim@site.com"
-        },
-        {
-          "heur_id": 4,
-          "signatures": [
-            "shady_sites"
-          ],
-          "value": "https://website-ipfs.com/ipfs/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg/index.html#"
         }
       ]
     },

@@ -4,39 +4,6 @@
     "score": 1000,
     "sections": [
       {
-        "auto_collapse": true,
-        "body": "https://storry.tv/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg#victim@site.com\nhttps://sub.storry.tv/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg#victim@site.com",
-        "body_config": {},
-        "body_format": "TEXT",
-        "classification": "TLP:C",
-        "depth": 0,
-        "heuristic": {
-          "attack_ids": [],
-          "frequency": 1,
-          "heur_id": 4,
-          "score": 0,
-          "score_map": {
-            "shady_sites": 0
-          },
-          "signatures": {
-            "shady_sites": 1
-          }
-        },
-        "promote_to": null,
-        "tags": {
-          "network": {
-            "static": {
-              "uri": [
-                "https://storry.tv/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg#victim@site.com",
-                "https://sub.storry.tv/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg#victim@site.com"
-              ]
-            }
-          }
-        },
-        "title_text": "Behaviour shady_sites found",
-        "zeroize_on_tag_safe": false
-      },
-      {
         "auto_collapse": false,
         "body": null,
         "body_config": {},
@@ -63,11 +30,11 @@
           "score": 500,
           "score_map": {
             "contains_email": 0,
-            "email_with_shady_site": 500
+            "email_with_ipfs_shady_site": 500
           },
           "signatures": {
             "contains_email": 1,
-            "email_with_shady_site": 1
+            "email_with_ipfs_shady_site": 1
           }
         },
         "promote_to": null,
@@ -102,11 +69,11 @@
           "score": 500,
           "score_map": {
             "contains_email": 0,
-            "email_with_shady_site": 500
+            "email_with_ipfs_shady_site": 500
           },
           "signatures": {
             "contains_email": 1,
-            "email_with_shady_site": 1
+            "email_with_ipfs_shady_site": 1
           }
         },
         "promote_to": null,
@@ -318,7 +285,8 @@
         "attack_ids": [],
         "heur_id": 4,
         "signatures": [
-          "shady_sites"
+          "contains_email",
+          "email_with_ipfs_shady_site"
         ]
       },
       {
@@ -326,15 +294,7 @@
         "heur_id": 4,
         "signatures": [
           "contains_email",
-          "email_with_shady_site"
-        ]
-      },
-      {
-        "attack_ids": [],
-        "heur_id": 4,
-        "signatures": [
-          "contains_email",
-          "email_with_shady_site"
+          "email_with_ipfs_shady_site"
         ]
       },
       {
@@ -351,7 +311,7 @@
           "heur_id": 4,
           "signatures": [
             "contains_email",
-            "email_with_shady_site"
+            "email_with_ipfs_shady_site"
           ],
           "value": "victim@site.com"
         },
@@ -359,7 +319,7 @@
           "heur_id": 4,
           "signatures": [
             "contains_email",
-            "email_with_shady_site"
+            "email_with_ipfs_shady_site"
           ],
           "value": "victim@site.com"
         },
@@ -419,15 +379,8 @@
         {
           "heur_id": 4,
           "signatures": [
-            "shady_sites"
-          ],
-          "value": "https://storry.tv/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg#victim@site.com"
-        },
-        {
-          "heur_id": 4,
-          "signatures": [
             "contains_email",
-            "email_with_shady_site"
+            "email_with_ipfs_shady_site"
           ],
           "value": "https://storry.tv/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg#victim@site.com"
         },
@@ -439,15 +392,8 @@
         {
           "heur_id": 4,
           "signatures": [
-            "shady_sites"
-          ],
-          "value": "https://sub.storry.tv/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg#victim@site.com"
-        },
-        {
-          "heur_id": 4,
-          "signatures": [
             "contains_email",
-            "email_with_shady_site"
+            "email_with_ipfs_shady_site"
           ],
           "value": "https://sub.storry.tv/abcABCbacABadlkdjASkdhLAISHUFalsbfhAsfgAJfgajfgafg#victim@site.com"
         },
