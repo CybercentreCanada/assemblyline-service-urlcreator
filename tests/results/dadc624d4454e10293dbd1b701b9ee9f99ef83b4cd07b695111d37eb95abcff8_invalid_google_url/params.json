@@ -1,0 +1,10 @@
+{
+    "tags": [
+        {
+            "type": "network.static.uri",
+            "short_type": "URI",
+            "value": "https://website.com/page.html?referrer=aHR0cHM6Ly93d3cuZ29vZ2xlLmNvbS91cmw",
+            "score": 0
+        }
+    ]
+}

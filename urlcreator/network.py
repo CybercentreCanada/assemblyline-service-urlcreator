@@ -562,6 +562,8 @@ def url_analysis(
             b"google" in host.value
             and any(host.value.endswith(domain.encode()) for domain in GOOGLE_DOMAINS)
             and path.value == b"/url"
+            and query
+            and b"q=" in query.value
         ):
             # In the wild examples showed that some information could be contained in the fragment, so we want to keep
             # the full URI for the redirection, instead of only the part contained in the query.
