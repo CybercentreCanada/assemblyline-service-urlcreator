@@ -72,9 +72,9 @@
         "auto_collapse": false,
         "body": [
           {
-            "COMPONENT": "QUERY",
+            "COMPONENT": "URL",
             "DECODED STRING": "https://www.google.com/travel/clk?pc=DATADATADATADATADATADATA&pcurl=https%3A%2F%2Fbad2.com%2F%3Fparam%3Dphishing%40victim.com",
-            "ENCODED STRING": "hl=en&amp;q=https://www.google.com/travel/clk?pc=DATADATADATADATADATADATA&pcurl=https%3A%2F%2Fbad2.com%2F%3Fparam%3Dphishing%40victim.com",
+            "ENCODED STRING": "https://www.google.com/url?hl=en&amp;q=https://www.google.com/travel/clk?pc%3DDATADATADATADATADATADATA%26pcurl%3Dhttps%253A%252F%252Fbad2.com%252F%253Fparam%253Dphishing%2540victim.com",
             "OBFUSCATION": "encoding.url"
           }
         ],
@@ -109,11 +109,32 @@
       },
       {
         "auto_collapse": false,
+        "body": "Possible abuse of Google url's open redirect to https://www.google.com/travel/clk?pc=DATADATADATADATADATADATA&pcurl=https%3A%2F%2Fbad2.com%2F%3Fparam%3Dphishing%40victim.com",
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 2,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "uri": [
+                "https://www.google.com/travel/clk?pc=DATADATADATADATADATADATA&pcurl=https%3A%2F%2Fbad2.com%2F%3Fparam%3Dphishing%40victim.com"
+              ]
+            }
+          }
+        },
+        "title_text": "Open Redirect",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
         "body": [
           {
-            "COMPONENT": "QUERY",
+            "COMPONENT": "URL",
             "DECODED STRING": "https://bad2.com/?param=phishing@victim.com",
-            "ENCODED STRING": "pc=DATADATADATADATADATADATA&pcurl=https://bad2.com/?param=phishing@victim.com",
+            "ENCODED STRING": "https://www.google.com/travel/clk?pc=DATADATADATADATADATADATA&pcurl=https%3A%2F%2Fbad2.com%2F%3Fparam%3Dphishing%40victim.com",
             "OBFUSCATION": "encoding.url"
           }
         ],
@@ -292,6 +313,11 @@
           "signatures": [
             "contains_email"
           ],
+          "value": "https://www.google.com/travel/clk?pc=DATADATADATADATADATADATA&pcurl=https%3A%2F%2Fbad2.com%2F%3Fparam%3Dphishing%40victim.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
           "value": "https://www.google.com/travel/clk?pc=DATADATADATADATADATADATA&pcurl=https%3A%2F%2Fbad2.com%2F%3Fparam%3Dphishing%40victim.com"
         },
         {

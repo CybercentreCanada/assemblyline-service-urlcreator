@@ -43,7 +43,8 @@
           "network": {
             "static": {
               "domain": [
-                "urldefense.com"
+                "urldefense.com",
+                "someredirector.com"
               ],
               "uri": [
                 "https://urldefense.com/v3/__https://someredirector.com/CL0/https:*2F*2Furldefense.us*2Fv3*2F__https:*2F*2Fsomeredirector.com*2FCL0*2Fhttps:*2F*2Fbad.com*2Fdownload*2Fme*2Fmalware.exe__;JSUlJSUl!!IDKwhatThisisFor!IDKwhatThisisFor*25IDKwhatThisisFor__;JSUlJSUlJSUqKioqKiolJSUl!!IDKwhatThisisFor!IDKwhatThisisFor",
@@ -121,7 +122,8 @@
           "network": {
             "static": {
               "domain": [
-                "urldefense.us"
+                "urldefense.us",
+                "someredirector.com"
               ],
               "uri": [
                 "https://urldefense.us/v3/__https://someredirector.com/CL0/https:*2F*2Fbad.com*2Fdownload*2Fme*2Fmalware.exe__;JSUlJSUl!!IDKwhatThisisFor!IDKwhatThisisFor*25IDKwhatThisisFor",
@@ -182,6 +184,16 @@
     "heuristics": [],
     "tags": {
       "network.static.domain": [
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "someredirector.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "someredirector.com"
+        },
         {
           "heur_id": null,
           "signatures": [],

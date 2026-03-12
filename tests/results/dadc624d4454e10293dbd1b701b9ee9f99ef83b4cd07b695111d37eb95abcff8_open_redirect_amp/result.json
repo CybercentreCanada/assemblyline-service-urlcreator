@@ -43,7 +43,8 @@
           "network": {
             "static": {
               "domain": [
-                "google.com"
+                "google.com",
+                "bad.com"
               ],
               "uri": [
                 "https://google.com/amp/bad.com%2Fs%2F639234b763d00",
@@ -86,6 +87,11 @@
     "heuristics": [],
     "tags": {
       "network.static.domain": [
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "bad.com"
+        },
         {
           "heur_id": null,
           "signatures": [],

@@ -41,9 +41,9 @@ def test_corrupted_port():
     url = "https://urldefense.com/v3/__http://w:*20www.website.com__;JQ!!DATA!DATA$"
     res_section, network_iocs, behaviours = url_analysis(url)
     assert behaviours == {}
-    assert network_iocs == {"uri": ["http://w:%20www.website.com"], "domain": [], "ip": []}
+    assert network_iocs == {"uri": ["http://w:%20www.website.com"], "domain": ["w: www.website.com"], "ip": []}
     assert res_section.tags == {
-        "network.static.domain": ["urldefense.com"],
+        "network.static.domain": ["urldefense.com", "w: www.website.com"],
         "network.static.uri": [url, "http://w:%20www.website.com"],
     }
 
@@ -106,7 +106,7 @@ def test_urldefense():
             "https://something.com/some/thing/?utm_source=SOURCE",
             "https://us-east-1.awstrack.me/L0/https:%2F%2Fsomething.com%2Fsome%2Fthing%2F%3Futm_source=SOURCE",
         ],
-        "domain": [],
+        "domain": ["us-east-1.awstrack.me"],
         "ip": [],
     }
     assert res_section.tags == {
@@ -114,7 +114,7 @@ def test_urldefense():
             url,
             "https://us-east-1.awstrack.me/L0/https:%2F%2Fsomething.com%2Fsome%2Fthing%2F%3Futm_source=SOURCE",
         ],
-        "network.static.domain": ["urldefense.com"],
+        "network.static.domain": ["urldefense.com", "us-east-1.awstrack.me"],
     }
 
     url = "https://urldefense.com/v3/__https:/website.com/page.html?special=char**B&size=1m*1m*1m__;4oSiJSU!!data!data$"
@@ -240,7 +240,7 @@ def test_shorteners():
     assert behaviours == {"shorteners": {"https://bit.ly/amtrak-valentines"}}
     assert network_iocs == {
         "uri": ["https://www.usatoday.com/story/travel/2022/02/10/amtrak-deal-valentines-offer-sale/6741296001/"],
-        "domain": [],
+        "domain": ["www.usatoday.com"],
         "ip": [],
     }
     assert res_section.tags == {
@@ -248,7 +248,7 @@ def test_shorteners():
             url,
             "https://www.usatoday.com/story/travel/2022/02/10/amtrak-deal-valentines-offer-sale/6741296001/",
         ],
-        "network.static.domain": ["bit.ly"],
+        "network.static.domain": ["bit.ly", "www.usatoday.com"],
     }
 
 

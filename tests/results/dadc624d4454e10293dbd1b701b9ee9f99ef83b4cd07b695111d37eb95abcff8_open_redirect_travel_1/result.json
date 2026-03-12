@@ -71,9 +71,9 @@
         "auto_collapse": false,
         "body": [
           {
-            "COMPONENT": "QUERY",
+            "COMPONENT": "URL",
             "DECODED STRING": "https://bad1.com/?param=phishing@victim.com",
-            "ENCODED STRING": "pc=DATADATADATADATADATADATA&amp;pcurl=https://bad1.com/?param=phishing@victim.com",
+            "ENCODED STRING": "https://www.google.com/travel/clk?pc=DATADATADATADATADATADATA&amp;pcurl=https://bad1.com/?param=phishing@victim.com",
             "OBFUSCATION": "encoding.url"
           }
         ],

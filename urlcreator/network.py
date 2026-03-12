@@ -61,6 +61,9 @@ IPFS_GATEWAYS = [
   "https://ipfs.runfission.com", "https://ipfs.eth.aragon.network", "https://4everland.io", "https://w3s.link",
   "https://trustless-gateway.link", "https://ipfs.ecolatam.com",
 ]
+
+# Taken from https://www.google.com/supported_domains
+GOOGLE_DOMAINS = ".google.com .google.ad .google.ae .google.com.af .google.com.ag .google.al .google.am .google.co.ao .google.com.ar .google.as .google.at .google.com.au .google.az .google.ba .google.com.bd .google.be .google.bf .google.bg .google.com.bh .google.bi .google.bj .google.com.bn .google.com.bo .google.com.br .google.bs .google.bt .google.co.bw .google.by .google.com.bz .google.ca .google.cd .google.cf .google.cg .google.ch .google.ci .google.co.ck .google.cl .google.cm .google.cn .google.com.co .google.co.cr .google.com.cu .google.cv .google.com.cy .google.cz .google.de .google.dj .google.dk .google.dm .google.com.do .google.dz .google.com.ec .google.ee .google.com.eg .google.es .google.com.et .google.fi .google.com.fj .google.fm .google.fr .google.ga .google.ge .google.gg .google.com.gh .google.com.gi .google.gl .google.gm .google.gr .google.com.gt .google.gy .google.com.hk .google.hn .google.hr .google.ht .google.hu .google.co.id .google.ie .google.co.il .google.im .google.co.in .google.iq .google.is .google.it .google.je .google.com.jm .google.jo .google.co.jp .google.co.ke .google.com.kh .google.ki .google.kg .google.co.kr .google.com.kw .google.kz .google.la .google.com.lb .google.li .google.lk .google.co.ls .google.lt .google.lu .google.lv .google.com.ly .google.co.ma .google.md .google.me .google.mg .google.mk .google.ml .google.com.mm .google.mn .google.com.mt .google.mu .google.mv .google.mw .google.com.mx .google.com.my .google.co.mz .google.com.na .google.com.ng .google.com.ni .google.ne .google.nl .google.no .google.com.np .google.nr .google.nu .google.co.nz .google.com.om .google.com.pa .google.com.pe .google.com.pg .google.com.ph .google.com.pk .google.pl .google.pn .google.com.pr .google.ps .google.pt .google.com.py .google.com.qa .google.ro .google.ru .google.rw .google.com.sa .google.com.sb .google.sc .google.se .google.com.sg .google.sh .google.si .google.sk .google.com.sl .google.sn .google.so .google.sm .google.sr .google.st .google.com.sv .google.td .google.tg .google.co.th .google.com.tj .google.tl .google.tm .google.tn .google.to .google.com.tr .google.tt .google.com.tw .google.co.tz .google.com.ua .google.co.ug .google.co.uk .google.com.uy .google.co.uz .google.com.vc .google.co.ve .google.co.vi .google.com.vn .google.vu .google.ws .google.rs .google.co.za .google.co.zm .google.co.zw .google.cat" # noqa: E501
 # fmt: on
 
 ALL_TOOLS = set(
@@ -73,6 +76,8 @@ with open(os.path.join(pathlib.Path(__file__).parent.resolve(), "large_shortener
     SHORTENERS = [x.strip() for x in f.readlines()]
 
 IPFS_GATEWAYS = [re.sub(r"^https?://", "", x).encode() for x in IPFS_GATEWAYS]
+
+GOOGLE_DOMAINS = [x.lstrip(".") for x in GOOGLE_DOMAINS.split(" ")]
 
 
 def generic_behaviour(uris, behaviour_name, heuristic, score):
@@ -321,6 +326,18 @@ def url_analysis(
             host_node = ([node for node in result.children if node.type in ["network.ip", "network.domain"]] + [None])[
                 0
             ]
+
+            if not host_node:
+                # If the extracted URL was not generated out of Multidecoder we may not have the full parsing results.
+                # Use try/except until bugfix in MultiDecoder on parse_authority
+                try:
+                    parsed_url = parse_url(result.value)
+                    host_node: Node = (
+                        [n for n in parsed_url if n.type in ["network.ip", "network.domain"] and n.value != b""]
+                        + [None]
+                    )[0]
+                except Exception:
+                    pass
             if not host_node:
                 pass
             elif host_node.type == DOMAIN_TYPE:
@@ -495,24 +512,41 @@ def url_analysis(
         network_iocs["domain"].append(domain)
 
     # Check for open redirects
+    open_redirect_skip = set()
     if host and path and host.type == "network.domain":
         # Google Travel
-        if query and host.value.endswith(b"google.com") and path.value == b"/travel/clk":
+        if (
+            query
+            and b"google" in host.value
+            and any(host.value.endswith(domain.encode()) for domain in GOOGLE_DOMAINS)
+            and path.value == b"/travel/clk"
+        ):
             open_redirect = ResultTextSection("Open Redirect", parent=analysis_table)
             qs = parse_qs(query.value.decode())
+            pcurl = None
             if "pcurl" in qs and isinstance(qs["pcurl"], list) and len(qs["pcurl"]) == 1:
                 open_redirect.add_line(f"Possible abuse of Google travel/clk's open redirect to {qs['pcurl'][0]}")
                 open_redirect.add_tag("network.static.uri", qs["pcurl"][0])
+                pcurl = qs["pcurl"][0]
             # This shouldn't happen, but URI extraction is sometime flaky, so check for broken encoding in case
             elif "amp;pcurl" in qs and isinstance(qs["amp;pcurl"], list) and len(qs["amp;pcurl"]) == 1:
                 open_redirect.add_line(f"Possible abuse of Google travel/clk's open redirect to {qs['amp;pcurl'][0]}")
                 open_redirect.add_tag("network.static.uri", qs["amp;pcurl"][0])
+                pcurl = qs["amp;pcurl"][0]
             else:
                 open_redirect.add_line(
                     "Possible abuse of Google travel/clk's open redirect but couldn't determine redirection target"
                 )
+            if pcurl:
+                result = Node(URL_TYPE, pcurl.encode(), obfuscation="", end=len(url), parent=Node(URL_TYPE, url))
+                add_MD_results_to_table(result)
+                open_redirect_skip.add("query")
         # Google AMP
-        elif host.value.endswith(b"google.com") and path.value.startswith(b"/amp/"):
+        elif (
+            b"google" in host.value
+            and any(host.value.endswith(domain.encode()) for domain in GOOGLE_DOMAINS)
+            and path.value.startswith(b"/amp/")
+        ):
             open_redirect = ResultTextSection("Open Redirect", parent=analysis_table)
             redirect = path.value[5:]
             if redirect.startswith(b"s/"):
@@ -522,6 +556,27 @@ def url_analysis(
             open_redirect.add_tag("network.static.uri", redirect)
             result = Node(URL_TYPE, redirect.encode(), obfuscation="", end=len(url), parent=Node(URL_TYPE, url))
             add_MD_results_to_table(result)
+            open_redirect_skip.add("path")
+        # Google url
+        elif (
+            b"google" in host.value
+            and any(host.value.endswith(domain.encode()) for domain in GOOGLE_DOMAINS)
+            and path.value == b"/url"
+        ):
+            # In the wild examples showed that some information could be contained in the fragment, so we want to keep
+            # the full URI for the redirection, instead of only the part contained in the query.
+            # This is a very wrong way to handle URLs, but we'll keep it unless there are too many issues.
+            redirect = url.split("/url?", 1)[-1]
+            redirect = redirect.split("q=", 1)[-1]
+            redirect = unquote(redirect)
+            if "://" not in redirect[:10]:
+                redirect = f"{scheme}://{redirect}"
+            open_redirect = ResultTextSection("Open Redirect", parent=analysis_table)
+            open_redirect.add_line(f"Possible abuse of Google url's open redirect to {redirect}")
+            open_redirect.add_tag("network.static.uri", redirect)
+            result = Node(URL_TYPE, redirect.encode(), obfuscation="", end=len(url), parent=Node(URL_TYPE, url))
+            add_MD_results_to_table(result)
+            open_redirect_skip.update(["path", "query", "fragment"])
         # Microsoft Login
         # https://medium.com/@coyemerald/f96a8fc807b6
         elif query and host.value == b"login.microsoftonline.com" and b"post_logout_redirect_uri" in query.value:
@@ -532,18 +587,24 @@ def url_analysis(
                 and isinstance(qs["post_logout_redirect_uri"], list)
                 and len(qs["post_logout_redirect_uri"]) == 1
             ):
-                open_redirect.add_line(
-                    f"Possible abuse of Microsoft Logout's open redirect to {qs['post_logout_redirect_uri'][0]}"
-                )
-                open_redirect.add_tag("network.static.uri", qs["post_logout_redirect_uri"][0])
+                redirect = qs["post_logout_redirect_uri"][0]
+                open_redirect.add_line(f"Possible abuse of Microsoft Logout's open redirect to {redirect}")
+                open_redirect.add_tag("network.static.uri", redirect)
+                result = Node(URL_TYPE, redirect.encode(), obfuscation="", end=len(url), parent=Node(URL_TYPE, url))
+                add_MD_results_to_table(result)
+                open_redirect_skip.add("query")
         # Microsoft Medius
         # https://www.bleepingcomputer.com/news/security/threat-actors-abuse-google-amp-for-evasive-phishing-attacks/
         elif query and host.value == b"medius.microsoft.com" and path.value == b"/redirect":
             open_redirect = ResultTextSection("Open Redirect", parent=analysis_table)
             qs = parse_qs(query.value.decode())
             if "targeturl" in qs and isinstance(qs["targeturl"], list) and len(qs["targeturl"]) == 1:
-                open_redirect.add_line(f"Possible abuse of Microsoft Medius' open redirect to {qs['targeturl'][0]}")
-                open_redirect.add_tag("network.static.uri", qs["targeturl"][0])
+                redirect = qs["targeturl"][0]
+                open_redirect.add_line(f"Possible abuse of Microsoft Medius' open redirect to {redirect}")
+                open_redirect.add_tag("network.static.uri", redirect)
+                result = Node(URL_TYPE, redirect.encode(), obfuscation="", end=len(url), parent=Node(URL_TYPE, url))
+                add_MD_results_to_table(result)
+                open_redirect_skip.add("query")
         elif host.value in (
             b"urldefense.proofpoint.com",
             b"urldefense.com",
@@ -564,6 +625,7 @@ def url_analysis(
                     parent=Node(URL_TYPE, url),
                 )
                 add_MD_results_to_table(result)
+                open_redirect_skip.update(["path", "query", "fragment"])
         elif host.value == b"loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo.ong" and path:
             # Assumes the query starts with '/l' and ends with 'ng'
             encoded = path.value.decode()[2:-2].replace("O", "1").replace("o", "0")
@@ -572,6 +634,10 @@ def url_analysis(
                 decoded = decoded.replace("\x00", "")
             result = Node(URL_TYPE, decoded, obfuscation="", end=len(url), parent=Node(URL_TYPE, url))
             add_MD_results_to_table(result)
+            open_redirect_skip.add("path")
+        elif host.value.endswith(b"translate.goog"):
+            # TODO: Do this.
+            pass
         elif re.match(b"/...?/http", path.value):
             # Covers /L0/ or /CL0/ or other variations
             result = Node(
@@ -582,6 +648,7 @@ def url_analysis(
                 parent=Node(URL_TYPE, url),
             )
             add_MD_results_to_table(result)
+            open_redirect_skip.add("path")
 
     # Check for ipfs lookalike patterns in the host, path, or fragment
     if (
@@ -620,7 +687,7 @@ def url_analysis(
         flagged_behaviours["php_target"].append(url)
 
     # Analyze path, but only for specific obfuscations
-    if path:
+    if path and "path" not in open_redirect_skip:
         scan_result = md.scan_node(path)
         if scan_result.children:
             # Something was found while analyzing
@@ -629,8 +696,8 @@ def url_analysis(
                     add_MD_results_to_table(child)
 
     # Analyze query/fragment
-    for segment in [query, fragment]:
-        if segment:
+    for segment, segment_name in [(query, "query"), (fragment, "fragment")]:
+        if segment and segment_name not in open_redirect_skip:
             scan_result = md.scan_node(segment)
             if scan_result.children:
                 # Something was found while analyzing

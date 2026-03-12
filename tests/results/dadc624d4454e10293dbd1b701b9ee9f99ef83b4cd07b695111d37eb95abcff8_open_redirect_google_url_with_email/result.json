@@ -1,0 +1,471 @@
+{
+  "extra": {
+    "drop_file": false,
+    "score": 0,
+    "sections": [
+      {
+        "auto_collapse": false,
+        "body": null,
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 0,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {},
+        "title_text": "Email Address Found in URI",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": "victim@site.com\nhttps://website.com/&amp;sa=D&amp;sntz=1&amp;usg=AAAAAAA#victim@site.com\nhttps://www.google.com/url?q=https%3A%2F%2Fwebsite.com%2F&amp;sa=D&amp;sntz=1&amp;usg=AAAAAAA#victim@site.com",
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": {
+          "attack_ids": [],
+          "frequency": 1,
+          "heur_id": 4,
+          "score": 0,
+          "score_map": {
+            "contains_email": 0
+          },
+          "signatures": {
+            "contains_email": 1
+          }
+        },
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "email": {
+              "address": [
+                "victim@site.com"
+              ]
+            },
+            "static": {
+              "uri": [
+                "https://website.com/&amp;sa=D&amp;sntz=1&amp;usg=AAAAAAA#victim@site.com",
+                "https://www.google.com/url?q=https%3A%2F%2Fwebsite.com%2F&amp;sa=D&amp;sntz=1&amp;usg=AAAAAAA#victim@site.com"
+              ]
+            }
+          }
+        },
+        "title_text": "victim@site.com",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": "victim2@site.com\nhttps://website2.com/&amp;sa=D&amp;sntz=1&amp;usg=AAAAAAA#victim2@site.com\nhttps://www.google.cat/url?q=https%3A%2F%2Fwebsite2.com%2F&amp;sa=D&amp;sntz=1&amp;usg=AAAAAAA#victim2@site.com",
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": {
+          "attack_ids": [],
+          "frequency": 1,
+          "heur_id": 4,
+          "score": 0,
+          "score_map": {
+            "contains_email": 0
+          },
+          "signatures": {
+            "contains_email": 1
+          }
+        },
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "email": {
+              "address": [
+                "victim2@site.com"
+              ]
+            },
+            "static": {
+              "uri": [
+                "https://website2.com/&amp;sa=D&amp;sntz=1&amp;usg=AAAAAAA#victim2@site.com",
+                "https://www.google.cat/url?q=https%3A%2F%2Fwebsite2.com%2F&amp;sa=D&amp;sntz=1&amp;usg=AAAAAAA#victim2@site.com"
+              ]
+            }
+          }
+        },
+        "title_text": "victim2@site.com",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": null,
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 0,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {},
+        "title_text": "MultiDecoder Analysis",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "URL",
+            "DECODED STRING": "https://website.com/&amp;sa=D&amp;sntz=1&amp;usg=AAAAAAA#victim@site.com",
+            "ENCODED STRING": "https://www.google.com/url?q=https%3A%2F%2Fwebsite.com%2F&amp;sa=D&amp;sntz=1&amp;usg=AAAAAAA#victim@site.com",
+            "OBFUSCATION": "encoding.url"
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "domain": [
+                "www.google.com",
+                "website.com"
+              ],
+              "uri": [
+                "https://www.google.com/url?q=https%3A%2F%2Fwebsite.com%2F&amp;sa=D&amp;sntz=1&amp;usg=AAAAAAA#victim@site.com",
+                "https://website.com/&amp;sa=D&amp;sntz=1&amp;usg=AAAAAAA#victim@site.com"
+              ]
+            }
+          }
+        },
+        "title_text": "https://www.google.com/url?q=https%3A%2F%2Fwebsite.com%2F&amp;sa=D&amp;sntz=1&amp;usg=AAAAAAA#victim@site.com",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": "Possible abuse of Google url's open redirect to https://website.com/&amp;sa=D&amp;sntz=1&amp;usg=AAAAAAA#victim@site.com",
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 2,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "uri": [
+                "https://website.com/&amp;sa=D&amp;sntz=1&amp;usg=AAAAAAA#victim@site.com"
+              ]
+            }
+          }
+        },
+        "title_text": "Open Redirect",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "FRAGMENT",
+            "DECODED STRING": "victim@site.com",
+            "ENCODED STRING": "victim@site.com",
+            "OBFUSCATION": ""
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 2,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "email": {
+              "address": [
+                "victim@site.com"
+              ]
+            },
+            "static": {
+              "domain": [
+                "website.com"
+              ],
+              "uri": [
+                "https://website.com/&amp;sa=D&amp;sntz=1&amp;usg=AAAAAAA#victim@site.com"
+              ]
+            }
+          }
+        },
+        "title_text": "https://website.com/&amp;sa=D&amp;sntz=1&amp;usg=AAAAAAA#victim@site.com",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "URL",
+            "DECODED STRING": "https://website2.com/&amp;sa=D&amp;sntz=1&amp;usg=AAAAAAA#victim2@site.com",
+            "ENCODED STRING": "https://www.google.cat/url?q=https%3A%2F%2Fwebsite2.com%2F&amp;sa=D&amp;sntz=1&amp;usg=AAAAAAA#victim2@site.com",
+            "OBFUSCATION": "encoding.url"
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "domain": [
+                "www.google.cat",
+                "website2.com"
+              ],
+              "uri": [
+                "https://www.google.cat/url?q=https%3A%2F%2Fwebsite2.com%2F&amp;sa=D&amp;sntz=1&amp;usg=AAAAAAA#victim2@site.com",
+                "https://website2.com/&amp;sa=D&amp;sntz=1&amp;usg=AAAAAAA#victim2@site.com"
+              ]
+            }
+          }
+        },
+        "title_text": "https://www.google.cat/url?q=https%3A%2F%2Fwebsite2.com%2F&amp;sa=D&amp;sntz=1&amp;usg=AAAAAAA#victim2@site.com",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": "Possible abuse of Google url's open redirect to https://website2.com/&amp;sa=D&amp;sntz=1&amp;usg=AAAAAAA#victim2@site.com",
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 2,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "uri": [
+                "https://website2.com/&amp;sa=D&amp;sntz=1&amp;usg=AAAAAAA#victim2@site.com"
+              ]
+            }
+          }
+        },
+        "title_text": "Open Redirect",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "FRAGMENT",
+            "DECODED STRING": "victim2@site.com",
+            "ENCODED STRING": "victim2@site.com",
+            "OBFUSCATION": ""
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 2,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "email": {
+              "address": [
+                "victim2@site.com"
+              ]
+            },
+            "static": {
+              "domain": [
+                "website2.com"
+              ],
+              "uri": [
+                "https://website2.com/&amp;sa=D&amp;sntz=1&amp;usg=AAAAAAA#victim2@site.com"
+              ]
+            }
+          }
+        },
+        "title_text": "https://website2.com/&amp;sa=D&amp;sntz=1&amp;usg=AAAAAAA#victim2@site.com",
+        "zeroize_on_tag_safe": false
+      }
+    ]
+  },
+  "files": {
+    "extracted": [],
+    "supplementary": []
+  },
+  "results": {
+    "heuristics": [
+      {
+        "attack_ids": [],
+        "heur_id": 4,
+        "signatures": [
+          "contains_email"
+        ]
+      },
+      {
+        "attack_ids": [],
+        "heur_id": 4,
+        "signatures": [
+          "contains_email"
+        ]
+      }
+    ],
+    "tags": {
+      "network.email.address": [
+        {
+          "heur_id": 4,
+          "signatures": [
+            "contains_email"
+          ],
+          "value": "victim2@site.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "victim2@site.com"
+        },
+        {
+          "heur_id": 4,
+          "signatures": [
+            "contains_email"
+          ],
+          "value": "victim@site.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "victim@site.com"
+        }
+      ],
+      "network.static.domain": [
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "website.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "website.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "website2.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "website2.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "www.google.cat"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "www.google.com"
+        }
+      ],
+      "network.static.uri": [
+        {
+          "heur_id": 4,
+          "signatures": [
+            "contains_email"
+          ],
+          "value": "https://website.com/&amp;sa=D&amp;sntz=1&amp;usg=AAAAAAA#victim@site.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://website.com/&amp;sa=D&amp;sntz=1&amp;usg=AAAAAAA#victim@site.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://website.com/&amp;sa=D&amp;sntz=1&amp;usg=AAAAAAA#victim@site.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://website.com/&amp;sa=D&amp;sntz=1&amp;usg=AAAAAAA#victim@site.com"
+        },
+        {
+          "heur_id": 4,
+          "signatures": [
+            "contains_email"
+          ],
+          "value": "https://website2.com/&amp;sa=D&amp;sntz=1&amp;usg=AAAAAAA#victim2@site.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://website2.com/&amp;sa=D&amp;sntz=1&amp;usg=AAAAAAA#victim2@site.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://website2.com/&amp;sa=D&amp;sntz=1&amp;usg=AAAAAAA#victim2@site.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://website2.com/&amp;sa=D&amp;sntz=1&amp;usg=AAAAAAA#victim2@site.com"
+        },
+        {
+          "heur_id": 4,
+          "signatures": [
+            "contains_email"
+          ],
+          "value": "https://www.google.cat/url?q=https%3A%2F%2Fwebsite2.com%2F&amp;sa=D&amp;sntz=1&amp;usg=AAAAAAA#victim2@site.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://www.google.cat/url?q=https%3A%2F%2Fwebsite2.com%2F&amp;sa=D&amp;sntz=1&amp;usg=AAAAAAA#victim2@site.com"
+        },
+        {
+          "heur_id": 4,
+          "signatures": [
+            "contains_email"
+          ],
+          "value": "https://www.google.com/url?q=https%3A%2F%2Fwebsite.com%2F&amp;sa=D&amp;sntz=1&amp;usg=AAAAAAA#victim@site.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://www.google.com/url?q=https%3A%2F%2Fwebsite.com%2F&amp;sa=D&amp;sntz=1&amp;usg=AAAAAAA#victim@site.com"
+        }
+      ]
+    },
+    "temp_submission_data": {}
+  }
+}
