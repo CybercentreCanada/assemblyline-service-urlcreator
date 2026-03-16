@@ -6,7 +6,7 @@ import re
 from base64 import b64decode
 from collections import defaultdict
 from typing import Callable, Dict, List, Tuple
-from urllib.parse import parse_qs, unquote, urlsplit
+from urllib.parse import parse_qs, unquote, unquote_to_bytes, urlsplit
 
 import requests
 from assemblyline.odm.base import IP_ONLY_REGEX
@@ -329,8 +329,6 @@ def url_analysis(
             ]
 
             if not host_node:
-                # If the extracted URL was not generated out of Multidecoder we may not have the full parsing results.
-                # Use try/except until bugfix in MultiDecoder on parse_authority
                 try:
                     parsed_url = parse_url(result.value)
                     host_node: Node = (
@@ -631,11 +629,11 @@ def url_analysis(
                 open_redirect_skip.update(["path", "query", "fragment"])
         elif host.value == b"loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo.ong" and path:
             # Assumes the query starts with '/l' and ends with 'ng'
-            encoded = path.value.decode()[2:-2].replace("O", "1").replace("o", "0")
+            encoded = path.value[2:-2].replace(b"O", b"1").replace(b"o", b"0")
             decoded = "".join(chr(int(encoded[i : i + 8], 2)) for i in range(0, len(encoded), 8))
             if "\x00" in decoded:
                 decoded = decoded.replace("\x00", "")
-            result = Node(URL_TYPE, decoded, obfuscation="", end=len(url), parent=Node(URL_TYPE, url))
+            result = Node(URL_TYPE, decoded.encode(), obfuscation="", end=len(url), parent=Node(URL_TYPE, url))
             add_MD_results_to_table(result)
             open_redirect_skip.add("path")
         elif host.value.endswith(b"translate.goog"):
@@ -647,7 +645,7 @@ def url_analysis(
             # Covers /L0/ or /CL0/ or other variations
             result = Node(
                 URL_TYPE,
-                unquote(path.value.split(b"/", 2)[-1]),
+                unquote_to_bytes(path.value.split(b"/", 2)[-1]),
                 obfuscation="",
                 end=len(url),
                 parent=Node(URL_TYPE, url),

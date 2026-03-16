@@ -108,7 +108,7 @@ def test_urldefense():
             "https://something.com/some/thing/?utm_source=SOURCE",
             "https://us-east-1.awstrack.me/L0/https:%2F%2Fsomething.com%2Fsome%2Fthing%2F%3Futm_source=SOURCE",
         ],
-        "domain": ["us-east-1.awstrack.me"],
+        "domain": ["something.com", "us-east-1.awstrack.me"],
         "ip": [],
     }
     assert res_section.tags == {
@@ -212,13 +212,13 @@ def test_loooooong():
     assert network_iocs == {
         # URL to be redirected to
         "uri": ["https://google.com/"],
-        "domain": [],
+        "domain": ["google.com"],
         "ip": [],
     }
     assert res_section.tags == {
         # URL to be redirected to
         "network.static.uri": [url, "https://google.com/"],
-        "network.static.domain": ["loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo.ong"],
+        "network.static.domain": ["loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo.ong", "google.com"],
     }
 
 

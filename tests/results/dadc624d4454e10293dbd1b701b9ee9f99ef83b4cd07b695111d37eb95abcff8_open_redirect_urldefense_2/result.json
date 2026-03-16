@@ -83,7 +83,8 @@
           "network": {
             "static": {
               "domain": [
-                "someredirector.com"
+                "someredirector.com",
+                "urldefense.us"
               ],
               "uri": [
                 "https://someredirector.com/CL0/https:%2F%2Furldefense.us%2Fv3%2F__https:%2F%2Fsomeredirector.com%2FCL0%2Fhttps:*2F*2Fbad.com*2Fdownload*2Fme*2Fmalware.exe__;JSUlJSUl!!IDKwhatThisisFor!IDKwhatThisisFor*25IDKwhatThisisFor",
@@ -162,7 +163,8 @@
           "network": {
             "static": {
               "domain": [
-                "someredirector.com"
+                "someredirector.com",
+                "bad.com"
               ],
               "uri": [
                 "https://someredirector.com/CL0/https:%2F%2Fbad.com%2Fdownload%2Fme%2Fmalware.exe",
@@ -187,6 +189,11 @@
         {
           "heur_id": null,
           "signatures": [],
+          "value": "bad.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
           "value": "someredirector.com"
         },
         {
@@ -208,6 +215,11 @@
           "heur_id": null,
           "signatures": [],
           "value": "urldefense.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "urldefense.us"
         },
         {
           "heur_id": null,

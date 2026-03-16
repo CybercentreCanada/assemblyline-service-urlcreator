@@ -43,7 +43,8 @@
           "network": {
             "static": {
               "domain": [
-                "abc.eu-west-1.awstrack.me"
+                "abc.eu-west-1.awstrack.me",
+                "namedrop.io"
               ],
               "uri": [
                 "https://abc.eu-west-1.awstrack.me/L0/https:%2F%2Fnamedrop.io%2Fabc/1/guid",
@@ -69,6 +70,11 @@
           "heur_id": null,
           "signatures": [],
           "value": "abc.eu-west-1.awstrack.me"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "namedrop.io"
         }
       ],
       "network.static.uri": [

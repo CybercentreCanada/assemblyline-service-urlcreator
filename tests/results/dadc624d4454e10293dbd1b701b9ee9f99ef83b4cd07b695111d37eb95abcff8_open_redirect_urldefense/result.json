@@ -83,7 +83,8 @@
           "network": {
             "static": {
               "domain": [
-                "us-east-1.awstrack.me"
+                "us-east-1.awstrack.me",
+                "something.com"
               ],
               "uri": [
                 "https://us-east-1.awstrack.me/L0/https:%2F%2Fsomething.com%2Fsome%2Fthing%2F%3Futm_source=SOURCE",
@@ -105,6 +106,11 @@
     "heuristics": [],
     "tags": {
       "network.static.domain": [
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "something.com"
+        },
         {
           "heur_id": null,
           "signatures": [],
