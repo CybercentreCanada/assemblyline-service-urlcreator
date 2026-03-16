@@ -18,6 +18,7 @@ from multidecoder.node import Node
 from multidecoder.registry import get_analyzers
 from multidecoder.string_helper import make_bytes, make_str
 from pymispwarninglists import WarningLists
+from unidecode import unidecode
 
 import urlcreator.proofpoint
 import urlcreator.translate
@@ -450,17 +451,28 @@ def url_analysis(
     if username and host and host.type == "network.domain":
         domain = host.value.decode()
         target_url = f"{scheme}://{url[url.index(domain) :]}"
+        url_masquerade = False
+        username_url = (make_bytes(scheme) + b"://" + username.value).strip()
         try:
-            username_url = make_bytes(scheme) + b"://" + username.value
-            username_as_url = parse_url(username_url.strip())
+            username_as_url = parse_url(username_url)
             # We usually look for 'network.ip' or 'network.domain' but we can assume that
             # any URL masquerading would be done using a domain only.
             # This also reduce false positives of having a number-only username being treated like an IP.
             username_host = ([node for node in username_as_url if node.type == "network.domain"] + [None])[0]
+            url_masquerade = bool(username_host)
+        except UnicodeDecodeError:
+            processed_username_url = make_bytes(unidecode(username_url.decode()))
+            if username_url != processed_username_url:
+                try:
+                    username_as_url = parse_url(processed_username_url)
+                    username_host = ([node for node in username_as_url if node.type == "network.domain"] + [None])[0]
+                    url_masquerade = bool(username_host)
+                except Exception:
+                    pass
         except Exception:
-            username_host = None
+            pass
 
-        if username_host:
+        if url_masquerade:
             # Looks like URL might be masking the actual target
             analysis_table.add_row(
                 TableRow(
