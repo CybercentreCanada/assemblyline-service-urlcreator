@@ -308,6 +308,10 @@ def url_analysis(
                 # Garbage string decoded
                 return
 
+        if result.type == URL_TYPE and b":/" in result.value and not result.value.split(b":/", 1)[-1].startswith(b"/"):
+            # URL with a scheme, but the rest of the URL is missing the leading slash (ex: http:/example.com)
+            result.value = result.value.replace(b":/", b"://", 1)
+
         value_str = make_str(result.value)
         analysis_table.add_row(
             TableRow(

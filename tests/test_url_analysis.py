@@ -79,6 +79,18 @@ def test_embedded_base64():
     assert not res_section.body
 
 
+def test_single_slash():
+    # Corrupted wrap of a redirector from a signature (phone info)
+    url = "http://website.com/CL0/http:%2Ftarget.com%2Fabc"
+    res_section, network_iocs, behaviours = url_analysis(url)
+    assert behaviours == {}
+    assert network_iocs == {"uri": ["http://target.com/abc"], "domain": ["target.com"], "ip": []}
+    assert res_section.tags == {
+        "network.static.domain": ["website.com", "target.com"],
+        "network.static.uri": [url, "http://target.com/abc"],
+    }
+
+
 def test_safelinks():
     # Ref: https://learn.microsoft.com/en-us/defender-office-365/safe-links-about?view=o365-worldwide
     url = "https://safelinks.com/?url=https%3A%2F%2Fhelloworld%2Ecom%2Fbad%7C01%7Ctest%40example%2Ecom"
@@ -126,14 +138,14 @@ def test_urldefense():
         "domain": [],
         "ip": [],
         "uri": [
-            "https:/website.com/page.html?special=char™&size=1m%1m%1m",
+            "https://website.com/page.html?special=char™&size=1m%1m%1m",
         ],
     }
     assert res_section.tags == {
         "network.static.domain": ["urldefense.com"],
         "network.static.uri": [
             url,
-            "https:/website.com/page.html?special=char™&size=1m%1m%1m",
+            "https://website.com/page.html?special=char™&size=1m%1m%1m",
         ],
     }
 
