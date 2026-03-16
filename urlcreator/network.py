@@ -6,7 +6,7 @@ import re
 from base64 import b64decode
 from collections import defaultdict
 from typing import Callable, Dict, List, Tuple
-from urllib.parse import parse_qs, unquote, urlparse
+from urllib.parse import parse_qs, unquote, urlsplit
 
 import requests
 from assemblyline.odm.base import IP_ONLY_REGEX
@@ -20,6 +20,7 @@ from multidecoder.string_helper import make_bytes, make_str
 from pymispwarninglists import WarningLists
 
 import urlcreator.proofpoint
+import urlcreator.translate
 
 NETWORK_IOC_TYPES = ["domain", "ip", "uri"]
 
@@ -242,7 +243,7 @@ def manual_base64_decode(parent_node, md):
 
 def manual_url_parsing(url):
     parsed_url = []
-    for component, value in urlparse(url)._asdict().items():
+    for component, value in urlsplit(url)._asdict().items():
         if component == "netloc":
             host = value
             username = password = None
@@ -403,7 +404,7 @@ def url_analysis(
                     host.parent = Node("network.url", url)
                 add_MD_results_to_table(host)
 
-    urlparsed_url = urlparse(url)
+    urlparsed_url = urlsplit(url)
 
     # Check for IP host with a path that looks like a file download
     if host and path and host.type == "network.ip" and b"." in os.path.basename(path.value):
@@ -638,8 +639,10 @@ def url_analysis(
             add_MD_results_to_table(result)
             open_redirect_skip.add("path")
         elif host.value.endswith(b"translate.goog"):
-            # TODO: Do this.
-            pass
+            redirect = urlcreator.translate.decode(url)
+            result = Node(URL_TYPE, redirect.encode(), obfuscation="", end=len(url), parent=Node(URL_TYPE, url))
+            add_MD_results_to_table(result)
+            open_redirect_skip.update(["path", "query", "fragment"])
         elif re.match(b"/...?/http", path.value):
             # Covers /L0/ or /CL0/ or other variations
             result = Node(

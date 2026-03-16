@@ -1,0 +1,95 @@
+{
+  "extra": {
+    "drop_file": false,
+    "score": 0,
+    "sections": [
+      {
+        "auto_collapse": false,
+        "body": null,
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 0,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {},
+        "title_text": "MultiDecoder Analysis",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "URL",
+            "DECODED STRING": "https://www.rfc-editor.org/search/rfc_search_detail.php?title=test#test",
+            "ENCODED STRING": "https://www-rfc--editor-org.translate.goog/search/rfc_search_detail.php?title=test&_x_tr_sl=zh-TW&_x_tr_tl=en&_x_tr_hl=en-US&_x_tr_pto=wapp#test",
+            "OBFUSCATION": "encoding.url"
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "static": {
+              "domain": [
+                "www-rfc--editor-org.translate.goog",
+                "www.rfc-editor.org"
+              ],
+              "uri": [
+                "https://www-rfc--editor-org.translate.goog/search/rfc_search_detail.php?title=test&_x_tr_sl=zh-TW&_x_tr_tl=en&_x_tr_hl=en-US&_x_tr_pto=wapp#test",
+                "https://www.rfc-editor.org/search/rfc_search_detail.php?title=test#test"
+              ]
+            }
+          }
+        },
+        "title_text": "https://www-rfc--editor-org.translate.goog/search/rfc_search_detail.php?title=test&_x_tr_sl=zh-TW&_x_tr_tl=en&_x_tr_hl=en-US&_x_...",
+        "zeroize_on_tag_safe": false
+      }
+    ]
+  },
+  "files": {
+    "extracted": [],
+    "supplementary": []
+  },
+  "results": {
+    "heuristics": [],
+    "tags": {
+      "network.static.domain": [
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "www-rfc--editor-org.translate.goog"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "www.rfc-editor.org"
+        }
+      ],
+      "network.static.uri": [
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://www-rfc--editor-org.translate.goog/search/rfc_search_detail.php?title=test&_x_tr_sl=zh-TW&_x_tr_tl=en&_x_tr_hl=en-US&_x_tr_pto=wapp#test"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://www.rfc-editor.org/search/rfc_search_detail.php?title=test#test"
+        }
+      ]
+    },
+    "temp_submission_data": {}
+  }
+}

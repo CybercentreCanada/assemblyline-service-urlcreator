@@ -1,0 +1,10 @@
+{
+    "tags": [
+        {
+            "type": "network.static.uri",
+            "short_type": "URI",
+            "value": "https://www-rfc--editor-org.translate.goog/search/rfc_search_detail.php?title=test&_x_tr_sl=zh-TW&_x_tr_tl=en&_x_tr_hl=en-US&_x_tr_pto=wapp#test",
+            "score": 0
+        }
+    ]
+}

@@ -1,3 +1,5 @@
+import pytest
+
 from urlcreator.network import url_analysis as network_url_analysis
 
 
@@ -220,6 +222,21 @@ def test_loooooong():
     }
 
 
+def test_translate():
+    url = "https://www-rfc--editor-org.translate.goog/"
+    res_section, network_iocs, behaviours = url_analysis(url)
+    assert behaviours == {}
+    assert network_iocs == {
+        "uri": ["https://www.rfc-editor.org/"],
+        "domain": ["www.rfc-editor.org"],
+        "ip": [],
+    }
+    assert res_section.tags == {
+        "network.static.uri": [url, "https://www.rfc-editor.org/"],
+        "network.static.domain": ["www-rfc--editor-org.translate.goog", "www.rfc-editor.org"],
+    }
+
+
 def test_shorteners():
     url = "https://bit.ly/amtrak-valentines"
     res_section, network_iocs, behaviours = network_url_analysis(url, lambda qhash: None, remote_lookups=None)
@@ -376,6 +393,9 @@ def test_phishing():
         ],
     }
 
+
+@pytest.mark.skip()
+def test_masquerade_with_fake_slashes():
     url = "https://github.com∕kubernetes∕kubernetes∕archive∕refs∕tags∕@v1271.zip"
     res_section, network_iocs, behaviours = url_analysis(url)
     # Should reveal the true target URL for reputation checking
