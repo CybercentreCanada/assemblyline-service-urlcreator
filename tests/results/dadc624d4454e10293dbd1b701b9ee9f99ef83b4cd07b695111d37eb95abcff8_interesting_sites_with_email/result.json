@@ -1,0 +1,414 @@
+{
+  "extra": {
+    "drop_file": false,
+    "score": 0,
+    "sections": [
+      {
+        "auto_collapse": false,
+        "body": null,
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 0,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {},
+        "title_text": "Email Address Found in URI",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": "victim@site.com\nhttps://comehere.com/cmm/index.php?target=victim@site.com",
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": {
+          "attack_ids": [],
+          "frequency": 1,
+          "heur_id": 4,
+          "score": 0,
+          "score_map": {
+            "contains_email": 0,
+            "email_with_php_target_interesting_site": 0
+          },
+          "signatures": {
+            "contains_email": 1,
+            "email_with_php_target_interesting_site": 1
+          }
+        },
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "email": {
+              "address": [
+                "victim@site.com"
+              ]
+            },
+            "static": {
+              "uri": [
+                "https://comehere.com/cmm/index.php?target=victim@site.com"
+              ]
+            }
+          }
+        },
+        "title_text": "victim@site.com",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": "victim2@site2.com\nhttps://sub-site.s3.us-east-2.amazonaws.com/clickme?target=victim2@site2.com",
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": {
+          "attack_ids": [],
+          "frequency": 1,
+          "heur_id": 4,
+          "score": 0,
+          "score_map": {
+            "contains_email": 0,
+            "email_with_aws_s3_interesting_site": 0
+          },
+          "signatures": {
+            "contains_email": 1,
+            "email_with_aws_s3_interesting_site": 1
+          }
+        },
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "email": {
+              "address": [
+                "victim2@site2.com"
+              ]
+            },
+            "static": {
+              "uri": [
+                "https://sub-site.s3.us-east-2.amazonaws.com/clickme?target=victim2@site2.com"
+              ]
+            }
+          }
+        },
+        "title_text": "victim2@site2.com",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": "victim3@site3.com\nhttps://look.s3.comehere.com/clickme?target=victim3@site3.com",
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": {
+          "attack_ids": [],
+          "frequency": 1,
+          "heur_id": 4,
+          "score": 0,
+          "score_map": {
+            "contains_email": 0,
+            "email_with_s3_interesting_site": 0
+          },
+          "signatures": {
+            "contains_email": 1,
+            "email_with_s3_interesting_site": 1
+          }
+        },
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "email": {
+              "address": [
+                "victim3@site3.com"
+              ]
+            },
+            "static": {
+              "uri": [
+                "https://look.s3.comehere.com/clickme?target=victim3@site3.com"
+              ]
+            }
+          }
+        },
+        "title_text": "victim3@site3.com",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": null,
+        "body_config": {},
+        "body_format": "TEXT",
+        "classification": "TLP:C",
+        "depth": 0,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {},
+        "title_text": "MultiDecoder Analysis",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "QUERY",
+            "DECODED STRING": "victim@site.com",
+            "ENCODED STRING": "target=victim@site.com",
+            "OBFUSCATION": ""
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "email": {
+              "address": [
+                "victim@site.com"
+              ]
+            },
+            "static": {
+              "domain": [
+                "comehere.com"
+              ],
+              "uri": [
+                "https://comehere.com/cmm/index.php?target=victim@site.com"
+              ]
+            }
+          }
+        },
+        "title_text": "https://comehere.com/cmm/index.php?target=victim@site.com",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "QUERY",
+            "DECODED STRING": "victim2@site2.com",
+            "ENCODED STRING": "target=victim2@site2.com",
+            "OBFUSCATION": ""
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "email": {
+              "address": [
+                "victim2@site2.com"
+              ]
+            },
+            "static": {
+              "domain": [
+                "sub-site.s3.us-east-2.amazonaws.com"
+              ],
+              "uri": [
+                "https://sub-site.s3.us-east-2.amazonaws.com/clickme?target=victim2@site2.com"
+              ]
+            }
+          }
+        },
+        "title_text": "https://sub-site.s3.us-east-2.amazonaws.com/clickme?target=victim2@site2.com",
+        "zeroize_on_tag_safe": false
+      },
+      {
+        "auto_collapse": false,
+        "body": [
+          {
+            "COMPONENT": "QUERY",
+            "DECODED STRING": "victim3@site3.com",
+            "ENCODED STRING": "target=victim3@site3.com",
+            "OBFUSCATION": ""
+          }
+        ],
+        "body_config": {
+          "column_order": [
+            "COMPONENT",
+            "ENCODED STRING",
+            "OBFUSCATION",
+            "DECODED STRING"
+          ]
+        },
+        "body_format": "TABLE",
+        "classification": "TLP:C",
+        "depth": 1,
+        "heuristic": null,
+        "promote_to": null,
+        "tags": {
+          "network": {
+            "email": {
+              "address": [
+                "victim3@site3.com"
+              ]
+            },
+            "static": {
+              "domain": [
+                "look.s3.comehere.com"
+              ],
+              "uri": [
+                "https://look.s3.comehere.com/clickme?target=victim3@site3.com"
+              ]
+            }
+          }
+        },
+        "title_text": "https://look.s3.comehere.com/clickme?target=victim3@site3.com",
+        "zeroize_on_tag_safe": false
+      }
+    ]
+  },
+  "files": {
+    "extracted": [],
+    "supplementary": []
+  },
+  "results": {
+    "heuristics": [
+      {
+        "attack_ids": [],
+        "heur_id": 4,
+        "signatures": [
+          "contains_email",
+          "email_with_php_target_interesting_site"
+        ]
+      },
+      {
+        "attack_ids": [],
+        "heur_id": 4,
+        "signatures": [
+          "contains_email",
+          "email_with_aws_s3_interesting_site"
+        ]
+      },
+      {
+        "attack_ids": [],
+        "heur_id": 4,
+        "signatures": [
+          "contains_email",
+          "email_with_s3_interesting_site"
+        ]
+      }
+    ],
+    "tags": {
+      "network.email.address": [
+        {
+          "heur_id": 4,
+          "signatures": [
+            "contains_email",
+            "email_with_aws_s3_interesting_site"
+          ],
+          "value": "victim2@site2.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "victim2@site2.com"
+        },
+        {
+          "heur_id": 4,
+          "signatures": [
+            "contains_email",
+            "email_with_s3_interesting_site"
+          ],
+          "value": "victim3@site3.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "victim3@site3.com"
+        },
+        {
+          "heur_id": 4,
+          "signatures": [
+            "contains_email",
+            "email_with_php_target_interesting_site"
+          ],
+          "value": "victim@site.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "victim@site.com"
+        }
+      ],
+      "network.static.domain": [
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "comehere.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "look.s3.comehere.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "sub-site.s3.us-east-2.amazonaws.com"
+        }
+      ],
+      "network.static.uri": [
+        {
+          "heur_id": 4,
+          "signatures": [
+            "contains_email",
+            "email_with_php_target_interesting_site"
+          ],
+          "value": "https://comehere.com/cmm/index.php?target=victim@site.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://comehere.com/cmm/index.php?target=victim@site.com"
+        },
+        {
+          "heur_id": 4,
+          "signatures": [
+            "contains_email",
+            "email_with_s3_interesting_site"
+          ],
+          "value": "https://look.s3.comehere.com/clickme?target=victim3@site3.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://look.s3.comehere.com/clickme?target=victim3@site3.com"
+        },
+        {
+          "heur_id": 4,
+          "signatures": [
+            "contains_email",
+            "email_with_aws_s3_interesting_site"
+          ],
+          "value": "https://sub-site.s3.us-east-2.amazonaws.com/clickme?target=victim2@site2.com"
+        },
+        {
+          "heur_id": null,
+          "signatures": [],
+          "value": "https://sub-site.s3.us-east-2.amazonaws.com/clickme?target=victim2@site2.com"
+        }
+      ]
+    },
+    "temp_submission_data": {}
+  }
+}

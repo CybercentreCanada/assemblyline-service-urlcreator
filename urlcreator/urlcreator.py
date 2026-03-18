@@ -146,13 +146,17 @@ class URLCreator(ServiceBase):
             for url, site_type in values:
                 shady_sites[site_type].append(url)
 
-        php_targets = []
-        if "php_target" in flagged_behaviours:
-            php_targets = flagged_behaviours.pop("php_target")
+        interesting_sites = defaultdict(list)
+        if "interesting_sites" in flagged_behaviours:
+            values = flagged_behaviours.pop("interesting_sites")
+            for url, site_type in values:
+                interesting_sites[site_type].append(url)
 
         if "contains_email" in flagged_behaviours:
             emails = flagged_behaviours.pop("contains_email")
-            contain_email_section = urlcreator.network.BEHAVIOURS["contains_email"](emails, shady_sites, php_targets)
+            contain_email_section = urlcreator.network.BEHAVIOURS["contains_email"](
+                emails, shady_sites, interesting_sites
+            )
             request.result.add_section(contain_email_section)
         if max_extracted_section.body:
             request.result.add_section(max_extracted_section)

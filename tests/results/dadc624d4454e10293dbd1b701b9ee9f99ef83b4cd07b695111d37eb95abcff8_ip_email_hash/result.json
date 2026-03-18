@@ -78,12 +78,12 @@
           "score_map": {
             "contains_email": 0,
             "email_with_ip_shady_site": 500,
-            "email_with_php_target": 0
+            "email_with_php_target_interesting_site": 0
           },
           "signatures": {
             "contains_email": 1,
             "email_with_ip_shady_site": 1,
-            "email_with_php_target": 1
+            "email_with_php_target_interesting_site": 1
           }
         },
         "promote_to": null,
@@ -186,7 +186,7 @@
         "signatures": [
           "contains_email",
           "email_with_ip_shady_site",
-          "email_with_php_target"
+          "email_with_php_target_interesting_site"
         ]
       }
     ],
@@ -197,7 +197,7 @@
           "signatures": [
             "contains_email",
             "email_with_ip_shady_site",
-            "email_with_php_target"
+            "email_with_php_target_interesting_site"
           ],
           "value": "victim@site.com"
         },
@@ -234,7 +234,7 @@
           "signatures": [
             "contains_email",
             "email_with_ip_shady_site",
-            "email_with_php_target"
+            "email_with_php_target_interesting_site"
           ],
           "value": "https://1.2.3.4/index.php?who=victim@site.com"
         },

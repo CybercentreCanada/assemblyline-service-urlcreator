@@ -1,0 +1,22 @@
+{
+    "tags": [
+        {
+            "type": "network.static.uri",
+            "short_type": "URI",
+            "value": "https://comehere.com/cmm/index.php?target=victim@site.com",
+            "score": 0
+        },
+        {
+            "type": "network.static.uri",
+            "short_type": "URI",
+            "value": "https://sub-site.s3.us-east-2.amazonaws.com/clickme?target=victim2@site2.com",
+            "score": 0
+        },
+        {
+            "type": "network.static.uri",
+            "short_type": "URI",
+            "value": "https://look.s3.comehere.com/clickme?target=victim3@site3.com",
+            "score": 0
+        }
+    ]
+}

@@ -136,7 +136,7 @@ def potential_ip_download_behaviour(items):
     return potential_ip_download
 
 
-def contains_email_behaviour(emails, shady_sites={}, php_targets=[]):
+def contains_email_behaviour(emails, shady_sites={}, interesting_sites={}):
     contain_email_section = ResultTextSection(title_text="Email Address Found in URI")
     for email, urls in emails:
         title = email
@@ -154,8 +154,9 @@ def contains_email_behaviour(emails, shady_sites={}, php_targets=[]):
         for site_type, site_urls in shady_sites.items():
             if any(url in site_urls for url in urls):
                 sub_contain_email_section.heuristic.add_signature_id(f"email_with_{site_type}_shady_site", 500)
-        if any(url in php_targets for url in urls):
-            sub_contain_email_section.heuristic.add_signature_id("email_with_php_target", 0)
+        for site_type, site_urls in interesting_sites.items():
+            if any(url in site_urls for url in urls):
+                sub_contain_email_section.heuristic.add_signature_id(f"email_with_{site_type}_interesting_site", 0)
     return contain_email_section
 
 
@@ -186,7 +187,7 @@ class BehaviourDict(defaultdict):
             "shorteners": set,
             "contains_email": list,
             "shady_sites": list,
-            "php_target": list,
+            "interesting_sites": list,
         }
 
     def __missing__(self, key):
@@ -689,9 +690,6 @@ def url_analysis(
     elif fragment and re.search(b"(ipfs|ipns|ipld|ipldns|ipfs)/[a-zA-Z0-9]{30,60}", fragment.value):
         flagged_behaviours["shady_sites"].append((url, "ipfs"))
 
-    # Check for firebase storage domains which are commonly used for malware hosting due to their free and easy to use
-    # nature, as well as their integration with the popular Firebase platform which is often abused by threat actors
-    # or C2 infrastructure.
     if (
         host
         and host.type == "network.domain"
@@ -703,7 +701,16 @@ def url_analysis(
         flagged_behaviours["shady_sites"].append((url, "ip"))
 
     if path and path.value.endswith(b".php"):
-        flagged_behaviours["php_target"].append(url)
+        flagged_behaviours["interesting_sites"].append((url, "php_target"))
+
+    if host and host.type == "network.domain" and b".s3." in host.value:
+        if b".amazonaws.com" in host.value and re.match(
+            b"[-a-zA-Z0-9]{1,}\\.s3\\.(af|ap|ca|eu|il|mx|me|sa|us)-(central|north|northeast|east|southeast|south|southwest|west|northwest)-\\d{1,3}\\.amazonaws\\.com",
+            host.value,
+        ):
+            flagged_behaviours["interesting_sites"].append((url, "aws_s3"))
+        else:
+            flagged_behaviours["interesting_sites"].append((url, "s3"))
 
     # Analyze path, but only for specific obfuscations
     if path and "path" not in open_redirect_skip:
