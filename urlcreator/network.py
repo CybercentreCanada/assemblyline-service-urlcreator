@@ -275,6 +275,17 @@ def expand_url_via_redirect_header(url, remote_lookups=None):
         return {}
 
 
+def term_in_hostname(term: bytes, host: bytes):
+    return (
+        host.startswith(term + b".")
+        or host.startswith(term + b"-")
+        or (b"." + term + b".") in host
+        or b"-" + term + b"." in host
+        or b"." + term + b"-" in host
+        or b"-" + term + b"-" in host
+    )
+
+
 def url_analysis(
     url: str,
     lookup_safelist: Callable,
@@ -675,13 +686,8 @@ def url_analysis(
         host
         and host.type == "network.domain"
         and (
-            any(host.value == gateway or host.value.endswith(b"." + gateway) for gateway in IPFS_GATEWAYS)
-            or host.value.startswith(b"ipfs.")
-            or host.value.startswith(b"ipfs-")
-            or b".ipfs." in host.value
-            or b"-ipfs." in host.value
-            or b".ipfs-" in host.value
-            or b"-ipfs-" in host.value
+            term_in_hostname(b"ipfs", host.value)
+            or any(host.value == gateway or host.value.endswith(b"." + gateway) for gateway in IPFS_GATEWAYS)
         )
     ):
         flagged_behaviours["shady_sites"].append((url, "ipfs"))
@@ -690,27 +696,39 @@ def url_analysis(
     elif fragment and re.search(b"(ipfs|ipns|ipld|ipldns|ipfs)/[a-zA-Z0-9]{30,60}", fragment.value):
         flagged_behaviours["shady_sites"].append((url, "ipfs"))
 
-    if (
-        host
-        and host.type == "network.domain"
-        and (host.value == b"firebasestorage.googleapis.com" or host.value.endswith(b".firebasestorage.googleapis.com"))
-    ):
-        flagged_behaviours["shady_sites"].append((url, "firebase"))
-
     if host and path and host.type == "network.ip":
         flagged_behaviours["shady_sites"].append((url, "ip"))
 
     if path and path.value.endswith(b".php"):
         flagged_behaviours["interesting_sites"].append((url, "php_target"))
 
-    if host and host.type == "network.domain" and b".s3." in host.value:
-        if b".amazonaws.com" in host.value and re.match(
-            b"[-a-zA-Z0-9]{1,}\\.s3\\.(af|ap|ca|eu|il|mx|me|sa|us)-(central|north|northeast|east|southeast|south|southwest|west|northwest)-\\d{1,3}\\.amazonaws\\.com",
-            host.value,
-        ):
-            flagged_behaviours["interesting_sites"].append((url, "aws_s3"))
-        else:
-            flagged_behaviours["interesting_sites"].append((url, "s3"))
+    if host and host.type == "network.domain":
+        if host.value == b"firebasestorage.googleapis.com" or host.value.endswith(b".firebasestorage.googleapis.com"):
+            flagged_behaviours["shady_sites"].append((url, "firebase_storage"))
+
+        if term_in_hostname(b"s3", host.value):
+            if b".amazonaws.com" in host.value and re.match(
+                b"[-a-zA-Z0-9]{1,}\\.s3\\.(af|ap|ca|eu|il|mx|me|sa|us)-(central|north|northeast|east|southeast|south|southwest|west|northwest)-\\d{1,3}\\.amazonaws\\.com",
+                host.value,
+            ):
+                flagged_behaviours["interesting_sites"].append((url, "aws_s3"))
+            else:
+                flagged_behaviours["interesting_sites"].append((url, "s3"))
+
+        if host.value.endswith(b".github.io"):
+            flagged_behaviours["interesting_sites"].append((url, "github_pages"))
+
+        if host.value.endswith(b".ngrok-free.app"):
+            flagged_behaviours["interesting_sites"].append((url, "free_ngrok"))
+
+        if host.value == b"storage.googleapis.com" or host.value.endswith(b".storage.googleapis.com"):
+            flagged_behaviours["shady_sites"].append((url, "google_storage"))
+
+        if host.value.endswith(b".b-cdn.net"):
+            flagged_behaviours["shady_sites"].append((url, "bunny_cdn"))
+
+        if host.value.endswith(b".appwrite.network"):
+            flagged_behaviours["shady_sites"].append((url, "appwrite_network"))
 
     # Analyze path, but only for specific obfuscations
     if path and "path" not in open_redirect_skip:

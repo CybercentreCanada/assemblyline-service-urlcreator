@@ -30,11 +30,11 @@
           "score": 500,
           "score_map": {
             "contains_email": 0,
-            "email_with_firebase_shady_site": 500
+            "email_with_firebase_storage_shady_site": 500
           },
           "signatures": {
             "contains_email": 1,
-            "email_with_firebase_shady_site": 1
+            "email_with_firebase_storage_shady_site": 1
           }
         },
         "promote_to": null,
@@ -124,7 +124,7 @@
         "heur_id": 4,
         "signatures": [
           "contains_email",
-          "email_with_firebase_shady_site"
+          "email_with_firebase_storage_shady_site"
         ]
       }
     ],
@@ -134,7 +134,7 @@
           "heur_id": 4,
           "signatures": [
             "contains_email",
-            "email_with_firebase_shady_site"
+            "email_with_firebase_storage_shady_site"
           ],
           "value": "victim@site.com"
         },
@@ -156,7 +156,7 @@
           "heur_id": 4,
           "signatures": [
             "contains_email",
-            "email_with_firebase_shady_site"
+            "email_with_firebase_storage_shady_site"
           ],
           "value": "https://firebasestorage.googleapis.com/v0/b/111111111-11111.firebasestorage.app/o/111111111111.html?alt=media&amp;token=a0e26c35-0f20-43fd-9fa6-177d922034d2#victim@site.com"
         },

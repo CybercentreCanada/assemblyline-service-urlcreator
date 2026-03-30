@@ -1,3 +1,4 @@
+from urlcreator.network import term_in_hostname
 from urlcreator.network import url_analysis as network_url_analysis
 
 
@@ -534,3 +535,14 @@ def test_inner_behaviour():
         "network.static.ip": ["1.1.1.1"],
         "network.static.uri": [url, "https://1.1.1.1/path.exe"],
     }
+
+
+def test_term_in_hostname():
+    assert term_in_hostname(b"s3", b"s3.amazonaws.com")
+    assert term_in_hostname(b"s3", b"s3-amazonaws.com")
+    assert term_in_hostname(b"s3", b"my.s3.bucket.com")
+    assert term_in_hostname(b"s3", b"my-s3.bucket.com")
+    assert term_in_hostname(b"s3", b"my.s3-bucket.com")
+    assert term_in_hostname(b"s3", b"my-s3-bucket.com")
+    assert not term_in_hostname(b"s3", b"s3example.com")
+    assert not term_in_hostname(b"s3", b"example.com")
