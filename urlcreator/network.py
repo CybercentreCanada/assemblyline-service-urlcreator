@@ -703,23 +703,9 @@ def url_analysis(
         flagged_behaviours["interesting_sites"].append((url, "php_target"))
 
     if host and host.type == "network.domain":
+        # Known shady sites in conjunction with email detection
         if host.value == b"firebasestorage.googleapis.com" or host.value.endswith(b".firebasestorage.googleapis.com"):
             flagged_behaviours["shady_sites"].append((url, "firebase_storage"))
-
-        if term_in_hostname(b"s3", host.value):
-            if b".amazonaws.com" in host.value and re.match(
-                b"[-a-zA-Z0-9]{1,}\\.s3\\.(af|ap|ca|eu|il|mx|me|sa|us)-(central|north|northeast|east|southeast|south|southwest|west|northwest)-\\d{1,3}\\.amazonaws\\.com",
-                host.value,
-            ):
-                flagged_behaviours["interesting_sites"].append((url, "aws_s3"))
-            else:
-                flagged_behaviours["interesting_sites"].append((url, "s3"))
-
-        if host.value.endswith(b".github.io"):
-            flagged_behaviours["interesting_sites"].append((url, "github_pages"))
-
-        if host.value.endswith(b".ngrok-free.app"):
-            flagged_behaviours["interesting_sites"].append((url, "free_ngrok"))
 
         if host.value == b"storage.googleapis.com" or host.value.endswith(b".storage.googleapis.com"):
             flagged_behaviours["shady_sites"].append((url, "google_storage"))
@@ -729,6 +715,56 @@ def url_analysis(
 
         if host.value.endswith(b".appwrite.network"):
             flagged_behaviours["shady_sites"].append((url, "appwrite_network"))
+
+        if host.value.endswith(b".github.io"):
+            flagged_behaviours["shady_sites"].append((url, "github_pages"))
+
+        if host.value.endswith(b".netlify.app"):
+            flagged_behaviours["shady_sites"].append((url, "netlify"))
+
+        # Interesting sites in conjunction with email detection
+        if term_in_hostname(b"s3", host.value):
+            if b".amazonaws.com" in host.value and re.match(
+                b"[-a-zA-Z0-9]{1,}\\.s3\\.(af|ap|ca|eu|il|mx|me|sa|us)-(central|north|northeast|east|southeast|south|southwest|west|northwest)-\\d{1,3}\\.amazonaws\\.com",
+                host.value,
+            ):
+                flagged_behaviours["interesting_sites"].append((url, "aws_s3"))
+            else:
+                flagged_behaviours["interesting_sites"].append((url, "s3"))
+
+        if host.value.endswith(b".ngrok-free.app"):
+            flagged_behaviours["interesting_sites"].append((url, "free_ngrok"))
+
+        if host.value.endswith(b".vercel.app"):
+            flagged_behaviours["interesting_sites"].append((url, "vercel"))
+
+        if host.value.endswith(b".fly.dev"):
+            flagged_behaviours["interesting_sites"].append((url, "fly_io"))
+
+        if host.value.endswith(b".pages.dev"):
+            flagged_behaviours["interesting_sites"].append((url, "pages_dev"))
+
+        if (
+            host.value.endswith(b".azureedge.net")
+            or host.value.endswith(b".azurefd.net")
+            or host.value.endswith(b".azurewebsites.net")
+        ):
+            flagged_behaviours["interesting_sites"].append((url, "azure"))
+
+        if host.value.endswith(b".cloudfront.net"):
+            flagged_behaviours["interesting_sites"].append((url, "cloudfront"))
+
+        if host.value.endswith(b".cdn77.net"):
+            flagged_behaviours["interesting_sites"].append((url, "cdn77"))
+
+        if host.value.endswith(b".cdn.dl.kodadot.xyz"):
+            flagged_behaviours["interesting_sites"].append((url, "kodadot_cdn"))
+
+        if host.value.endswith(b".fastly.net"):
+            flagged_behaviours["interesting_sites"].append((url, "fastly"))
+
+        if host.value.endswith(b".cdn.cloudflare.net") or host.value.endswith(b".cloudflare.com"):
+            flagged_behaviours["interesting_sites"].append((url, "cloudflare"))
 
     # Analyze path, but only for specific obfuscations
     if path and "path" not in open_redirect_skip:
