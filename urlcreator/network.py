@@ -732,6 +732,10 @@ def url_analysis(
             else:
                 flagged_behaviours["interesting_sites"].append((url, "s3"))
 
+        # https://<url-id>.lambda-url.<region>.on.aws/
+        if host.value.endswith(b".on.aws") and b".lambda-url." in host.value:
+            flagged_behaviours["interesting_sites"].append((url, "aws_lambda"))
+
         if host.value.endswith(b".ngrok-free.app"):
             flagged_behaviours["interesting_sites"].append((url, "free_ngrok"))
 
